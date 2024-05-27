@@ -11,7 +11,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{33
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Note", "Note", "{131DC0E3-2972-4E21-8775-F55353807142}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotesApp.Backend.Services.Note.Api", "backend\src\Services\Note\NotesApp.Backend.Services.Note.Api\NotesApp.Backend.Services.Note.Api.csproj", "{A9B4A277-42CC-4B3C-89E3-AF1B872201E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotesApp.Backend.Services.Note.Api", "backend\src\Services\Note\NotesApp.Backend.Services.Note.Api\NotesApp.Backend.Services.Note.Api.csproj", "{A9B4A277-42CC-4B3C-89E3-AF1B872201E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotesApp.Backend.Services.Note.Business", "backend\src\Services\Note\NotesApp.Backend.Services.Note.Business\NotesApp.Backend.Services.Note.Business.csproj", "{A4F32B05-8D27-4694-91C5-FB79A5BCA37C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotesApp.Backend.Services.Note.Domain", "backend\src\Services\Note\NotesApp.Backend.Services.Note.Domain\NotesApp.Backend.Services.Note.Domain.csproj", "{C5E0EFF1-0010-4FCA-A9BC-5C8E980104EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotesApp.Backend.Services.Note.Infrastructure", "backend\src\Services\Note\NotesApp.Backend.Services.Note.Infrastructure\NotesApp.Backend.Services.Note.Infrastructure.csproj", "{C35C26B0-C680-4695-94B3-5D665F6A6C9B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +29,18 @@ Global
 		{A9B4A277-42CC-4B3C-89E3-AF1B872201E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9B4A277-42CC-4B3C-89E3-AF1B872201E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9B4A277-42CC-4B3C-89E3-AF1B872201E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4F32B05-8D27-4694-91C5-FB79A5BCA37C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4F32B05-8D27-4694-91C5-FB79A5BCA37C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4F32B05-8D27-4694-91C5-FB79A5BCA37C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4F32B05-8D27-4694-91C5-FB79A5BCA37C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5E0EFF1-0010-4FCA-A9BC-5C8E980104EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5E0EFF1-0010-4FCA-A9BC-5C8E980104EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5E0EFF1-0010-4FCA-A9BC-5C8E980104EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5E0EFF1-0010-4FCA-A9BC-5C8E980104EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C35C26B0-C680-4695-94B3-5D665F6A6C9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C35C26B0-C680-4695-94B3-5D665F6A6C9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C35C26B0-C680-4695-94B3-5D665F6A6C9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C35C26B0-C680-4695-94B3-5D665F6A6C9B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,6 +50,9 @@ Global
 		{33909E54-06FE-4922-9708-4944E5CB5387} = {10576935-181F-4180-9B83-2221C36DF16D}
 		{131DC0E3-2972-4E21-8775-F55353807142} = {33909E54-06FE-4922-9708-4944E5CB5387}
 		{A9B4A277-42CC-4B3C-89E3-AF1B872201E7} = {131DC0E3-2972-4E21-8775-F55353807142}
+		{A4F32B05-8D27-4694-91C5-FB79A5BCA37C} = {131DC0E3-2972-4E21-8775-F55353807142}
+		{C5E0EFF1-0010-4FCA-A9BC-5C8E980104EF} = {131DC0E3-2972-4E21-8775-F55353807142}
+		{C35C26B0-C680-4695-94B3-5D665F6A6C9B} = {131DC0E3-2972-4E21-8775-F55353807142}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D26B1ADD-947B-4A4B-BFB2-F69CEF892521}

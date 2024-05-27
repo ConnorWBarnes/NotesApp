@@ -13,11 +13,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Note", "Note", "{131DC0E3-2
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotesApp.Backend.Services.Note.Api", "backend\src\Services\Note\NotesApp.Backend.Services.Note.Api\NotesApp.Backend.Services.Note.Api.csproj", "{A9B4A277-42CC-4B3C-89E3-AF1B872201E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotesApp.Backend.Services.Note.Business", "backend\src\Services\Note\NotesApp.Backend.Services.Note.Business\NotesApp.Backend.Services.Note.Business.csproj", "{A4F32B05-8D27-4694-91C5-FB79A5BCA37C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotesApp.Backend.Services.Note.Business", "backend\src\Services\Note\NotesApp.Backend.Services.Note.Business\NotesApp.Backend.Services.Note.Business.csproj", "{A4F32B05-8D27-4694-91C5-FB79A5BCA37C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotesApp.Backend.Services.Note.Domain", "backend\src\Services\Note\NotesApp.Backend.Services.Note.Domain\NotesApp.Backend.Services.Note.Domain.csproj", "{C5E0EFF1-0010-4FCA-A9BC-5C8E980104EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotesApp.Backend.Services.Note.Domain", "backend\src\Services\Note\NotesApp.Backend.Services.Note.Domain\NotesApp.Backend.Services.Note.Domain.csproj", "{C5E0EFF1-0010-4FCA-A9BC-5C8E980104EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotesApp.Backend.Services.Note.Infrastructure", "backend\src\Services\Note\NotesApp.Backend.Services.Note.Infrastructure\NotesApp.Backend.Services.Note.Infrastructure.csproj", "{C35C26B0-C680-4695-94B3-5D665F6A6C9B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotesApp.Backend.Services.Note.Infrastructure", "backend\src\Services\Note\NotesApp.Backend.Services.Note.Infrastructure\NotesApp.Backend.Services.Note.Infrastructure.csproj", "{C35C26B0-C680-4695-94B3-5D665F6A6C9B}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{507D5C40-9973-4208-894E-40E5259862C8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{727A6C05-E23A-4B98-AF3A-B2F7B9E7B9DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotesApp.Backend.Shared.DataAccess.MongoDB", "backend\src\Shared\NotesApp.Backend.Shared.DataAccess.MongoDB\NotesApp.Backend.Shared.DataAccess.MongoDB.csproj", "{AE9B9321-5AEB-4737-8EF8-4B69ECAFBBBD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotesApp.Backend.Shared.Core", "backend\src\Shared\NotesApp.Backend.Shared.Core\NotesApp.Backend.Shared.Core.csproj", "{4D881375-D109-4151-A7B1-51D856A5ED05}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +49,18 @@ Global
 		{C35C26B0-C680-4695-94B3-5D665F6A6C9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C35C26B0-C680-4695-94B3-5D665F6A6C9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C35C26B0-C680-4695-94B3-5D665F6A6C9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{507D5C40-9973-4208-894E-40E5259862C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{507D5C40-9973-4208-894E-40E5259862C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{507D5C40-9973-4208-894E-40E5259862C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{507D5C40-9973-4208-894E-40E5259862C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE9B9321-5AEB-4737-8EF8-4B69ECAFBBBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE9B9321-5AEB-4737-8EF8-4B69ECAFBBBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE9B9321-5AEB-4737-8EF8-4B69ECAFBBBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE9B9321-5AEB-4737-8EF8-4B69ECAFBBBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D881375-D109-4151-A7B1-51D856A5ED05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D881375-D109-4151-A7B1-51D856A5ED05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D881375-D109-4151-A7B1-51D856A5ED05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D881375-D109-4151-A7B1-51D856A5ED05}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,6 +73,9 @@ Global
 		{A4F32B05-8D27-4694-91C5-FB79A5BCA37C} = {131DC0E3-2972-4E21-8775-F55353807142}
 		{C5E0EFF1-0010-4FCA-A9BC-5C8E980104EF} = {131DC0E3-2972-4E21-8775-F55353807142}
 		{C35C26B0-C680-4695-94B3-5D665F6A6C9B} = {131DC0E3-2972-4E21-8775-F55353807142}
+		{727A6C05-E23A-4B98-AF3A-B2F7B9E7B9DC} = {10576935-181F-4180-9B83-2221C36DF16D}
+		{AE9B9321-5AEB-4737-8EF8-4B69ECAFBBBD} = {727A6C05-E23A-4B98-AF3A-B2F7B9E7B9DC}
+		{4D881375-D109-4151-A7B1-51D856A5ED05} = {727A6C05-E23A-4B98-AF3A-B2F7B9E7B9DC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D26B1ADD-947B-4A4B-BFB2-F69CEF892521}

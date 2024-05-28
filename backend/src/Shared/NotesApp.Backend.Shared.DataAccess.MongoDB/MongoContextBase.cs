@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
+using global::MongoDB.Bson;
 using global::MongoDB.Driver;
 
 public abstract class MongoContextBase<T> : IMongoContext
@@ -56,6 +57,23 @@ public abstract class MongoContextBase<T> : IMongoContext
         var commitCounts = await Task.WhenAll(commitTasks);
         return commitCounts.Sum();
     }
+
+    public async Task<bool> CanConnectAsync(CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var database = this.Client.GetDatabase(this.DatabaseName);
+            await database.RunCommandAsync((Command<BsonDocument>)"{ping:1}", cancellationToken: cancellationToken);
+        }
+        catch (Exception e)
+        {
+            this.Logger.LogError(e, "MongoDB ping command failed.");
+            return false;
+        }
+
+        return true;
+    }
+
     public void RegisterPersistence<TEntity>(MongoWritableKeyedRepository<TEntity> repository)
         where TEntity : class, IMongoEntity
     {

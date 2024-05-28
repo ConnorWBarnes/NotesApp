@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\NotesApp.Backend.Shared.DataAccess.MongoDB\NotesApp.Backend.Shared.DataAccess.MongoDB.csproj" />
+  </ItemGroup>
+
 </Project>

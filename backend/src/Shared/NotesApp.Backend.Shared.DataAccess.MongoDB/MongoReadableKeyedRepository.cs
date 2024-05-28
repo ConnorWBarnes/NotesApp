@@ -16,7 +16,7 @@ public abstract class MongoReadableKeyedRepository<TEntity> : MongoRepositoryBas
     {
     }
 
-    protected IMongoCollection<TEntity> Collection => this.Context.GetCollection<TEntity>();
+    public IMongoCollection<TEntity> Collection => this.Context.GetCollection<TEntity>();
 
     public IQueryable<TEntity> AsQueryable()
     {

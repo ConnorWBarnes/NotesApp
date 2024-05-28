@@ -12,6 +12,8 @@ services:
       - frontend-backend
     depends_on:
       - mongodb-primary
+    environment:
+      - ConnectionStrings__MongoStore=mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@${MONGODB_HOSTNAME}:${MONGODB_PORT}
 
   mongodb-primary:
     image: mongo

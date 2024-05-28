@@ -1,7 +1,7 @@
 version: '3.4'
 
 services:
-  notesapp.backend.services.note.api:
+  note.service:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080

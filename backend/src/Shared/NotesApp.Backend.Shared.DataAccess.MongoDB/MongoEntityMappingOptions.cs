@@ -2,5 +2,5 @@
 
 public class MongoEntityMappingOptions
 {
-    public IEnumerable<MongoEntityMapping<IMongoEntity>> EntityMappings { get; set; } = [];
+    public ICollection<IMongoEntityMapping> EntityMappings { get; set; } = new List<IMongoEntityMapping>();
 }

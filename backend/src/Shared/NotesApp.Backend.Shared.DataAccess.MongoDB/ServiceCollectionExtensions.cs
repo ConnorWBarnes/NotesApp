@@ -8,6 +8,8 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddMongoDBCore(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddDataAccessCore();
+
         services.TryAddSingleton<IConnectionProvider, ConnectionProvider>();
 
         services.Configure<MongoContextOptions>(options =>

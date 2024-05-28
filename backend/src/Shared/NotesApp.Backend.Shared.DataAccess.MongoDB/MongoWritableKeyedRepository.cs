@@ -20,8 +20,6 @@ public abstract class MongoWritableKeyedRepository<TEntity> : MongoReadableKeyed
         this.writeModelQueue = new ConcurrentQueue<WriteModel<TEntity>>();
     }
 
-    protected IMongoCollection<TEntity> Collection => this.Context.GetCollection<TEntity>();
-
     public void Add<T>(T entity) where T : TEntity
     {
         this.AddWriteModel(new InsertOneModel<TEntity>(entity));

@@ -106,7 +106,7 @@ public abstract class MongoContextBase<T> : IMongoContext
             // Register the entity type to collection name mapping
             try
             {
-                entityCollectionNames.Add(entityMapping.GetEntityType(), entityMapping.CollectionName);
+                entityCollectionNames.Add(entityMapping.GetEntityType(), entityMapping.GetCollectionName());
             }
             catch (ArgumentException e)
             {

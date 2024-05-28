@@ -18,4 +18,12 @@ public static class ServiceCollectionExtensions
 
         return services;
     }
+
+    public static IServiceCollection AddMongoContext<TImplementation>(this IServiceCollection services)
+        where TImplementation : MongoContextBase<TImplementation>, IMongoContext
+    {
+        services.TryAddScoped<IMongoContext, TImplementation>();
+
+        return services;
+    }
 }

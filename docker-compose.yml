@@ -1,33 +1,46 @@
 version: '3.9'
 
 services:
+  # TODO: Frontend services
+
+  # Backend services
+  proxy:
+    build: proxy
+    container_name: proxy
+    ports:
+      - 3000:3000
+    depends_on: 
+      - note.service
+
   note.service:
     image: ${DOCKER_REGISTRY-}notesappbackendservicesnoteapi
     container_name: note.service
     build:
       context: .
       dockerfile: backend/src/Services/Note/NotesApp.Backend.Services.Note.Api/Dockerfile
-    networks:
-      - backend-data
-      - frontend-backend
     depends_on:
       - mongodb-primary
+    # networks:
+    #   - backend-data
+    #   - frontend-backend
     environment:
+      - ASPNETCORE_URLS=http://+:8000
       - ConnectionStrings__MongoStore=mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@${MONGODB_HOSTNAME}:${MONGODB_PORT}
-
+  
+  # Data storage
   mongodb-primary:
     image: mongo
     container_name: mongodb
     volumes:
       - mongo_data:/data/db
-    networks:
-      - backend-data
+    # networks:
+    #   - backend-data
     expose:
       - 27017
 
-networks:
-  backend-data:
-  frontend-backend:
+# networks:
+#   backend-data:
+#   frontend-backend:
 
 volumes:
   mongo_data:

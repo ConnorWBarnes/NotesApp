@@ -27,7 +27,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotesApp.Backend.Shared.Dat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotesApp.Backend.Shared.Core", "backend\src\Shared\NotesApp.Backend.Shared.Core\NotesApp.Backend.Shared.Core.csproj", "{4D881375-D109-4151-A7B1-51D856A5ED05}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotesApp.Backend.Shared.DataAccess", "backend\src\Shared\NotesApp.Backend.Shared.DataAccess\NotesApp.Backend.Shared.DataAccess.csproj", "{1FCA2B1B-14E1-4584-8F4A-20B4A77C91B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotesApp.Backend.Shared.DataAccess", "backend\src\Shared\NotesApp.Backend.Shared.DataAccess\NotesApp.Backend.Shared.DataAccess.csproj", "{1FCA2B1B-14E1-4584-8F4A-20B4A77C91B0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "proxy", "proxy", "{BDC7ACA2-AA8A-4950-B88E-1422596A4845}"
+	ProjectSection(SolutionItems) = preProject
+		proxy\conf = proxy\conf
+		proxy\Dockerfile = proxy\Dockerfile
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

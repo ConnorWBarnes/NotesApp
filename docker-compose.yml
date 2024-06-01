@@ -11,6 +11,8 @@ services:
       - 3000:3000
     depends_on: 
       - note.service
+    networks:
+      - frontend-backend
 
   note.service:
     image: ${DOCKER_REGISTRY-}notesappbackendservicesnoteapi
@@ -20,9 +22,9 @@ services:
       dockerfile: backend/src/Services/Note/NotesApp.Backend.Services.Note.Api/Dockerfile
     depends_on:
       - mongodb-primary
-    # networks:
-    #   - backend-data
-    #   - frontend-backend
+    networks:
+      - backend-data
+      - frontend-backend
     environment:
       - ASPNETCORE_URLS=http://+:8000
       - ConnectionStrings__MongoStore=mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@${MONGODB_HOSTNAME}:${MONGODB_PORT}
@@ -33,14 +35,14 @@ services:
     container_name: mongodb
     volumes:
       - mongo_data:/data/db
-    # networks:
-    #   - backend-data
+    networks:
+      - backend-data
     expose:
       - 27017
 
-# networks:
-#   backend-data:
-#   frontend-backend:
+networks:
+  backend-data:
+  frontend-backend:
 
 volumes:
   mongo_data:

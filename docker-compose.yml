@@ -10,6 +10,7 @@ services:
       - 4200:4200
     volumes:
       - ./frontend:/project
+      - /project/node_modules
     networks:
       - frontend-backend
     depends_on:

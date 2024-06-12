@@ -6,7 +6,20 @@ public class Program
 {
     public static void Main(string[] args)
     {
+        var CorsPolicyName = "AllowAllOrigins";
+
         var builder = WebApplication.CreateBuilder(args);
+
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy(CorsPolicyName,
+                builder =>
+                {
+                    builder.AllowAnyOrigin();
+                    builder.AllowAnyHeader();
+                    builder.AllowAnyMethod();
+                });
+        });
 
         // Add services to the container.
         builder.Services.AddNoteServices(builder.Configuration);
@@ -24,6 +37,8 @@ public class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
+
+        app.UseCors(CorsPolicyName);
 
         app.UseHttpsRedirection();
 

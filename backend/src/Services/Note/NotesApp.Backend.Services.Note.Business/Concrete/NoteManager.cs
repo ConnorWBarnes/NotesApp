@@ -47,7 +47,11 @@ public class NoteManager : INoteManager
 
         using var unitOfWork = this.unitOfWorkFactory.Create<INoteUnitOfWork>();
         unitOfWork.Notes.Add(note);
-        await unitOfWork.SaveAsync();
+        if (!await unitOfWork.SaveAsync())
+        {
+            this.logger.LogError("Failed to create new note");
+            throw new Exception("Failed to create new note.");
+        }
 
         return ToDomain(note);
     }

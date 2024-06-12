@@ -17,7 +17,11 @@ public abstract class MongoWritableKeyedRepository<TEntity> : MongoReadableKeyed
     protected MongoWritableKeyedRepository(ILogger logger, IMongoContext context)
         : base(logger, context)
     {
+        ArgumentNullException.ThrowIfNull(context);
+
         this.writeModelQueue = new ConcurrentQueue<WriteModel<TEntity>>();
+
+        context.RegisterPersistence(this);
     }
 
     public void Add<T>(T entity) where T : TEntity

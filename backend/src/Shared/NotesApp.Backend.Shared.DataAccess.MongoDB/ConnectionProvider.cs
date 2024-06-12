@@ -33,6 +33,8 @@ public class ConnectionProvider : IConnectionProvider
 
     private IMongoClient CreateMongoClientInternal()
     {
+        this.logger.LogDebug("Creating MongoClient with connection string {ConnectionString}", this.options.ConnectionString);
+
         var mongoUrl = new MongoUrl(this.options.ConnectionString);
 
         var mongoSettings = MongoClientSettings.FromUrl(mongoUrl);

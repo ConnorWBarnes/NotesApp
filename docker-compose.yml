@@ -34,18 +34,18 @@ services:
       context: .
       dockerfile: backend/src/Services/Note/NotesApp.Backend.Services.Note.Api/Dockerfile
     depends_on:
-      - mongodb-primary
+      - mongo
     networks:
       - backend-data
       - frontend-backend
     environment:
       - ASPNETCORE_URLS=http://+:8000
-      - ConnectionStrings__MongoStore=mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@${MONGODB_HOSTNAME}:${MONGODB_PORT}
+      - ConnectionStrings__MongoStore=mongodb://mongo:27017/TodoApp
+      #- ConnectionStrings__MongoStore=mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@${MONGODB_HOSTNAME}:${MONGODB_PORT}
   
   # Data storage
-  mongodb-primary:
-    image: mongo
-    container_name: mongodb
+  mongo:
+    image: mongo:4.2.0
     volumes:
       - mongo_data:/data/db
     networks:

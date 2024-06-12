@@ -32,7 +32,7 @@ public class NoteController : ControllerBase
     /// <returns>A collection of all notes.</returns>
     /// <response code="200">Successfully retrieved all notes.</response>
     [HttpGet("notes")]
-    [ProducesResponseType(typeof(IEnumerable<NoteSlimResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IEnumerable<NoteResponse>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllAsync()
     {
         this.logger.LogInformation("Retrieving all notes.");
@@ -40,7 +40,7 @@ public class NoteController : ControllerBase
         var notes = await noteManager.GetAllAsync();
 
         // TODO: Replace with mapping solution
-        return this.Ok(notes.Select(n => new NoteSlimResponse { Id = n.Id, Title = n.Title }));
+        return this.Ok(notes.Select(note => new NoteResponse { Id = note.Id, Title = note.Title, Body = note.Body }));
     }
 
     /// <summary>

@@ -16,7 +16,11 @@ export class NoteService {
   notesUrl = 'http://localhost:3000/notes';
   
   httpOptions = {
-    headers: new HttpHeaders({"Content-Type": "application/json"})
+    headers: new HttpHeaders(
+      {
+        'Content-Type': 'application/json',
+      }
+    )
   };
 
   constructor(private http: HttpClient) { }
@@ -62,11 +66,12 @@ export class NoteService {
   /**
    * POST: Creates and adds a new note to the server.
    * @param note The note to create and add to the server.
+   * @returns The ID of the newly created note.
    */
-  createNote$(note: Note): Observable<Note> {
-    return this.http.post<Note>(this.notesUrl, note, this.httpOptions).pipe(
-      tap((newNote: Note) => this.log(`createNote$: Created note with ID = ${newNote.id}`)),
-      catchError(this.handleError<Note>('createNote$'))
+  createNote$(note: Note): Observable<string> {
+    return this.http.post<string>(this.notesUrl, note, this.httpOptions).pipe(
+      tap((newNoteId: string) => this.log(`createNote$: Created note with ID = ${newNoteId}`)),
+      catchError(this.handleError<string>('createNote$'))
     );
   }
 

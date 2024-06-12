@@ -1,6 +1,4 @@
 <section class="results">
-  <app-note-grid-item 
-    *ngFor="let note of notes"
-    [note]="note">
-  </app-note-grid-item>
+  <app-note-edit (createNoteEvent)="createNote($event)"/>
+  <app-note-grid-item *ngFor="let note of notes" [note]="note"></app-note-grid-item>
 </section>

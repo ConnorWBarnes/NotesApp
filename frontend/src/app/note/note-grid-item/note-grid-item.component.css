@@ -1,12 +1,20 @@
 .note {
-  background: var(--accent-color);
-  border-radius: 30px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-color: var(--border-color);
+  border-radius:8px;
   padding-bottom: 30px;
 }
 
 .note-title {
-  color: var(--primary-color);
+  color: var(--text-color);
+  font-size: 16px;
   padding: 10px 20px 0 20px;
+}
+
+.note-body {
+  font-size: 14px;
+  padding: 10px 20px 20px 20px;
 }
 
 .note-photo {
@@ -14,10 +22,6 @@
   width: 100%;
   object-fit: cover;
   border-radius: 30px 30px 0 0;
-}
-
-.note-body {
-  padding: 10px 20px 20px 20px;
 }
 
 section.note a {

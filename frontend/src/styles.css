@@ -1,11 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 * {
+  font-family: inherit;
+  font-size: 100%;
   margin: 0;
   padding: 0;
-}
-
-body {
-  font-family: 'Roboto', arial, sans-serif;
 }
 
 :root {
@@ -13,6 +11,16 @@ body {
   --secondary-color: #8B89E6;
   --accent-color: #e8e7fa;
   --shadow-color: #E8E8E8;
+  
+  --background-color: #202124;
+  --border-color: #5f6368;
+  --text-color: #E8EAED;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: 'Roboto', arial, sans-serif;
 }
 
 button.primary {

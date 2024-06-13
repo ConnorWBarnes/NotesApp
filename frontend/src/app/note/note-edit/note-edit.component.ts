@@ -8,7 +8,7 @@ import { Note } from '../note';
   standalone: true,
   imports: [FormsModule],
   templateUrl: './note-edit.component.html',
-  styleUrl: './note-edit.component.css'
+  styleUrl: './note-edit.component.scss'
 })
 export class NoteEditComponent {
   noteTitle = '';

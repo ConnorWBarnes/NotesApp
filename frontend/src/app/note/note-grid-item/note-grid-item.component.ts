@@ -10,7 +10,7 @@ import { Note } from '../note';
   standalone: true,
   imports: [],
   templateUrl: './note-grid-item.component.html',
-  styleUrl: './note-grid-item.component.css'
+  styleUrl: './note-grid-item.component.scss'
 })
 export class NoteGridItemComponent {
   @Input() note!: Note;

@@ -11,7 +11,7 @@ import { NoteGridComponent } from './note/note-grid/note-grid.component';
     RouterOutlet
   ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.scss'
 })
 export class AppComponent {
   title = 'Notes App';

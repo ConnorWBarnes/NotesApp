@@ -18,7 +18,7 @@ import { NoteService } from '../note.service';
     NoteGridItemComponent
   ],
   templateUrl: './note-grid.component.html',
-  styleUrl: './note-grid.component.css'
+  styleUrl: './note-grid.component.scss'
 })
 export class NoteGridComponent implements OnInit {
   notes!: Note[];

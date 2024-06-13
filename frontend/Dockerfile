@@ -1,25 +1,32 @@
 # syntax=docker/dockerfile:1.4
 
-FROM --platform=$BUILDPLATFORM node:lts as builder
+# Create image based on the official Node image from dockerhub
+FROM node:lts-buster AS development
 
-RUN mkdir /project
-WORKDIR /project
+# Create app directory
+WORKDIR /usr/src/app
 
+# Install Angular CLI
 RUN npm install -g @angular/cli
 
+# Copy dependency definitions
 COPY package.json package-lock.json ./
-RUN npm install
 
-COPY . .
+# Install dependecies
+#RUN npm set progress=false \
+#    && npm config set depth 0 \
+#    && npm i install
+RUN npm ci
+
+# Get all the code needed to run the app
+COPY . /usr/src/app
+
+# Serve the app
 CMD ["ng", "serve", "--host", "0.0.0.0"]
 
-FROM builder as dev-envs
+FROM development as dev-envs
 
 RUN apt-get update && apt-get install -y git
-# RUN <<EOF
-# apt-get update
-# apt-get install -y --no-install-recommends git
-# EOF
 
 # TODO: Uncomment and debug?
 # RUN <<EOF

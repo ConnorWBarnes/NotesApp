@@ -1,18 +1,6 @@
-<!-- TODO: Change header based on note being edited (i.e. new note or existing note) -->
-<h2>New Note</h2>
 <!-- TODO: Use form tag? -->
- <div class="box">
-  <div>
-    <label for="noteTitleForm">
-      Title:
-      <input id="noteTitleForm" type="text" [(ngModel)]="noteTitle" placeholder="Title"/>
-    </label>
-  </div>
-  <div>
-    <label for="noteBodyForm">
-      Body:
-      <textarea id="noteBodyForm" rows="5" [(ngModel)]="noteBody" placeholder="Body"></textarea>
-    </label>
-  </div>
+<div class="note">
+  <input id="noteTitleForm" type="text" [(ngModel)]="noteTitle" placeholder="Title"/>
+  <textarea id="noteBodyForm" rows="5" [(ngModel)]="noteBody" placeholder="Body"></textarea>
   <button (click)="createNote()">Add</button>
- </div>
+</div>

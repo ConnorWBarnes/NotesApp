@@ -1,6 +1,6 @@
 <!-- TODO: Use form tag? -->
 <div class="note">
-  <input id="noteTitleForm" type="text" [(ngModel)]="noteTitle" placeholder="Title"/>
-  <textarea id="noteBodyForm" rows="5" [(ngModel)]="noteBody" placeholder="Body"></textarea>
+  <input id="noteTitleForm" type="text" [(ngModel)]="noteTitle"/>
+  <textarea id="noteBodyForm" [(ngModel)]="noteBody"></textarea>
   <button (click)="createNote()">Add</button>
 </div>

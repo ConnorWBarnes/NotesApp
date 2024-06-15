@@ -4,6 +4,7 @@ services:
     build:
       context: frontend
       target: development
+    profiles: ["frontend"]
     ports:
       - 4200:4200
     volumes:

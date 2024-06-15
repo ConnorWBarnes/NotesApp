@@ -7,9 +7,14 @@ header {
   height: 60px;
   font-size: 22px;
   padding: var(--content-padding);
-  box-shadow: 0px 5px 25px var(--shadow-color);
+  // box-shadow: 0px 5px 25px var(--shadow-color);
 }
 
 .content {
   padding: var(--content-padding);
+}
+
+.show-border-bottom {
+  border-bottom: 1px solid transparent;
+  border-color: var(--border-color);
 }

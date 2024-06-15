@@ -30,3 +30,9 @@ button.primary {
   color: white;
   border-radius: 8px;
 }
+
+// TODO: Convert to mixin
+.show-border {
+  border: 1px solid transparent;
+  border-color: var(--border-color);
+}

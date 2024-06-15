@@ -1,0 +1,17 @@
+@use '../../../styles';
+@use '../note';
+
+.centered {
+  width: 100%;
+}
+
+.note-create {
+  margin: 32px auto 16px auto;
+  position: relative;
+  width: 600px;
+}
+
+.note-create-text {
+  // padding: 10px 15px;
+  text-wrap: wrap;
+}

@@ -1,0 +1,8 @@
+<!-- TODO: Use form tag? -->
+<div class="note-create">
+  <div class="note show-border">
+    <input class="note-create-text centered" contenteditable="true" [(ngModel)]="noteTitle" placeholder="Title"/>
+    <textarea class="note-create-text centered" [(ngModel)]="noteBody" placeholder="Take a note..."></textarea>
+    <button (click)="createNote()">Add</button>
+  </div>
+</div>

@@ -5,6 +5,7 @@ import { Note } from '../note';
 import { NoteEditComponent } from '../note-edit/note-edit.component';
 import { NoteGridItemComponent } from '../note-grid-item/note-grid-item.component';
 import { NoteService } from '../note.service';
+import { NoteCreateComponent } from '../note-create/note-create.component';
 
 /**
  * A collection of notes arranged in a grid-like layout.
@@ -14,6 +15,7 @@ import { NoteService } from '../note.service';
   standalone: true,
   imports: [
     NgFor,
+    NoteCreateComponent,
     NoteEditComponent,
     NoteGridItemComponent
   ],

@@ -13,11 +13,13 @@ public class NoteManager : INoteManager
 {
     private readonly ILogger<NoteManager> logger;
     private readonly IUnitOfWorkFactory unitOfWorkFactory;
+    private readonly TimeProvider timeProvider;
 
-    public NoteManager(ILogger<NoteManager> logger, IUnitOfWorkFactory unitOfWorkFactory)
+    public NoteManager(ILogger<NoteManager> logger, IUnitOfWorkFactory unitOfWorkFactory, TimeProvider timeProvider)
     {
         this.logger = logger;
         this.unitOfWorkFactory = unitOfWorkFactory;
+        this.timeProvider = timeProvider;
     }
 
     public async Task<IEnumerable<Domain.Note>> GetAllAsync()
@@ -39,12 +41,17 @@ public class NoteManager : INoteManager
 
     public async Task<Domain.Note> CreateAsync(string? title, string? body)
     {
+        // Create the new note
+        var now = this.timeProvider.GetUtcNow();
         var note = new Note
         {
             Title = title,
-            Body = body
+            Body = body,
+            Created = now,
+            Updated = now,
         };
 
+        // Add the new note to the repository
         using var unitOfWork = this.unitOfWorkFactory.Create<INoteUnitOfWork>();
         unitOfWork.Notes.Add(note);
         if (!await unitOfWork.SaveAsync())
@@ -70,6 +77,7 @@ public class NoteManager : INoteManager
         // Update the note
         note.Title = title;
         note.Body = body;
+        note.Updated = this.timeProvider.GetUtcNow();
 
         // Save the changes
         unitOfWork.Notes.Update(note);
@@ -92,6 +100,6 @@ public class NoteManager : INoteManager
     // TODO: Replace with mapping solution
     private static Domain.Note ToDomain(Note note)
     {
-        return new Domain.Note(note.Id, note.Title, note.Body);
+        return new Domain.Note(note.Id, note.Title, note.Body, note.Created, note.Updated);
     }
 }

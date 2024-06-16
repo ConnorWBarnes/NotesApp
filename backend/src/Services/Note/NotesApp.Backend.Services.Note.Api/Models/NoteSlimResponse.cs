@@ -14,4 +14,9 @@ public class NoteSlimResponse
     /// The title of the note.
     /// </summary>
     public string? Title { get; set; }
+
+    /// <summary>
+    /// The body of the note.
+    /// </summary>
+    public string? Body { get; set; }
 }

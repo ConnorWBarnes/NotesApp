@@ -6,7 +6,12 @@
 public class NoteResponse : NoteSlimResponse
 {
     /// <summary>
-    /// The body of the note.
+    /// The timestamp when the note was created.
     /// </summary>
-    public string? Body { get; set; }
+    public DateTimeOffset Created { get; set; }
+
+    /// <summary>
+    /// The timestamp when the note was last updated.
+    /// </summary>
+    public DateTimeOffset Updated { get; set; }
 }

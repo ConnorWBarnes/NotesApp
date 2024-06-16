@@ -1,17 +1,19 @@
-@use '../../../styles';
 @use '../note';
 
-.centered {
-  width: 100%;
-}
-
 .note-create {
-  margin: 32px auto 16px auto;
+  margin: 16px auto 16px auto;
   position: relative;
   width: 600px;
 }
 
 .note-create-text {
-  // padding: 10px 15px;
+  box-sizing: border-box;
+  padding: 10px 15px;
   text-wrap: wrap;
+  width: 100%;
+}
+
+.right {
+  display: flex;
+  flex-direction: row-reverse;
 }

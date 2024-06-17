@@ -3,6 +3,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+
 using NotesApp.Backend.Services.Note.Infrastructure.Concrete;
 using NotesApp.Backend.Services.Note.Infrastructure.MongoDB;
 using NotesApp.Backend.Services.Note.Infrastructure.MongoDB.Models.Mappings;

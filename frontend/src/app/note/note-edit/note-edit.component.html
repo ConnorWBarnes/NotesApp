@@ -1,6 +1,9 @@
-<!-- TODO: Use form tag? -->
-<div class="note">
-  <input id="noteTitleForm" type="text" [(ngModel)]="noteTitle"/>
-  <textarea id="noteBodyForm" [(ngModel)]="noteBody"></textarea>
-  <button (click)="createNote()">Add</button>
+<div *ngIf="note" class="note-compose">
+  <div class="note note-padding show-border">
+    <input class="note-compose-text note-title" contenteditable="true" [(ngModel)]="note.title"/>
+    <textarea class="note-compose-text note-body" [(ngModel)]="note.body"></textarea>
+    <div class="right">
+      <button class="save" (click)="saveChanges()">Save Changes</button>
+    </div>
+  </div>
 </div>

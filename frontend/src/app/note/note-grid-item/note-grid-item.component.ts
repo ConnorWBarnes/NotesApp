@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 import { Note } from '../note';
 
@@ -8,7 +9,7 @@ import { Note } from '../note';
 @Component({
   selector: 'app-note-grid-item',
   standalone: true,
-  imports: [],
+  imports: [RouterLink, RouterOutlet],
   templateUrl: './note-grid-item.component.html',
   styleUrl: './note-grid-item.component.scss'
 })

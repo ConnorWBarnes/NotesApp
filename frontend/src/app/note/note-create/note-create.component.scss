@@ -1,19 +1,5 @@
 @use '../note';
 
 .note-create {
-  margin: 16px auto 16px auto;
   position: relative;
-  width: 600px;
-}
-
-.note-create-text {
-  box-sizing: border-box;
-  padding: 10px 15px;
-  text-wrap: wrap;
-  width: 100%;
-}
-
-.right {
-  display: flex;
-  flex-direction: row-reverse;
 }

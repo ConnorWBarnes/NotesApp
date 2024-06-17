@@ -1,10 +1,10 @@
 <!-- TODO: Use form tag? -->
-<div class="note-create">
+<div class="note-compose note-create">
   <div class="note note-padding show-border">
-    <input class="note-create-text" contenteditable="true" [(ngModel)]="noteTitle" placeholder="Title"/>
-    <textarea class="note-create-text" [(ngModel)]="noteBody" placeholder="Take a note..."></textarea>
+    <input class="note-compose-text" contenteditable="true" [(ngModel)]="noteTitle" placeholder="Title"/>
+    <textarea class="note-compose-text" [(ngModel)]="noteBody" placeholder="Take a note..."></textarea>
     <div class="right">
-      <button (click)="createNote()">Create Note</button>
+      <button class="save" (click)="createNote()">Create Note</button>
     </div>
   </div>
 </div>

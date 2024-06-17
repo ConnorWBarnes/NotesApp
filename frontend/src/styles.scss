@@ -14,6 +14,7 @@
   
   --background-color: #202124;
   --border-color: #5f6368;
+  --button-color: #DADCE0;
   --text-color: #E8EAED;
 }
 
@@ -31,8 +32,29 @@ button.primary {
   border-radius: 8px;
 }
 
-// TODO: Convert to mixin
+button.save {
+  background: transparent;
+  border: solid 0px var(--border-color);
+  border-radius: 4px;
+  color: var(--button-color);
+  font-size: .875rem;
+  height: 36px;
+  line-height: 1.25rem;
+  padding: 8px 24px;
+}
+
+button.save:hover {
+  background: #9AA0A60A;
+}
+
+// TODO: Convert to mixin?
 .show-border {
   border: 1px solid transparent;
   border-color: var(--border-color);
+}
+
+// TODO: Convert to mixin?
+.right {
+  display: flex;
+  flex-direction: row-reverse;
 }

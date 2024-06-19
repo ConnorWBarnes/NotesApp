@@ -19,8 +19,8 @@
 }
 
 body {
-  background-color: var(--background-color);
-  color: var(--text-color);
+  //background-color: var(--background-color);
+  //color: var(--text-color);
   font-family: 'Roboto', arial, sans-serif;
 }
 
@@ -37,15 +37,15 @@ button.save {
   border: solid 0px var(--border-color);
   border-radius: 4px;
   color: var(--button-color);
-  font-size: .875rem;
+  font-size: 14px;
   height: 36px;
   line-height: 1.25rem;
   padding: 8px 24px;
 }
 
-button.save:hover {
-  background: #9AA0A60A;
-}
+// button:hover {
+//   background: #9AA0A60A;
+// }
 
 // TODO: Convert to mixin?
 .show-border {

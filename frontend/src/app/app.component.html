@@ -1,8 +1,26 @@
 <main>
-  <header class="show-border-bottom">
-    Notes App
+  <header class="d-flex flex-wrap justify-content-center py-3 border-bottom">
+    <div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 2fr 1fr;">
+      <!-- Logo & title -->
+      <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+        <!-- <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg> -->
+        <!-- TODO: Insert logo here -->
+        <span class="fs-4">Notes App</span>
+      </a>
+      <!-- Search form -->
+      <div class="d-flex align-items-center">
+        <form class="w-100 me-3" role="search">
+          <input type="search" class="form-control app-search" placeholder="Search..." aria-label="Search">
+        </form>
+      </div>
+      <!-- TODO: Replace authentication buttons with authentication component -->
+      <div class="text-end">
+        <button type="button" class="btn btn-dark">Login</button>
+        <button type="button" class="btn btn-dark">Sign up</button>
+      </div>
+    </div>
   </header>
-  <section class="content">
+  <section class="app-content">
     <router-outlet />
   </section>
 </main>

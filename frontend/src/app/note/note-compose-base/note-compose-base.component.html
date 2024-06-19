@@ -1,0 +1,9 @@
+<div class="note-compose align-items-center">
+  <div class="note note-padding show-border">
+    <input class="note-compose-text" contenteditable="true" [(ngModel)]="noteTitle" placeholder="Title"/>
+    <textarea class="note-compose-text" [(ngModel)]="noteBody" placeholder="Take a note..."></textarea>
+    <div class="right">
+      <button class="btn btn-dark" (click)="save()">{{saveButtonText}}</button>
+    </div>
+  </div>
+</div>

@@ -4,37 +4,50 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Note } from '../note';
+import { NoteComposeBaseComponent } from '../note-compose-base/note-compose-base.component';
 import { NoteService } from '../note.service';
 
 @Component({
   selector: 'app-note-edit',
   standalone: true,
   imports: [FormsModule, NgIf],
-  templateUrl: './note-edit.component.html',
-  styleUrl: './note-edit.component.scss'
+  templateUrl: './../note-compose-base/note-compose-base.component.html',
+  styleUrl: './../note-compose-base/note-compose-base.component.scss'
 })
-export class NoteEditComponent implements OnInit {
-  note?: Note;
+export class NoteEditComponent extends NoteComposeBaseComponent implements OnInit {
+  override saveButtonText: string = 'Save Changes';
+  note!: Note;
 
   constructor(
     private noteService: NoteService,
-    private route: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private router: Router
-  ) { }
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
-    this.getNote();
+    this.activatedRoute.data.subscribe(({ note }) => {
+      this.note = note;
+      this.noteTitle = note.title;
+      this.noteBody = note.body;
+    });
   }
 
-  getNote(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.noteService.getNote$(id).subscribe(note => this.note = note);
+  async save() {
+    // Check if any changes were made
+    if (this.noteTitle === this.note.title && this.noteBody === this.note.body) {
+      this.navigateHome();
     }
+    
+    // Update the note and save the changes
+    this.note.title = this.noteTitle;
+    this.note.body = this.noteBody;
+    await this.noteService.updateNoteAsync(this.note);
+    this.navigateHome();
   }
 
-  saveChanges() {
-    // Update the note
-    this.noteService.updateNote$(this.note!).subscribe(() => this.router.navigateByUrl(''));
+  navigateHome() {
+    this.router.navigateByUrl('');
   }
 }

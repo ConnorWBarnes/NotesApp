@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Observable, of } from 'rxjs';
+import { Observable, firstValueFrom, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { Note } from './note';
@@ -36,6 +36,19 @@ export class NoteService {
   }
 
   /**
+   * GET: Gets all notes from the server.
+   */
+  async getNotesAsync(): Promise<Note[]> {
+    try {
+      const notes = await firstValueFrom(this.http.get<Note[]>(this.notesUrl));
+      this.log(`getNotesAsync: Retrieved ${notes.length} notes`);
+      return notes;
+    } catch (error) {
+      return this.handleErrorAsync<Note[]>(error, 'getNotesAsync');
+    }
+  }
+
+  /**
    * GET: Gets a note by ID. Will 404 if not found.
    * @param id The ID of the note to get.
    */
@@ -45,6 +58,21 @@ export class NoteService {
       tap(_ => this.log(`getNote$: Retrieved note ID = ${id}`)),
       catchError(this.handleError<Note>(`getNote$ ID = ${id}`))
     );
+  }
+
+  /**
+   * GET: Gets a note by ID. Will 404 if not found.
+   * @param id The ID of the note to get.
+   */
+  async getNoteAsync(id: string): Promise<Note> {
+    const url = `${this.notesUrl}/${id}`;
+    try {
+      const note = firstValueFrom(this.http.get<Note>(url));
+      this.log(`getNoteAsync: Retrieved note ID = ${id}`);
+      return note;
+    } catch (error) {
+      return this.handleErrorAsync<Note>(error, `getNoteAsync ID = ${id}`);
+    }
   }
 
   /**
@@ -76,14 +104,39 @@ export class NoteService {
   }
 
   /**
+   * POST: Creates and adds a new note to the server.
+   * @param note The note to create and add to the server.
+   * @returns The ID of the newly created note.
+   */
+  async createNoteAsync(note: Note): Promise<string> {
+    try {
+      const newNoteId = await firstValueFrom(this.http.post<string>(this.notesUrl, note, this.httpOptions));
+      this.log(`createNoteAsync: Created note with ID = ${newNoteId}`);
+      return newNoteId;
+    } catch (error) {
+      return this.handleErrorAsync<string>(error, 'createNoteAsync');
+    }
+  }
+
+  /**
    * PUT: Updates the note on the server.
    * @param note The updated note.
    */
   updateNote$(note: Note): Observable<any> {
-    return this.http.put(this.notesUrl, note, this.httpOptions).pipe(
+    const url = `${this.notesUrl}/${note.id}`;
+    return this.http.put(url, note, this.httpOptions).pipe(
       tap(_ => this.log(`Updated note with ID = ${note.id}`)),
       catchError(this.handleError<any>('updateNote$'))
     );
+  }
+  
+  /**
+   * PUT: Updates the note on the server.
+   * @param note The updated note.
+   */
+  async updateNoteAsync(note: Note): Promise<any> {
+    const url = `${this.notesUrl}/${note.id}`;
+    await firstValueFrom(this.http.put(url, note, this.httpOptions));
   }
 
   /**
@@ -98,6 +151,23 @@ export class NoteService {
       tap(_ => this.log(`deleteNote$: Deleted note ID = ${id}`)),
       catchError(this.handleError<Note>('deleteNote$'))
     );
+  }
+
+  /**
+   * DELETE: Deletes a note from the server.
+   * @param note The note or the ID of the note to delete.
+   */
+  async deleteNoteAsync(note: Note | string): Promise<Note> {
+    const id = typeof note === "string" ? note : note.id;
+    const url = `${this.notesUrl}/${id}`;
+
+    try {
+      const note = await firstValueFrom(this.http.delete<Note>(url, this.httpOptions));
+      this.log(`deleteNoteAsync: Deleted note ID = ${id}`)
+      return note;
+    } catch (error) {
+      return this.handleErrorAsync<Note>(error, 'deleteNote$');
+    }
   }
 
   /**
@@ -125,5 +195,22 @@ export class NoteService {
       // Return an empty result to allow the app to continue running
       return of(result as T);
     }
+  }
+  
+  /**
+   * Handles a failed HTTP operation and allows the app to continue.
+   * @param error The error that occurred.
+   * @param operation The name of the operation that failed.
+   * @param result Optional value to return as the observable result.
+   */
+  private handleErrorAsync<T>(error: any, operation = "operation", result?: T): Promise<T> {
+    // TODO: Send the error to remote logging infrastructure
+    console.error(error);
+
+    // TODO: Improve error transformation for user consumption
+    this.log(`${operation} failed: ${error.message}`);
+
+    // Return an empty result to allow the app to continue running
+    return Promise.resolve(result as T);
   }
 }

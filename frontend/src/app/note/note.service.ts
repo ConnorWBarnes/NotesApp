@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 
 import { Observable, firstValueFrom, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -27,6 +27,7 @@ export class NoteService {
   
   /**
    * GET: Gets all notes from the server.
+   * @returns An Observable of all the notes retrieved.
    */
   getNotes$(): Observable<Note[]> {
     return this.http.get<Note[]>(this.notesUrl).pipe(
@@ -37,23 +38,22 @@ export class NoteService {
 
   /**
    * GET: Gets all notes from the server.
+   * @returns A Promise of all the notes retrieved.
    */
   async getNotesAsync(): Promise<Note[]> {
-    try {
-      const notes = await firstValueFrom(this.http.get<Note[]>(this.notesUrl));
-      this.log(`getNotesAsync: Retrieved ${notes.length} notes`);
-      return notes;
-    } catch (error) {
-      return this.handleErrorAsync<Note[]>(error, 'getNotesAsync');
-    }
+    return await firstValueFrom(this.http.get<Note[]>(this.notesUrl).pipe(
+      tap(notes => this.log(`getNotesAsync: Retrieved ${notes.length} notes`)),
+      catchError(this.handleError<Note[]>('getNotesAsync', []))
+    ));
   }
 
   /**
    * GET: Gets a note by ID. Will 404 if not found.
    * @param id The ID of the note to get.
+   * @returns An Observable of the specified note.
    */
   getNote$(id: string): Observable<Note> {
-    const url = `${this.notesUrl}/${id}`;
+    const url = this.addIdToUrl(id);
     return this.http.get<Note>(url).pipe(
       tap(_ => this.log(`getNote$: Retrieved note ID = ${id}`)),
       catchError(this.handleError<Note>(`getNote$ ID = ${id}`))
@@ -63,21 +63,20 @@ export class NoteService {
   /**
    * GET: Gets a note by ID. Will 404 if not found.
    * @param id The ID of the note to get.
+   * @returns A Promise of the specified note.
    */
   async getNoteAsync(id: string): Promise<Note> {
-    const url = `${this.notesUrl}/${id}`;
-    try {
-      const note = firstValueFrom(this.http.get<Note>(url));
-      this.log(`getNoteAsync: Retrieved note ID = ${id}`);
-      return note;
-    } catch (error) {
-      return this.handleErrorAsync<Note>(error, `getNoteAsync ID = ${id}`);
-    }
+    const url = this.addIdToUrl(id);
+    return await firstValueFrom(this.http.get<Note>(url).pipe(
+      tap(_ => this.log(`getNoteAsync: Retrieved note ID = ${id}`)),
+      catchError(this.handleError<Note>(`getNoteAsync ID = ${id}`))
+    ));
   }
 
   /**
    * GET: Gets a note by ID. Returns 'undefined' when ID not found.
    * @param id The ID of the Note to get.
+   * @returns An Observable of the specified note (or 'undefined' if not found).
    */
   getNoteNo404$<Data>(id: string): Observable<Note> {
     const url = `${this.notesUrl}/?id=${id}`;
@@ -94,7 +93,7 @@ export class NoteService {
   /**
    * POST: Creates and adds a new note to the server.
    * @param note The note to create and add to the server.
-   * @returns The ID of the newly created note.
+   * @returns An Observable of the ID of the newly created note.
    */
   createNote$(note: Note): Observable<string> {
     return this.http.post<string>(this.notesUrl, note, this.httpOptions).pipe(
@@ -106,16 +105,13 @@ export class NoteService {
   /**
    * POST: Creates and adds a new note to the server.
    * @param note The note to create and add to the server.
-   * @returns The ID of the newly created note.
+   * @returns A Promise of the ID of the newly created note.
    */
   async createNoteAsync(note: Note): Promise<string> {
-    try {
-      const newNoteId = await firstValueFrom(this.http.post<string>(this.notesUrl, note, this.httpOptions));
-      this.log(`createNoteAsync: Created note with ID = ${newNoteId}`);
-      return newNoteId;
-    } catch (error) {
-      return this.handleErrorAsync<string>(error, 'createNoteAsync');
-    }
+    return await firstValueFrom(this.http.post<string>(this.notesUrl, note, this.httpOptions).pipe(
+      tap((newNoteId: string) => this.log(`createNoteAsync: Created note with ID = ${newNoteId}`)),
+      catchError(this.handleError<string>('createNoteAsync'))
+    ));
   }
 
   /**
@@ -125,7 +121,7 @@ export class NoteService {
   updateNote$(note: Note): Observable<any> {
     const url = `${this.notesUrl}/${note.id}`;
     return this.http.put(url, note, this.httpOptions).pipe(
-      tap(_ => this.log(`Updated note with ID = ${note.id}`)),
+      tap(_ => this.log(`updateNote$: Updated note with ID = ${note.id}`)),
       catchError(this.handleError<any>('updateNote$'))
     );
   }
@@ -133,48 +129,74 @@ export class NoteService {
   /**
    * PUT: Updates the note on the server.
    * @param note The updated note.
+   * @returns A flag indicating the success of the opertation.
    */
-  async updateNoteAsync(note: Note): Promise<any> {
-    const url = `${this.notesUrl}/${note.id}`;
-    await firstValueFrom(this.http.put(url, note, this.httpOptions));
+  async updateNoteAsync(note: Note): Promise<boolean> {
+    // Send the request to update the note
+    const url = this.addIdToUrl(note.id);
+    const response = await firstValueFrom(this.http.put<HttpResponse<any>>(url, note, this.httpOptions));
+    
+    // Handle the response
+    if (response instanceof HttpErrorResponse) {
+      this.handleErrorAsync(new Error(response.message), 'updateNoteAsync');
+    } else {
+      this.log(`updateNoteAsync: Updated note with ID = ${note.id}`);
+    }
+
+    // Return the result
+    return response.ok;
   }
 
   /**
    * DELETE: Deletes a note from the server.
    * @param note The note or the ID of the note to delete.
    */
-  deleteNote$(note: Note | string): Observable<Note> {
+  deleteNote$(note: Note | string): Observable<any> {
     const id = typeof note === "string" ? note : note.id;
-    const url = `${this.notesUrl}/${id}`;
+    const url = this.addIdToUrl(id);
 
-    return this.http.delete<Note>(url, this.httpOptions).pipe(
+    return this.http.delete(url, this.httpOptions).pipe(
       tap(_ => this.log(`deleteNote$: Deleted note ID = ${id}`)),
-      catchError(this.handleError<Note>('deleteNote$'))
+      catchError(this.handleError<any>('deleteNote$'))
     );
   }
 
   /**
    * DELETE: Deletes a note from the server.
    * @param note The note or the ID of the note to delete.
+   * @returns A flag indicating the success of the opertation.
    */
-  async deleteNoteAsync(note: Note | string): Promise<Note> {
+  async deleteNoteAsync(note: Note | string): Promise<boolean> {
+    // Send the request to delete the note
     const id = typeof note === "string" ? note : note.id;
-    const url = `${this.notesUrl}/${id}`;
+    const url = this.addIdToUrl(id);
+    const response = await firstValueFrom(this.http.delete<HttpResponse<any>>(url, this.httpOptions));
 
-    try {
-      const note = await firstValueFrom(this.http.delete<Note>(url, this.httpOptions));
-      this.log(`deleteNoteAsync: Deleted note ID = ${id}`)
-      return note;
-    } catch (error) {
-      return this.handleErrorAsync<Note>(error, 'deleteNote$');
+    // Handle the response
+    if (response instanceof HttpErrorResponse) {
+      this.handleErrorAsync(new Error(response.message), 'deleteNoteAsync');
+    } else {
+      this.log(`deleteNoteAsync: Deleted note with ID = ${id}`);
     }
+
+    // Return the result
+    return response.ok;
+  }
+
+  /**
+   * Adds the specified ID to the base URL.
+   * @param id The ID to add to the url.
+   * @returns The transformed URL with the ID added.
+   */
+  private addIdToUrl(id: string): string {
+    return`${this.notesUrl}/${id}`;
   }
 
   /**
    * Labels and logs a message.
    * @param message The message to log.
    */
-  private log(message: string) {
+  private log(message: string): void {
     const labeledMessage = `NoteService: ${message}`;
     console.log(labeledMessage)
   }
@@ -201,7 +223,8 @@ export class NoteService {
    * Handles a failed HTTP operation and allows the app to continue.
    * @param error The error that occurred.
    * @param operation The name of the operation that failed.
-   * @param result Optional value to return as the observable result.
+   * @param result Optional value to return as a Promise.
+   * @returns A Promise of the given result.
    */
   private handleErrorAsync<T>(error: any, operation = "operation", result?: T): Promise<T> {
     // TODO: Send the error to remote logging infrastructure

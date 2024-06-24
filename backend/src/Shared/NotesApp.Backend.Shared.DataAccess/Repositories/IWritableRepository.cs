@@ -1,6 +1,7 @@
 ﻿namespace NotesApp.Backend.Shared.DataAccess.Repositories;
 
 using NotesApp.Backend.Shared.DataAccess.Entities;
+using NotesApp.Backend.Shared.DataAccess.Specifications;
 
 /// <summary>
 /// Interface for a data store that supports reading and writing entities to a data store.
@@ -36,4 +37,15 @@ public interface IWritableRepository<TEntity> : IReadableRepository<TEntity>
     /// <typeparam name="T">The type of entity to update or insert.</typeparam>
     /// <param name="entity">The entity to update or insert.</param>
     void Upsert<T>(T entity) where T : TEntity;
+}
+
+/// <summary>
+/// Interface for a data store that supports reading and writing entities to a data store.
+/// </summary>
+/// <typeparam name="TEntity">The type of entity managed by the repository.</typeparam>
+/// <typeparam name="TSpecification">The type of specification to use to query domain entities.</typeparam>
+public interface IWritableRepository<TEntity, out TSpecification> : IWritableRepository<TEntity>, IReadableRepository<TEntity, TSpecification>
+    where TEntity : class, IEntity
+    where TSpecification : ISpecification<TEntity>
+{
 }

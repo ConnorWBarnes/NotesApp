@@ -1,4 +1,4 @@
-﻿namespace NotesApp.Backend.Shared.DataAccess.MongoDB;
+﻿namespace NotesApp.Backend.Shared.DataAccess.MongoDB.Repositories;
 
 using System.Linq;
 
@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using global::MongoDB.Driver;
 
 using NotesApp.Backend.Shared.DataAccess.Repositories;
+using NotesApp.Backend.Shared.DataAccess.MongoDB.Entities;
 
 public abstract class MongoReadableKeyedRepository<TEntity> : MongoRepositoryBase, IReadableKeyedRepository<TEntity, Guid>
     where TEntity : class, IMongoEntity
@@ -16,15 +17,15 @@ public abstract class MongoReadableKeyedRepository<TEntity> : MongoRepositoryBas
     {
     }
 
-    public IMongoCollection<TEntity> Collection => this.Context.GetCollection<TEntity>();
+    public IMongoCollection<TEntity> Collection => Context.GetCollection<TEntity>();
 
     public IQueryable<TEntity> AsQueryable()
     {
-        return this.Collection.AsQueryable();
+        return Collection.AsQueryable();
     }
 
     public Task<TEntity> GetByKeyAsync(Guid key)
     {
-        return this.Collection.Find(entity => entity.Id == key).SingleOrDefaultAsync();
+        return Collection.Find(entity => entity.Id == key).SingleOrDefaultAsync();
     }
 }

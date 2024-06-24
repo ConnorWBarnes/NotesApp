@@ -1,4 +1,4 @@
-﻿namespace NotesApp.Backend.Shared.DataAccess.MongoDB;
+﻿namespace NotesApp.Backend.Shared.DataAccess.MongoDB.Repositories;
 
 using System.Collections.Concurrent;
 
@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using global::MongoDB.Driver;
 
 using NotesApp.Backend.Shared.DataAccess.Repositories;
+using NotesApp.Backend.Shared.DataAccess.MongoDB.Entities;
 
 public abstract class MongoWritableKeyedRepository<TEntity> : MongoReadableKeyedRepository<TEntity>, IWritableKeyedRepository<TEntity, Guid>
     where TEntity : class, IMongoEntity
@@ -19,24 +20,24 @@ public abstract class MongoWritableKeyedRepository<TEntity> : MongoReadableKeyed
     {
         ArgumentNullException.ThrowIfNull(context);
 
-        this.writeModelQueue = new ConcurrentQueue<WriteModel<TEntity>>();
+        writeModelQueue = new ConcurrentQueue<WriteModel<TEntity>>();
 
         context.RegisterPersistence(this);
     }
 
     public void Add<T>(T entity) where T : TEntity
     {
-        this.AddWriteModel(new InsertOneModel<TEntity>(entity));
+        AddWriteModel(new InsertOneModel<TEntity>(entity));
     }
 
     public void Delete<T>(T entity) where T : TEntity
     {
-        this.AddWriteModel(new DeleteOneModel<TEntity>(this.GetFilterDefinition(entity)));
+        AddWriteModel(new DeleteOneModel<TEntity>(GetFilterDefinition(entity)));
     }
 
     public void Update<T>(T entity) where T : TEntity
     {
-        this.AddWriteModel(new ReplaceOneModel<TEntity>(this.GetFilterDefinition(entity), entity)
+        AddWriteModel(new ReplaceOneModel<TEntity>(GetFilterDefinition(entity), entity)
         {
             IsUpsert = false
         });
@@ -44,7 +45,7 @@ public abstract class MongoWritableKeyedRepository<TEntity> : MongoReadableKeyed
 
     public void Upsert<T>(T entity) where T : TEntity
     {
-        this.AddWriteModel(new ReplaceOneModel<TEntity>(this.GetFilterDefinition(entity), entity)
+        AddWriteModel(new ReplaceOneModel<TEntity>(GetFilterDefinition(entity), entity)
         {
             IsUpsert = true
         });
@@ -52,30 +53,30 @@ public abstract class MongoWritableKeyedRepository<TEntity> : MongoReadableKeyed
 
     internal async Task<int> CommitAsync(CancellationToken cancellationToken = default)
     {
-        if (this.writeModelQueue.IsEmpty)
+        if (writeModelQueue.IsEmpty)
         {
             return 0;
         }
 
         try
         {
-            await this.semaphore.WaitAsync(cancellationToken);
-            if (this.writeModelQueue.IsEmpty)
+            await semaphore.WaitAsync(cancellationToken);
+            if (writeModelQueue.IsEmpty)
             {
                 return 0;
             }
 
             // Write the models/entities to the collection
-            var result = await this.Collection.BulkWriteAsync(this.writeModelQueue.ToArray(), new BulkWriteOptions { IsOrdered = false }, cancellationToken);
+            var result = await Collection.BulkWriteAsync(writeModelQueue.ToArray(), new BulkWriteOptions { IsOrdered = false }, cancellationToken);
 
             // Clear the queue once everything has been written
-            this.writeModelQueue.Clear();
+            writeModelQueue.Clear();
 
             return result.RequestCount;
         }
         finally
         {
-            this.semaphore.Release();
+            semaphore.Release();
         }
     }
 
@@ -83,12 +84,12 @@ public abstract class MongoWritableKeyedRepository<TEntity> : MongoReadableKeyed
     {
         try
         {
-            this.semaphore.Wait();
-            this.writeModelQueue.Enqueue(writeModel);
+            semaphore.Wait();
+            writeModelQueue.Enqueue(writeModel);
         }
         finally
         {
-            this.semaphore.Release();
+            semaphore.Release();
         }
     }
 
@@ -101,7 +102,7 @@ public abstract class MongoWritableKeyedRepository<TEntity> : MongoReadableKeyed
     {
         if (disposing)
         {
-            this.semaphore.Dispose();
+            semaphore.Dispose();
         }
 
         base.Dispose(disposing);

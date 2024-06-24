@@ -1,7 +1,8 @@
-﻿namespace NotesApp.Backend.Shared.DataAccess.MongoDB;
+﻿namespace NotesApp.Backend.Shared.DataAccess.MongoDB.Repositories;
 
 using global::MongoDB.Driver;
 
+using NotesApp.Backend.Shared.DataAccess.MongoDB.Entities;
 using NotesApp.Backend.Shared.DataAccess.Repositories;
 
 public interface IMongoContext : IContext

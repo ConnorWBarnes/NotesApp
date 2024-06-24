@@ -1,4 +1,4 @@
-﻿namespace NotesApp.Backend.Shared.DataAccess.MongoDB;
+﻿namespace NotesApp.Backend.Shared.DataAccess.MongoDB.Entities;
 
 using NotesApp.Backend.Shared.DataAccess.Entities;
 

@@ -5,6 +5,8 @@ using Microsoft.Extensions.Options;
 
 using global::MongoDB.Driver;
 
+using NotesApp.Backend.Shared.DataAccess.MongoDB.Repositories;
+
 /// <summary>
 /// Provides a <see cref="IMongoClient"/>.
 /// </summary>

@@ -3,6 +3,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using NotesApp.Backend.Shared.DataAccess.MongoDB.Repositories;
 
 public static class ServiceCollectionExtensions
 {

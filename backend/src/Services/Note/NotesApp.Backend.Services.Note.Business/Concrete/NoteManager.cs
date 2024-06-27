@@ -25,8 +25,7 @@ public class NoteManager : INoteManager
     public async Task<IEnumerable<Domain.Note>> GetAllAsync()
     {
         using var unitOfWork = this.unitOfWorkFactory.Create<INoteUnitOfWork>();
-        var filter = Builders<Note>.Filter.Empty;
-        var notes = await unitOfWork.Notes.Collection.Find(filter).ToListAsync();
+        var notes = await unitOfWork.Notes.Specify().Result.ToListAsync();
 
         return notes.Select(ToDomain).ToList();
     }
@@ -34,7 +33,7 @@ public class NoteManager : INoteManager
     public async Task<Domain.Note?> GetAsync(Guid id)
     {
         using var unitOfWork = this.unitOfWorkFactory.Create<INoteUnitOfWork>();
-        var note = await unitOfWork.Notes.Collection.Find(n => n.Id == id).SingleOrDefaultAsync();
+        var note = await unitOfWork.Notes.GetByKeyAsync(id);
 
         return note != null ? ToDomain(note) : null;
     }
@@ -67,7 +66,7 @@ public class NoteManager : INoteManager
     {
         // Get the note to update
         using var unitOfWork = this.unitOfWorkFactory.Create<INoteUnitOfWork>();
-        var note = await unitOfWork.Notes.Collection.Find(n => n.Id == id).SingleOrDefaultAsync();
+        var note = await unitOfWork.Notes.GetByKeyAsync(id);
         if (note == null)
         {
             this.logger.LogError("Failed to update note {NoteId}: note not found", id);
@@ -88,7 +87,7 @@ public class NoteManager : INoteManager
     {
         // Get the note to delete
         using var unitOfWork = this.unitOfWorkFactory.Create<INoteUnitOfWork>();
-        var note = await unitOfWork.Notes.Collection.Find(n => n.Id == id).SingleOrDefaultAsync();
+        var note = await unitOfWork.Notes.GetByKeyAsync(id);
         if (note != null)
         {
             // Delete the note and save the changes

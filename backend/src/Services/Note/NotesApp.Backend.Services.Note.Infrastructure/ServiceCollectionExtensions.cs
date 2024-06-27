@@ -8,8 +8,11 @@ using NotesApp.Backend.Services.Note.Infrastructure.Concrete;
 using NotesApp.Backend.Services.Note.Infrastructure.MongoDB;
 using NotesApp.Backend.Services.Note.Infrastructure.MongoDB.Models.Mappings;
 using NotesApp.Backend.Services.Note.Infrastructure.MongoDB.Repositories;
+using NotesApp.Backend.Services.Note.Infrastructure.MongoDB.Specifications;
 using NotesApp.Backend.Services.Note.Infrastructure.Repositories;
+using NotesApp.Backend.Services.Note.Infrastructure.Specifications;
 using NotesApp.Backend.Shared.DataAccess.MongoDB;
+using NotesApp.Backend.Shared.DataAccess.MongoDB.Entities;
 
 public static class ServiceCollectionExtensions
 {
@@ -20,6 +23,9 @@ public static class ServiceCollectionExtensions
 
         // Repositories
         services.AddScoped<INoteRepository, NoteRepository>();
+
+        // Specifications
+        services.AddScoped<INoteSpecification, NoteSpecification>();
 
         // Context
         services.AddMongoContext<MongoContext>();

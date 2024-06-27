@@ -11,10 +11,10 @@ using NotesApp.Backend.Shared.DataAccess.MongoDB.Specifications;
 using NotesApp.Backend.Shared.DataAccess.Repositories;
 using NotesApp.Backend.Shared.DataAccess.Specifications;
 
-public abstract class MongoReadableKeyedRepository<TEntity> : MongoRepositoryBase, IReadableKeyedRepository<TEntity, Guid>
+public abstract class ReadableKeyedRepository<TEntity> : RepositoryBase, IReadableKeyedRepository<TEntity, Guid>
     where TEntity : class, IMongoEntity
 {
-    protected MongoReadableKeyedRepository(ILogger logger, IMongoContext context)
+    protected ReadableKeyedRepository(ILogger logger, IMongoContext context)
         : base(logger, context)
     {
     }
@@ -32,13 +32,13 @@ public abstract class MongoReadableKeyedRepository<TEntity> : MongoRepositoryBas
     }
 }
 
-public abstract class MongoReadableKeyedRepository<TEntity, TSpecification> : MongoReadableKeyedRepository<TEntity>, IReadableKeyedRepository<TEntity, Guid, TSpecification>
+public abstract class ReadableKeyedRepository<TEntity, TSpecification> : ReadableKeyedRepository<TEntity>, IReadableKeyedRepository<TEntity, Guid, TSpecification>
     where TEntity : class, IMongoEntity
     where TSpecification : IKeyedSpecification<TSpecification, TEntity, Guid>
 {
     private readonly ISpecificationFactory specificationFactory;
 
-    protected MongoReadableKeyedRepository(ILogger logger, IMongoContext context, ISpecificationFactory specificationFactory)
+    protected ReadableKeyedRepository(ILogger logger, IMongoContext context, ISpecificationFactory specificationFactory)
         : base(logger, context)
     {
         this.specificationFactory = specificationFactory;

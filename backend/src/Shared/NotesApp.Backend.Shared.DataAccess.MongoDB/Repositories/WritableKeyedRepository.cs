@@ -11,13 +11,13 @@ using NotesApp.Backend.Shared.DataAccess.MongoDB.Specifications;
 using NotesApp.Backend.Shared.DataAccess.Repositories;
 using NotesApp.Backend.Shared.DataAccess.Specifications;
 
-public abstract class MongoWritableKeyedRepository<TEntity> : MongoReadableKeyedRepository<TEntity>, IWritableKeyedRepository<TEntity, Guid>
+public abstract class WritableKeyedRepository<TEntity> : ReadableKeyedRepository<TEntity>, IWritableKeyedRepository<TEntity, Guid>
     where TEntity : class, IMongoEntity
 {
     private readonly SemaphoreSlim semaphore = new(1, 1);
     private readonly ConcurrentQueue<WriteModel<TEntity>> writeModelQueue;
 
-    protected MongoWritableKeyedRepository(ILogger logger, IMongoContext context)
+    protected WritableKeyedRepository(ILogger logger, IMongoContext context)
         : base(logger, context)
     {
         ArgumentNullException.ThrowIfNull(context);
@@ -111,14 +111,14 @@ public abstract class MongoWritableKeyedRepository<TEntity> : MongoReadableKeyed
     }
 }
 
-public abstract class MongoWritableKeyedRepository<TEntity, TSpecification> : MongoReadableKeyedRepository<TEntity, TSpecification>, IWritableKeyedRepository<TEntity, Guid, TSpecification>
+public abstract class WritableKeyedRepository<TEntity, TSpecification> : ReadableKeyedRepository<TEntity, TSpecification>, IWritableKeyedRepository<TEntity, Guid, TSpecification>
     where TEntity : class, IMongoEntity
     where TSpecification : IKeyedSpecification<TSpecification, TEntity, Guid>
 {
     private readonly SemaphoreSlim semaphore = new(1, 1);
     private readonly ConcurrentQueue<WriteModel<TEntity>> writeModelQueue;
 
-    protected MongoWritableKeyedRepository(ILogger logger, IMongoContext context, ISpecificationFactory specificationFactory)
+    protected WritableKeyedRepository(ILogger logger, IMongoContext context, ISpecificationFactory specificationFactory)
         : base(logger, context, specificationFactory)
     {
         ArgumentNullException.ThrowIfNull(context);

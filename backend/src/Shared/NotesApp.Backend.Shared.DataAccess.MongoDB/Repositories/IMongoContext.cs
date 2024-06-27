@@ -10,10 +10,10 @@ public interface IMongoContext : IContext
 {
     IMongoCollection<TEntity> GetCollection<TEntity>() where TEntity : class, IMongoEntity;
 
-    void RegisterPersistence<TEntity>(MongoWritableKeyedRepository<TEntity> repository)
+    void RegisterPersistence<TEntity>(WritableKeyedRepository<TEntity> repository)
         where TEntity : class, IMongoEntity;
 
-    void RegisterPersistence<TEntity, TSpecification>(MongoWritableKeyedRepository<TEntity, TSpecification> repository)
+    void RegisterPersistence<TEntity, TSpecification>(WritableKeyedRepository<TEntity, TSpecification> repository)
         where TEntity : class, IMongoEntity
         where TSpecification : IKeyedSpecification<TSpecification, TEntity, Guid>;
 }

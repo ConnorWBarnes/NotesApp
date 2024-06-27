@@ -9,6 +9,7 @@ using Microsoft.Extensions.Options;
 
 using global::MongoDB.Bson;
 using global::MongoDB.Driver;
+
 using NotesApp.Backend.Shared.DataAccess.MongoDB.Entities;
 using NotesApp.Backend.Shared.DataAccess.MongoDB;
 using NotesApp.Backend.Shared.DataAccess.Specifications;
@@ -77,7 +78,7 @@ public abstract class MongoContextBase<T> : IMongoContext
         return true;
     }
 
-    public void RegisterPersistence<TEntity>(MongoWritableKeyedRepository<TEntity> repository)
+    public void RegisterPersistence<TEntity>(WritableKeyedRepository<TEntity> repository)
         where TEntity : class, IMongoEntity
     {
         ArgumentNullException.ThrowIfNull(repository);
@@ -85,7 +86,7 @@ public abstract class MongoContextBase<T> : IMongoContext
         persistenceRegistrations.Add(repository.CommitAsync);
     }
 
-    public void RegisterPersistence<TEntity, TSpecification>(MongoWritableKeyedRepository<TEntity, TSpecification> repository)
+    public void RegisterPersistence<TEntity, TSpecification>(WritableKeyedRepository<TEntity, TSpecification> repository)
         where TEntity : class, IMongoEntity
         where TSpecification : IKeyedSpecification<TSpecification, TEntity, Guid>
     {

@@ -4,9 +4,9 @@ using Microsoft.Extensions.Logging;
 
 using NotesApp.Backend.Shared.DataAccess.Repositories;
 
-public abstract class MongoRepositoryBase : IRepository
+public abstract class RepositoryBase : IRepository
 {
-    protected MongoRepositoryBase(ILogger logger, IMongoContext context)
+    protected RepositoryBase(ILogger logger, IMongoContext context)
     {
         Logger = logger;
         Context = context;

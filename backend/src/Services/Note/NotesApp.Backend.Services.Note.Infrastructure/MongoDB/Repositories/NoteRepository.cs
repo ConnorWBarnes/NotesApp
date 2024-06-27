@@ -8,7 +8,7 @@ using NotesApp.Backend.Services.Note.Infrastructure.Specifications;
 using NotesApp.Backend.Shared.DataAccess.MongoDB.Repositories;
 using NotesApp.Backend.Shared.DataAccess.MongoDB.Specifications;
 
-public class NoteRepository : MongoWritableKeyedRepository<Note, INoteSpecification>, INoteRepository
+public class NoteRepository : WritableKeyedRepository<Note, INoteSpecification>, INoteRepository
 {
     public NoteRepository(ILogger<NoteRepository> logger, IMongoContext context, ISpecificationFactory specificationFactory)
         : base(logger, context, specificationFactory)

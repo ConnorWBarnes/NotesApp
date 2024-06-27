@@ -24,7 +24,7 @@ public class SpecificationFactory : ISpecificationFactory
 
         if (!(specification is QueryableSpecification<TEntity> queryableSpecification))
         {
-            throw new Exception($"Specification for entity '{typeof(TEntity).Name}' must extend '{typeof(QueryableSpecification<>).Name}'.");
+            throw new MongoDataAccessException($"Specification for entity '{typeof(TEntity).Name}' must extend '{typeof(QueryableSpecification<>).Name}'.");
         }
 
         queryableSpecification.SetQueryable(queryable);

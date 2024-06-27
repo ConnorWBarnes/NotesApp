@@ -41,7 +41,7 @@ public class NoteController : ControllerBase
         var notes = await this.noteManager.GetAllAsync();
 
         // TODO: Replace with mapping solution
-        return this.Ok(notes.Select(note => new NoteSlimResponse { Id = note.Id, Title = note.Title, Body = note.Body }));
+        return this.Ok(notes.Select(note => new NoteSlimResponse { Id = note.Id, Title = note.Title, Body = note.Body, IsArchived = note.IsArchived }));
     }
 
     /// <summary>
@@ -67,7 +67,7 @@ public class NoteController : ControllerBase
         }
 
         // TODO: Replace with mapping solution
-        return this.Ok(new NoteResponse { Id = note.Id, Title = note.Title, Body = note.Body, Created = note.Created, Updated = note.Updated });
+        return this.Ok(new NoteResponse { Id = note.Id, Title = note.Title, Body = note.Body, IsArchived = note.IsArchived, Created = note.Created, Updated = note.Updated });
     }
 
     /// <summary>
@@ -108,7 +108,7 @@ public class NoteController : ControllerBase
 
         try
         {
-            await this.noteManager.UpdateAsync(noteId, request.Title, request.Body);
+            await this.noteManager.UpdateAsync(noteId, request.Title, request.Body, request.IsArchived);
         }
         catch (Exception e)
         {

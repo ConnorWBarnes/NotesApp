@@ -19,4 +19,9 @@ public class NoteSlimResponse
     /// The body of the note.
     /// </summary>
     public string? Body { get; set; }
+
+    /// <summary>
+    /// A flag indicating whether or not the note is archived.
+    /// </summary>
+    public bool IsArchived { get; set; }
 }

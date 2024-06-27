@@ -17,9 +17,9 @@ public interface INoteManager
     /// <summary>
     /// Retrieves a note.
     /// </summary>
-    /// <param name="id">The ID of the note to retrieve.</param>
+    /// <param name="noteId">The ID of the note to retrieve.</param>
     /// <returns>The specified note (or <see langword="null"/> if the note does not exist).</returns>
-    Task<Note?> GetAsync(Guid id);
+    Task<Note?> GetAsync(Guid noteId);
 
     /// <summary>
     /// Creates a new note.
@@ -30,20 +30,21 @@ public interface INoteManager
     Task<Note> CreateAsync(string? title, string? body);
 
     /// <summary>
-    /// Updates the specified note with the specified title and body.
+    /// Updates the specified note with the given information.
     /// </summary>
-    /// <param name="id">The ID of the note to update.</param>
+    /// <param name="noteId">The ID of the note to update.</param>
     /// <param name="title">The updated note title.</param>
     /// <param name="body">The updated note body.</param>
+    /// <param name="isArchived">The updated flag indicating whether or not the note is archived.</param>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     /// <exception cref="Exception">The specified note does not exist.</exception>
     // TODO: Create a ValidationExeption and update the documentation above
-    Task UpdateAsync(Guid id, string? title, string? body);
+    Task UpdateAsync(Guid noteId, string? title, string? body, bool isArchived);
 
     /// <summary>
     /// Deletes the specified note.
     /// </summary>
-    /// <param name="id">The ID of the note to delete.</param>
+    /// <param name="noteId">The ID of the note to delete.</param>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    Task DeleteAsync(Guid id);
+    Task DeleteAsync(Guid noteId);
 }

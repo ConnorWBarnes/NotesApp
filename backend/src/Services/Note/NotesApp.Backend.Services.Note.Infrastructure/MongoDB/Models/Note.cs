@@ -10,6 +10,8 @@ public class Note : IMongoEntity
 
     public string? Body { get; set; }
 
+    public bool IsArchived { get; set; }
+
     public DateTimeOffset Created { get; set; }
 
     public DateTimeOffset Updated { get; set; }

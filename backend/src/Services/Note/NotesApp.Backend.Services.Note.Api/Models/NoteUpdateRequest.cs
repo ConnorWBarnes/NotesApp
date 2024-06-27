@@ -1,7 +1,7 @@
 ﻿namespace NotesApp.Backend.Services.Notes.Api.Models;
 
 /// <summary>
-/// Update note information.
+/// Updated note information.
 /// </summary>
 public class NoteUpdateRequest
 {
@@ -14,4 +14,9 @@ public class NoteUpdateRequest
     /// The updated body of the note.
     /// </summary>
     public string? Body { get; set; }
+
+    /// <summary>
+    /// The updated flag indicating whether or not the note is archived.
+    /// </summary>
+    public bool IsArchived { get; set; }
 }

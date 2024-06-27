@@ -1,5 +1,7 @@
 namespace NotesApp.Backend.Services.Notes.Api.Controllers;
 
+using System.ComponentModel.DataAnnotations;
+
 using Microsoft.AspNetCore.Mvc;
 
 using NotesApp.Backend.Services.Notes.Api.Models;
@@ -9,7 +11,6 @@ using NotesApp.Backend.Services.Notes.Business;
 /// Manages notes.
 /// </summary>
 [ApiController]
-//[Route("notes")]
 public class NoteController : ControllerBase
 {
     private readonly ILogger<NoteController> logger;
@@ -37,7 +38,7 @@ public class NoteController : ControllerBase
     {
         this.logger.LogInformation("Retrieving all notes.");
 
-        var notes = await noteManager.GetAllAsync();
+        var notes = await this.noteManager.GetAllAsync();
 
         // TODO: Replace with mapping solution
         return this.Ok(notes.Select(note => new NoteSlimResponse { Id = note.Id, Title = note.Title, Body = note.Body }));
@@ -46,18 +47,20 @@ public class NoteController : ControllerBase
     /// <summary>
     /// Gets the specified note.
     /// </summary>
-    /// <param name="id">The ID of the note to get.</param>
+    /// <param name="noteId">The ID of the note to get.</param>
     /// <returns>The details of the specified note.</returns>
     /// <response code="200">Successfully retrieved the specified note.</response>
+    /// <response code="400">Request has missing/invalid values.</response>
     /// <response code="404">Could not find the specified note.</response>
-    [HttpGet("notes/{id}")]
+    [HttpGet("notes/{noteId}")]
     [ProducesResponseType(typeof(NoteResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetAsync([FromRoute] Guid id)
+    public async Task<IActionResult> GetAsync([FromRoute] Guid noteId)
     {
-        this.logger.LogInformation("Getting details for note {NoteId}", id);
+        this.logger.LogInformation("Getting details for note {NoteId}", noteId);
 
-        var note = await noteManager.GetAsync(id);
+        var note = await this.noteManager.GetAsync(noteId);
         if (note == null)
         {
             return this.NotFound("Note not found.");
@@ -73,39 +76,43 @@ public class NoteController : ControllerBase
     /// <param name="request">The details of the note to create.</param>
     /// <returns>The ID of the newly created note.</returns>
     /// <response code="200">Successfully created a new note.</response>
+    /// <response code="400">Request has missing/invalid values.</response>
     [HttpPost("notes")]
-    [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
-    public async Task<IActionResult> CreateAsync([FromBody] NoteCreationRequest request)
+    [ProducesResponseType(typeof(NoteCreationResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> CreateAsync([Required] [FromBody] NoteCreationRequest request)
     {
         this.logger.LogInformation("Creating new note");
 
-        var note = await noteManager.CreateAsync(request?.Title, request?.Body);
+        var note = await this.noteManager.CreateAsync(request?.Title, request?.Body);
 
-        return this.Ok(note.Id);
+        return this.Ok(new NoteCreationResponse { Id = note.Id });
     }
 
     /// <summary>
     /// Updates the specified note with the given info.
     /// </summary>
-    /// <param name="id">The ID of the note to update.</param>
+    /// <param name="noteId">The ID of the note to update.</param>
     /// <param name="request">The updated note details.</param>
     /// <returns>A <see cref="StatusCodeResult"/> indiciating the result of the operation.</returns>
     /// <response code="200">Successfully updated the specified note.</response>
+    /// <response code="400">Request has missing/invalid values.</response>
     /// <response code="404">Could not find the specified note.</response>
-    [HttpPut("notes/{id}")]
+    [HttpPut("notes/{noteId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetAsync([FromRoute] Guid id, [FromBody] NoteUpdateRequest request)
+    public async Task<IActionResult> UpdateAsync([FromRoute] Guid noteId, [Required] [FromBody] NoteUpdateRequest request)
     {
-        this.logger.LogInformation("Updating details for note {NoteId}", id);
+        this.logger.LogInformation("Updating details for note {NoteId}", noteId);
 
         try
         {
-            await noteManager.UpdateAsync(id, request?.Title, request?.Body);
+            await this.noteManager.UpdateAsync(noteId, request.Title, request.Body);
         }
         catch (Exception e)
         {
-            this.logger.LogError(e, "Exception thrown while attempting to update note {NoteId}", id);
+            this.logger.LogError(e, "Exception thrown while attempting to update note {NoteId}", noteId);
             return this.NotFound("Note not found.");
         }
 
@@ -115,24 +122,26 @@ public class NoteController : ControllerBase
     /// <summary>
     /// Deletes the specified note.
     /// </summary>
-    /// <param name="id">The ID of the note to delete.</param>
+    /// <param name="noteId">The ID of the note to delete.</param>
     /// <returns>A <see cref="StatusCodeResult"/> indiciating the result of the operation.</returns>
     /// <response code="200">Successfully deleted the specified note.</response>
+    /// <response code="400">Request has missing/invalid values.</response>
     /// <response code="404">Could not find the specified note.</response>
-    [HttpDelete("notes/{id}")]
-    [ProducesResponseType(typeof(NoteResponse), StatusCodes.Status200OK)]
+    [HttpDelete("notes/{noteId}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
+    public async Task<IActionResult> DeleteAsync([FromRoute] Guid noteId)
     {
-        this.logger.LogInformation("Attempting to delete note {NoteId}", id);
+        this.logger.LogInformation("Attempting to delete note {NoteId}", noteId);
 
         try
         {
-            await noteManager.DeleteAsync(id);
+            await noteManager.DeleteAsync(noteId);
         }
         catch (Exception e)
         {
-            this.logger.LogError(e, "Exception thrown while attempting to delete note {NoteId}", id);
+            this.logger.LogError(e, "Exception thrown while attempting to delete note {NoteId}", noteId);
             return this.NotFound("Note not found.");
         }
 

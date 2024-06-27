@@ -16,10 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\NotesApp.Backend.Services.Note.Business\NotesApp.Backend.Services.Note.Business.csproj" />
   </ItemGroup>
 

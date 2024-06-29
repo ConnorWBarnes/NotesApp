@@ -1,40 +1,43 @@
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark d-flex flex-wrap justify-content-center py-1">
+  <div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 2fr 1fr;">
+    <!-- Sidebar button, Logo, and title -->
+    <div class="d-flex gap-2">
+      <button type="button" class="btn btn-dark" aria-label="Main menu">
+        <i class="bi bi-list" style="font-size: 2rem;"></i>
+      </button>
+      <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+        <!-- <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg> -->
+        <i class="bi bi-journals me-2" style="font-size: 2rem;"></i>
+        <span class="fs-4">Notes App</span>
+      </a>
+    </div>
+    <!-- Search form -->
+    <div class="d-flex align-items-center">
+      <form class="w-100 me-3" role="search">
+        <input type="search" class="form-control app-search" placeholder="Search..." aria-label="Search">
+      </form>
+    </div>
+    <!-- TODO: Replace authentication buttons with authentication component -->
+    <div class="text-end">
+      <button type="button" class="btn btn-dark">Login</button>
+      <button type="button" class="btn btn-dark">Sign up</button>
+    </div>
+  </div>
+</nav>
 <main>
   <div class="container-fluid min-vh-100 d-flex flex-column">
     <div class="row border-bottom">
       <div class="col">
-        <header class="d-flex flex-wrap justify-content-center py-3">
-          <div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 2fr 1fr;">
-            <!-- Sidebar button, Logo, and title -->
-            <div class="d-flex gap-2">
-              <button type="button" class="btn btn-dark" aria-label="Main menu">
-                <i class="bi bi-list" style="font-size: 2rem;"></i>
-              </button>
-              <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-                <!-- <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg> -->
-                <i class="bi bi-journals me-2" style="font-size: 2rem;"></i>
-                <span class="fs-4">Notes App</span>
-              </a>
-            </div>
-            <!-- Search form -->
-            <div class="d-flex align-items-center">
-              <form class="w-100 me-3" role="search">
-                <input type="search" class="form-control app-search" placeholder="Search..." aria-label="Search">
-              </form>
-            </div>
-            <!-- TODO: Replace authentication buttons with authentication component -->
-            <div class="text-end">
-              <button type="button" class="btn btn-dark">Login</button>
-              <button type="button" class="btn btn-dark">Sign up</button>
-            </div>
-          </div>
-        </header>
+        <div class="container-fluid" style="height: 4.5rem;">
+          This container acts as padding without messing up the nav bar or router outlet
+        </div>
       </div>
     </div>
     <div class="row flex-grow-1">
-      <div class="col-md-2 p-0">
+      <div class="col-md-auto p-0">
         <app-nav-sidebar></app-nav-sidebar>
       </div>
-      <div class="col-md-10 p-0">
+      <div class="col p-0">
         <router-outlet />
       </div>
     </div>

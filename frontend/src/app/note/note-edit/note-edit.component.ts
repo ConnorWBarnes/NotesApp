@@ -11,20 +11,19 @@ import { NoteService } from '../note.service';
   selector: 'app-note-edit',
   standalone: true,
   imports: [FormsModule, NgIf],
-  templateUrl: './../note-compose-base/note-compose-base.component.html',
-  styleUrl: './../note-compose-base/note-compose-base.component.scss'
+  templateUrl: './note-edit.component.html',
+  styleUrl: './note-edit.component.scss'
 })
-export class NoteEditComponent extends NoteComposeBaseComponent implements OnInit {
-  override saveButtonText: string = 'Save Changes';
+export class NoteEditComponent implements OnInit {
+  noteTitle = '';
+  noteBody = '';
   note!: Note;
 
   constructor(
     private noteService: NoteService,
     private activatedRoute: ActivatedRoute,
     private router: Router
-  ) {
-    super();
-  }
+  ) { }
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ note }) => {

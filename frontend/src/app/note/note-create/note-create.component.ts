@@ -20,7 +20,8 @@ export class NoteCreateComponent extends NoteComposeBaseComponent {
     const note: Note = {
       id: '',
       title: this.noteTitle,
-      body: this.noteBody
+      body: this.noteBody,
+      isArchived: false
     };
     this.createNoteEvent.emit(note);
 

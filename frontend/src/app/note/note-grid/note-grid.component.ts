@@ -1,11 +1,9 @@
 import { NgFor } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Note } from '../note';
-import { NoteEditComponent } from '../note-edit/note-edit.component';
 import { NoteGridItemComponent } from '../note-grid-item/note-grid-item.component';
-import { NoteService } from '../note.service';
-import { NoteCreateComponent } from '../note-create/note-create.component';
 
 /**
  * A collection of notes arranged in a grid-like layout.
@@ -15,8 +13,6 @@ import { NoteCreateComponent } from '../note-create/note-create.component';
   standalone: true,
   imports: [
     NgFor,
-    NoteCreateComponent,
-    NoteEditComponent,
     NoteGridItemComponent
   ],
   templateUrl: './note-grid.component.html',
@@ -25,20 +21,13 @@ import { NoteCreateComponent } from '../note-create/note-create.component';
 export class NoteGridComponent implements OnInit {
   notes!: Note[];
 
-  constructor(private noteService: NoteService) { }
-
+  constructor(
+    private activatedRoute: ActivatedRoute, 
+  ) { }
+  
   ngOnInit(): void {
-    this.getNotes();
-  }
-
-  getNotes(): void {
-    this.noteService.getNotes$().subscribe(notes => this.notes = notes);
-  }
-
-  createNote(note: Note) {
-    this.noteService.createNote$(note).subscribe(createdNoteId => {
-      note.id = createdNoteId;
-      this.notes.push(note);
+    this.activatedRoute.data.subscribe(({ notes }) => {
+      this.notes = notes;
     });
   }
 }

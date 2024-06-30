@@ -48,12 +48,36 @@ export class NoteService {
   }
 
   /**
+   * GET: Gets all archived notes from the server.
+   * @returns An Observable of all the notes retrieved.
+   */
+  getArchivedNotes$(): Observable<Note[]> {
+    const url = this.appendToUrl('archive');
+    return this.http.get<Note[]>(url).pipe(
+        tap(notes => this.log(`getArchivedNotes$: Retrieved ${notes.length} archived notes`)),
+        catchError(this.handleError<Note[]>('getArchivedNotes$', []))
+      );
+  }
+
+  /**
+   * GET: Gets all archived notes from the server.
+   * @returns A Promise of all the notes retrieved.
+   */
+  async getArchivedNotesAsync(): Promise<Note[]> {
+    const url = this.appendToUrl('archive');
+    return await firstValueFrom(this.http.get<Note[]>(url).pipe(
+      tap(notes => this.log(`getArchivedNotesAsync: Retrieved ${notes.length} archived notes`)),
+      catchError(this.handleError<Note[]>('getArchivedNotesAsync', []))
+    ));
+  }
+
+  /**
    * GET: Gets a note by ID. Will 404 if not found.
    * @param id The ID of the note to get.
    * @returns An Observable of the specified note.
    */
   getNote$(id: string): Observable<Note> {
-    const url = this.addIdToUrl(id);
+    const url = this.appendToUrl(id);
     return this.http.get<Note>(url).pipe(
       tap(_ => this.log(`getNote$: Retrieved note ID = ${id}`)),
       catchError(this.handleError<Note>(`getNote$ ID = ${id}`))
@@ -66,7 +90,7 @@ export class NoteService {
    * @returns A Promise of the specified note.
    */
   async getNoteAsync(id: string): Promise<Note> {
-    const url = this.addIdToUrl(id);
+    const url = this.appendToUrl(id);
     return await firstValueFrom(this.http.get<Note>(url).pipe(
       tap(_ => this.log(`getNoteAsync: Retrieved note ID = ${id}`)),
       catchError(this.handleError<Note>(`getNoteAsync ID = ${id}`))
@@ -133,7 +157,7 @@ export class NoteService {
    */
   async updateNoteAsync(note: Note): Promise<boolean> {
     // Send the request to update the note
-    const url = this.addIdToUrl(note.id);
+    const url = this.appendToUrl(note.id);
     const response = await firstValueFrom(this.http.put<HttpResponse<any>>(url, note, this.httpOptions));
     
     // Handle the response
@@ -153,7 +177,7 @@ export class NoteService {
    */
   deleteNote$(note: Note | string): Observable<any> {
     const id = typeof note === "string" ? note : note.id;
-    const url = this.addIdToUrl(id);
+    const url = this.appendToUrl(id);
 
     return this.http.delete(url, this.httpOptions).pipe(
       tap(_ => this.log(`deleteNote$: Deleted note ID = ${id}`)),
@@ -169,7 +193,7 @@ export class NoteService {
   async deleteNoteAsync(note: Note | string): Promise<boolean> {
     // Send the request to delete the note
     const id = typeof note === "string" ? note : note.id;
-    const url = this.addIdToUrl(id);
+    const url = this.appendToUrl(id);
     const response = await firstValueFrom(this.http.delete<HttpResponse<any>>(url, this.httpOptions));
 
     // Handle the response
@@ -184,12 +208,12 @@ export class NoteService {
   }
 
   /**
-   * Adds the specified ID to the base URL.
-   * @param id The ID to add to the url.
-   * @returns The transformed URL with the ID added.
+   * Appends the given string to the base notes URL.
+   * @param str The string to add to the url.
+   * @returns The transformed URL with the given str added.
    */
-  private addIdToUrl(id: string): string {
-    return`${this.notesUrl}/${id}`;
+  private appendToUrl(str: string): string {
+    return `${this.notesUrl}/${str}`;
   }
 
   /**

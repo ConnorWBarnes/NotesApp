@@ -47,6 +47,6 @@ export class NoteEditComponent implements OnInit {
   }
 
   navigateHome() {
-    this.router.navigateByUrl('');
+    this.router.navigateByUrl('/notes');
   }
 }

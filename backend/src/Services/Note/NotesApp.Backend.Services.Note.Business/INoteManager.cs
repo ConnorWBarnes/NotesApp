@@ -15,6 +15,13 @@ public interface INoteManager
     Task<IEnumerable<Note>> GetAllAsync();
 
     /// <summary>
+    /// Retrieves all archived notes.
+    /// </summary>
+    /// <returns>A collection of all archived notes.</returns>
+    // TODO: Refactor to only return notes that a given user can access
+    Task<IEnumerable<Note>> GetArchiveAsync();
+
+    /// <summary>
     /// Retrieves a note.
     /// </summary>
     /// <param name="noteId">The ID of the note to retrieve.</param>

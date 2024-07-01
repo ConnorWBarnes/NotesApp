@@ -45,6 +45,23 @@ public class NoteController : ControllerBase
     }
 
     /// <summary>
+    /// Gets all archived notes.
+    /// </summary>
+    /// <returns>A collection of all archived notes.</returns>
+    /// <response code="200">Successfully retrieved all archived notes.</response>
+    [HttpGet("notes/archive")]
+    [ProducesResponseType(typeof(IEnumerable<NoteSlimResponse>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetArchiveAsync()
+    {
+        this.logger.LogInformation("Retrieving all archived notes.");
+
+        var notes = await this.noteManager.GetArchiveAsync();
+
+        // TODO: Replace with mapping solution
+        return this.Ok(notes.Select(note => new NoteSlimResponse { Id = note.Id, Title = note.Title, Body = note.Body, IsArchived = note.IsArchived }));
+    }
+
+    /// <summary>
     /// Gets the specified note.
     /// </summary>
     /// <param name="noteId">The ID of the note to get.</param>

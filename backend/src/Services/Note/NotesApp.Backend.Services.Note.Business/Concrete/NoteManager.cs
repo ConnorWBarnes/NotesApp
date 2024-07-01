@@ -31,6 +31,14 @@ public class NoteManager : INoteManager
         return notes.Select(ToDomain).ToList();
     }
 
+    public async Task<IEnumerable<Domain.Note>> GetArchiveAsync()
+    {
+        using var unitOfWork = this.unitOfWorkFactory.Create<INoteUnitOfWork>();
+        var notes = await unitOfWork.Notes.Collection.Find(n => n.IsArchived).ToListAsync();
+
+        return notes.Select(ToDomain).ToList();
+    }
+
     public async Task<Domain.Note?> GetAsync(Guid noteId)
     {
         using var unitOfWork = this.unitOfWorkFactory.Create<INoteUnitOfWork>();

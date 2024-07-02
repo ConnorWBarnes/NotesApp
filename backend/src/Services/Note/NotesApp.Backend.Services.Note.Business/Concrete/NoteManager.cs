@@ -25,8 +25,7 @@ public class NoteManager : INoteManager
     public async Task<IEnumerable<Domain.Note>> GetAllAsync()
     {
         using var unitOfWork = this.unitOfWorkFactory.Create<INoteUnitOfWork>();
-        var filter = Builders<Note>.Filter.Empty;
-        var notes = await unitOfWork.Notes.Collection.Find(filter).ToListAsync();
+        var notes = await unitOfWork.Notes.Collection.Find(n => !n.IsArchived).ToListAsync();
 
         return notes.Select(ToDomain).ToList();
     }

@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Note } from '../note';
-import { NoteComposeBaseComponent } from '../note-compose-base/note-compose-base.component';
 import { NoteService } from '../note.service';
 
 @Component({
@@ -34,19 +33,32 @@ export class NoteEditComponent implements OnInit {
   }
 
   async save() {
-    // Check if any changes were made
-    if (this.noteTitle === this.note.title && this.noteBody === this.note.body) {
-      this.navigateHome();
+    // Save the changes to the note (if any)
+    if (this.noteTitle !== this.note.title || this.noteBody !== this.note.body) {
+      await this.saveInternal();
     }
-    
-    // Update the note and save the changes
-    this.note.title = this.noteTitle;
-    this.note.body = this.noteBody;
-    await this.noteService.updateNoteAsync(this.note);
+
+    this.navigateHome();
+  }
+
+  async archive() {
+    // Archive (or unarchive, depending on its current status) the note
+    this.note.isArchived = !this.note.isArchived;
+
+    // Save the changes
+    await this.saveInternal();
+
     this.navigateHome();
   }
 
   navigateHome() {
     this.router.navigateByUrl('/notes');
+  }
+
+  private async saveInternal() {
+    // Update the note and save the changes
+    this.note.title = this.noteTitle;
+    this.note.body = this.noteBody;
+    await this.noteService.updateNoteAsync(this.note);
   }
 }

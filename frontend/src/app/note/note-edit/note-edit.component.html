@@ -2,9 +2,25 @@
   <div class="note note-padding show-border">
     <input class="note-compose-text" contenteditable="true" [(ngModel)]="noteTitle" placeholder="Title"/>
     <textarea class="note-compose-text" [(ngModel)]="noteBody" placeholder="Take a note..."></textarea>
-    <div class="right">
-      <button class="btn btn-dark" (click)="navigateHome()">Cancel</button>
-      <button class="btn btn-dark" (click)="save()">Save Changes</button>
+    <!-- TODO: Add last modified date (and show created date as tooltip) above bottom bar -->
+    <div class="container-fluid">
+      <div class="row flex-grow-1">
+        <div class="col p-0">
+          <!-- TODO: Add tooltip to archive button -->
+          <button class="btn btn-dark" (click)="archive()">
+            @if (!note.isArchived) {
+              <i class="bi bi-file-earmark-arrow-down" style="font-size: 1rem;"></i>
+            }
+            @else {
+              <i class="bi bi-file-earmark-arrow-up" style="font-size: 1rem;"></i>
+            }
+          </button>
+        </div>
+        <div class="col-md-auto p-0 right">
+          <button class="btn btn-dark" (click)="save()">Save Changes</button>
+          <button class="btn btn-dark" (click)="navigateHome()">Cancel</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>

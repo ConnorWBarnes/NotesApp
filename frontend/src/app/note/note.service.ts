@@ -14,14 +14,12 @@ import { Note } from './note';
 })
 export class NoteService {
   notesUrl = 'http://localhost:3000/notes';
-  
-  httpOptions = {
-    headers: new HttpHeaders(
-      {
-        'Content-Type': 'application/json',
-      }
-    )
-  };
+
+  httpHeaders = new HttpHeaders(
+    {
+      'Content-Type': 'application/json',
+    }
+  );
 
   constructor(private http: HttpClient) { }
   
@@ -120,7 +118,7 @@ export class NoteService {
    * @returns An Observable of the ID of the newly created note.
    */
   createNote$(note: Note): Observable<string> {
-    return this.http.post<string>(this.notesUrl, note, this.httpOptions).pipe(
+    return this.http.post<string>(this.notesUrl, note, { headers: this.httpHeaders }).pipe(
       tap((newNoteId: string) => this.log(`createNote$: Created note with ID = ${newNoteId}`)),
       catchError(this.handleError<string>('createNote$'))
     );
@@ -132,7 +130,7 @@ export class NoteService {
    * @returns A Promise of the ID of the newly created note.
    */
   async createNoteAsync(note: Note): Promise<string> {
-    return await firstValueFrom(this.http.post<string>(this.notesUrl, note, this.httpOptions).pipe(
+    return await firstValueFrom(this.http.post<string>(this.notesUrl, note, { headers: this.httpHeaders }).pipe(
       tap((newNoteId: string) => this.log(`createNoteAsync: Created note with ID = ${newNoteId}`)),
       catchError(this.handleError<string>('createNoteAsync'))
     ));
@@ -144,7 +142,7 @@ export class NoteService {
    */
   updateNote$(note: Note): Observable<any> {
     const url = `${this.notesUrl}/${note.id}`;
-    return this.http.put(url, note, this.httpOptions).pipe(
+    return this.http.put(url, note, { headers: this.httpHeaders }).pipe(
       tap(_ => this.log(`updateNote$: Updated note with ID = ${note.id}`)),
       catchError(this.handleError<any>('updateNote$'))
     );
@@ -158,7 +156,7 @@ export class NoteService {
   async updateNoteAsync(note: Note): Promise<boolean> {
     // Send the request to update the note
     const url = this.appendToUrl(note.id);
-    const response = await firstValueFrom(this.http.put<HttpResponse<any>>(url, note, this.httpOptions));
+    const response = await firstValueFrom(this.http.put(url, note, { headers: this.httpHeaders, observe: 'response' }));
     
     // Handle the response
     if (response instanceof HttpErrorResponse) {
@@ -179,7 +177,7 @@ export class NoteService {
     const id = typeof note === "string" ? note : note.id;
     const url = this.appendToUrl(id);
 
-    return this.http.delete(url, this.httpOptions).pipe(
+    return this.http.delete(url, { headers: this.httpHeaders }).pipe(
       tap(_ => this.log(`deleteNote$: Deleted note ID = ${id}`)),
       catchError(this.handleError<any>('deleteNote$'))
     );
@@ -194,7 +192,7 @@ export class NoteService {
     // Send the request to delete the note
     const id = typeof note === "string" ? note : note.id;
     const url = this.appendToUrl(id);
-    const response = await firstValueFrom(this.http.delete<HttpResponse<any>>(url, this.httpOptions));
+    const response = await firstValueFrom(this.http.delete(url, { headers: this.httpHeaders, observe: 'response' }));
 
     // Handle the response
     if (response instanceof HttpErrorResponse) {

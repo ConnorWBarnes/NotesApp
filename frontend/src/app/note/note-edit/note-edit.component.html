@@ -6,14 +6,8 @@
     <div class="container-fluid">
       <div class="row flex-grow-1">
         <div class="col p-0">
-          <!-- TODO: Add tooltip to archive button -->
-          <button class="btn btn-dark" (click)="archive()">
-            @if (!note.isArchived) {
-              <i class="bi bi-file-earmark-arrow-down" style="font-size: 1rem;"></i>
-            }
-            @else {
-              <i class="bi bi-file-earmark-arrow-up" style="font-size: 1rem;"></i>
-            }
+          <button class="btn btn-dark" (click)="archive()" placement="bottom" ngbTooltip="{{archiveTooltip}}">
+            <i class="{{archiveIconClass}}" style="font-size: 1rem;"></i>
           </button>
         </div>
         <div class="col-md-auto p-0 right">

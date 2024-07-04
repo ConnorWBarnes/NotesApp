@@ -3,13 +3,15 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { Note } from '../note';
 import { NoteService } from '../note.service';
 
 @Component({
   selector: 'app-note-edit',
   standalone: true,
-  imports: [FormsModule, NgIf],
+  imports: [FormsModule, NgIf, NgbTooltipModule],
   templateUrl: './note-edit.component.html',
   styleUrl: './note-edit.component.scss'
 })
@@ -23,6 +25,14 @@ export class NoteEditComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router
   ) { }
+
+  get archiveTooltip(): string {
+    return this.note.isArchived ? 'Unarchive' : 'Archive';
+  }
+  
+  get archiveIconClass(): string {
+    return `bi bi-file-earmark-arrow-${this.note.isArchived ? 'up' : 'down'}`;
+  }
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ note }) => {

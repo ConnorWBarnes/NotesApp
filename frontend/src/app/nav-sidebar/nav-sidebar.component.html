@@ -1,51 +1,13 @@
-<nav class="h-100 d-flex flex-column flex-shrink-0 p-2 text-bg-dark" style="width: 280px;">
+<nav class="h-100 d-flex flex-column flex-shrink-0 p-2 text-bg-dark {{(isCollapsed)?'min':'max'}}">
   <ul class="nav nav-pills flex-column mb-auto">
-    <li class="nav-item">
+    <li class="nav-item" *ngFor="let linkInfo of navLinks">
       <!-- routerLinkActive specifies the CSS class(es) to add when the router activates the associated route -->
-      <a routerLink="/notes" class="nav-link text-white" routerLinkActive="active" aria-current="page">
-        <i class="bi bi-journal-text me-2" style="font-size: 1rem;"></i>
-        Notes
-      </a>
-    </li>
-    <li class="nav-item">
-      <a routerLink="/create" class="nav-link text-white" routerLinkActive="active">
-        <i class="bi bi-journal-plus me-2" style="font-size: 1rem;"></i>
-        Create
-      </a>
-    </li>
-    <li class="nav-item">
-      <a routerLink="/archive" class="nav-link text-white" routerLinkActive="active">
-        <i class="bi bi-archive me-2" style="font-size: 1rem;"></i>
-        Archive
-      </a>
-    </li>
-    <li class="nav-item">
-      <a routerLink="/trash" class="nav-link text-white disabled" routerLinkActive="active">
-        <i class="bi bi-trash me-2" style="font-size: 1rem;"></i>
-        Trash
-      </a>
-    </li>
-    <li class="nav-item">
-      <a routerLink="#" class="nav-link text-white" routerLinkActive="active">
-        <svg class="bi pe-none me-2" width="16" height="16">
-          <use xlink:href="bootstrap-icons.svg#people-circle"></use>
-        </svg>
-        Customers
+      <a routerLink="{{linkInfo.routerLink}}" class="nav-link text-white" routerLinkActive="active" aria-current="page">
+        <i class="bi {{linkInfo.iconClass}} {{(isCollapsed)?'':'me-2'}}" style="font-size: 1rem;"></i>
+        @if (!isCollapsed) {
+          {{linkInfo.displayText}}
+        }
       </a>
     </li>
   </ul>
-  <hr>
-  <div class="dropdown">
-    <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-      <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
-      <strong>mdo</strong>
-    </a>
-    <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-      <li><a class="dropdown-item" href="#">New project...</a></li>
-      <li><a class="dropdown-item" href="#">Settings</a></li>
-      <li><a class="dropdown-item" href="#">Profile</a></li>
-      <li><hr class="dropdown-divider"></li>
-      <li><a class="dropdown-item" href="#">Sign out</a></li>
-    </ul>
-  </div>
 </nav>

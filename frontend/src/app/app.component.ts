@@ -21,4 +21,5 @@ import { NoteGridComponent } from './note/note-grid/note-grid.component';
 })
 export class AppComponent {
   title = 'Notes App';
+  isCollapsed = false; // TODO: Restore state from previous session?
 }

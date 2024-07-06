@@ -1,4 +1,6 @@
-﻿namespace NotesApp.Backend.Shared.DataAccess.Repositories;
+﻿using NotesApp.Backend.Shared.DataAccess.Contexts;
+
+namespace NotesApp.Backend.Shared.DataAccess.Repositories;
 
 public interface IRepository : IDisposable
 {

@@ -1,4 +1,4 @@
-﻿namespace NotesApp.Backend.Shared.DataAccess.MongoDB.Repositories;
+﻿namespace NotesApp.Backend.Shared.DataAccess.MongoDB.Contexts;
 
 using System.Collections.Concurrent;
 using System.Threading;
@@ -13,6 +13,7 @@ using global::MongoDB.Driver;
 using NotesApp.Backend.Shared.DataAccess.MongoDB.Entities;
 using NotesApp.Backend.Shared.DataAccess.MongoDB;
 using NotesApp.Backend.Shared.DataAccess.Specifications;
+using NotesApp.Backend.Shared.DataAccess.MongoDB.Repositories;
 
 public abstract class MongoContextBase<T> : IMongoContext
     where T : MongoContextBase<T>

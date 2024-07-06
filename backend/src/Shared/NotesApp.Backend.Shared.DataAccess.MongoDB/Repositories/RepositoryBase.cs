@@ -1,7 +1,8 @@
 ﻿namespace NotesApp.Backend.Shared.DataAccess.MongoDB.Repositories;
 
 using Microsoft.Extensions.Logging;
-
+using NotesApp.Backend.Shared.DataAccess.Contexts;
+using NotesApp.Backend.Shared.DataAccess.MongoDB.Contexts;
 using NotesApp.Backend.Shared.DataAccess.Repositories;
 
 public abstract class RepositoryBase : IRepository

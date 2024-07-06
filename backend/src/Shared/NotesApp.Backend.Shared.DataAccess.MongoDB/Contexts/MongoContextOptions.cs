@@ -1,4 +1,4 @@
-﻿namespace NotesApp.Backend.Shared.DataAccess.MongoDB.Repositories;
+﻿namespace NotesApp.Backend.Shared.DataAccess.MongoDB.Contexts;
 
 public class MongoContextOptions
 {

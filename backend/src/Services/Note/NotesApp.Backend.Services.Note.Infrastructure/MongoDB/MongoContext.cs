@@ -4,8 +4,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 using NotesApp.Backend.Shared.DataAccess.MongoDB;
+using NotesApp.Backend.Shared.DataAccess.MongoDB.Contexts;
 using NotesApp.Backend.Shared.DataAccess.MongoDB.Entities;
-using NotesApp.Backend.Shared.DataAccess.MongoDB.Repositories;
 
 public class MongoContext : MongoContextBase<MongoContext>
 {

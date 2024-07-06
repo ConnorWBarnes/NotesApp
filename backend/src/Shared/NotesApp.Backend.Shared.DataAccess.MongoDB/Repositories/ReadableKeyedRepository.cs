@@ -10,6 +10,7 @@ using NotesApp.Backend.Shared.DataAccess.MongoDB.Entities;
 using NotesApp.Backend.Shared.DataAccess.MongoDB.Specifications;
 using NotesApp.Backend.Shared.DataAccess.Repositories;
 using NotesApp.Backend.Shared.DataAccess.Specifications;
+using NotesApp.Backend.Shared.DataAccess.MongoDB.Contexts;
 
 public abstract class ReadableKeyedRepository<TEntity> : RepositoryBase, IReadableKeyedRepository<TEntity, Guid>
     where TEntity : class, IMongoEntity

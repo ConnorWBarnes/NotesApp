@@ -4,8 +4,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 using global::MongoDB.Driver;
-
-using NotesApp.Backend.Shared.DataAccess.MongoDB.Repositories;
+using NotesApp.Backend.Shared.DataAccess.MongoDB.Contexts;
 
 /// <summary>
 /// Provides a <see cref="IMongoClient"/>.

@@ -14,22 +14,26 @@ export class NavSidebarComponent {
     {
       routerLink: "/notes",
       displayText: "Notes",
-      iconClass: "bi-journal-text"
+      iconClass: "bi-journal-text",
+      svgFile: "journal-text"
     },
     {
       routerLink: "/create",
       displayText: "Create",
-      iconClass: "bi-journal-plus"
+      iconClass: "bi-journal-plus",
+      svgFile: "journal-plus"
     },
     {
       routerLink: "/archive",
       displayText: "Archive",
-      iconClass: "bi-archive"
+      iconClass: "bi-archive",
+      svgFile: "archive"
     },
     {
       routerLink: "/trash",
       displayText: "Trash",
-      iconClass: "bi-trash"
+      iconClass: "bi-trash",
+      svgFile: "trash"
     }
   ];
 

@@ -6,6 +6,16 @@
   padding-left: 1.25rem;
 }
 
+.truncate {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.expand-horizontal {
+  transition: width .35s ease;
+}
+
 .max {
   width: 280px;
 }

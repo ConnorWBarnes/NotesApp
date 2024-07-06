@@ -1,5 +1,8 @@
-<!-- TODO: Use Bootstrap cards -->
-<section class="note show-border" [routerLink]="['/notes', note.id]">
-  <h2 class="note-title note-padding">{{ note.title }}</h2>
-  <p class="note-body note-padding">{{ note.body }}</p>
-</section>
+<div class="card note show-border" [routerLink]="['/notes', note.id]">
+  <!-- TODO: Display any attached images here: <img src="..." class="card-img-top" alt="..."> -->
+  <div class="card-body">
+    <h2 class="card-title note-title">{{ note.title }}</h2>
+    <p class="card-text note-body">{{ note.body }}</p>
+    <!-- TODO: List links here -->
+  </div>
+</div>

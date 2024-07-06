@@ -1,8 +1,22 @@
+// .results {
+//   display: grid;
+//   column-gap: 16px;
+//   row-gap: 16px;
+//   grid-template-columns: repeat(4, 1fr);
+//   margin-top: 48px;
+//   justify-content: space-around;
+// }
+
 .results {
-  display: grid;
-  column-gap: 16px;
-  row-gap: 16px;
-  grid-template-columns: repeat(4, 1fr);
-  margin-top: 48px;
-  justify-content: space-around;
+  display: block;
+  direction: ltr;
+  position: relative;
+  margin: 8px;
+}
+
+app-note-grid-item {
+  display: block;
+  margin: 8px;
+  //position: absolute;
+  width: 240px;
 }

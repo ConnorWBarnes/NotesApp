@@ -25,7 +25,7 @@ public class NoteManager : INoteManager
     public async Task<IEnumerable<Domain.Note>> GetAllAsync()
     {
         using var unitOfWork = this.unitOfWorkFactory.Create<INoteUnitOfWork>();
-        var notes = await unitOfWork.Notes.Collection.Find(n => !n.IsArchived).ToListAsync();
+        var notes = await unitOfWork.Notes.Specify().IsArchived(false).Result.ToListAsync();
 
         return notes.Select(ToDomain).ToList();
     }
@@ -33,7 +33,7 @@ public class NoteManager : INoteManager
     public async Task<IEnumerable<Domain.Note>> GetArchiveAsync()
     {
         using var unitOfWork = this.unitOfWorkFactory.Create<INoteUnitOfWork>();
-        var notes = await unitOfWork.Notes.Collection.Find(n => n.IsArchived).ToListAsync();
+        var notes = await unitOfWork.Notes.Specify().IsArchived(true).Result.ToListAsync();
 
         return notes.Select(ToDomain).ToList();
     }
@@ -41,7 +41,7 @@ public class NoteManager : INoteManager
     public async Task<Domain.Note?> GetAsync(Guid noteId)
     {
         using var unitOfWork = this.unitOfWorkFactory.Create<INoteUnitOfWork>();
-        var note = await unitOfWork.Notes.Collection.Find(n => n.Id == noteId).SingleOrDefaultAsync();
+        var note = await unitOfWork.Notes.GetByKeyAsync(noteId);
 
         return note != null ? ToDomain(note) : null;
     }
@@ -74,7 +74,7 @@ public class NoteManager : INoteManager
     {
         // Get the note to update
         using var unitOfWork = this.unitOfWorkFactory.Create<INoteUnitOfWork>();
-        var note = await unitOfWork.Notes.Collection.Find(n => n.Id == noteId).SingleOrDefaultAsync();
+        var note = await unitOfWork.Notes.GetByKeyAsync(noteId);
         if (note == null)
         {
             this.logger.LogError("Failed to update note {NoteId}: note not found", noteId);
@@ -96,7 +96,7 @@ public class NoteManager : INoteManager
     {
         // Get the note to delete
         using var unitOfWork = this.unitOfWorkFactory.Create<INoteUnitOfWork>();
-        var note = await unitOfWork.Notes.Collection.Find(n => n.Id == noteId).SingleOrDefaultAsync();
+        var note = await unitOfWork.Notes.GetByKeyAsync(noteId);
         if (note != null)
         {
             // Delete the note and save the changes

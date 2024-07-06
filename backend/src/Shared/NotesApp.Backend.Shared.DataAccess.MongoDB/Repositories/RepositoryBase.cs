@@ -1,15 +1,15 @@
-﻿namespace NotesApp.Backend.Shared.DataAccess.MongoDB;
+﻿namespace NotesApp.Backend.Shared.DataAccess.MongoDB.Repositories;
 
 using Microsoft.Extensions.Logging;
 
 using NotesApp.Backend.Shared.DataAccess.Repositories;
 
-public abstract class MongoRepositoryBase : IRepository
+public abstract class RepositoryBase : IRepository
 {
-    protected MongoRepositoryBase(ILogger logger, IMongoContext context)
+    protected RepositoryBase(ILogger logger, IMongoContext context)
     {
-        this.Logger = logger;
-        this.Context = context;
+        Logger = logger;
+        Context = context;
     }
 
     protected ILogger Logger { get; }
@@ -21,26 +21,26 @@ public abstract class MongoRepositoryBase : IRepository
     /// </summary>
     protected bool IsDisposed { get; private set; }
 
-    IContext IRepository.Context => this.Context;
+    IContext IRepository.Context => Context;
 
     protected virtual void Dispose(bool disposing)
     {
-        if (this.IsDisposed)
+        if (IsDisposed)
         {
             return;
         }
 
         if (disposing)
         {
-            this.Context.Dispose();
+            Context.Dispose();
         }
 
-        this.IsDisposed = true;
+        IsDisposed = true;
     }
 
     public void Dispose()
     {
-        this.Dispose(true);
+        Dispose(true);
         GC.SuppressFinalize(this);
     }
 }

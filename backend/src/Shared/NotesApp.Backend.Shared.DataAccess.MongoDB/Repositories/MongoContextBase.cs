@@ -1,4 +1,4 @@
-﻿namespace NotesApp.Backend.Shared.DataAccess.MongoDB;
+﻿namespace NotesApp.Backend.Shared.DataAccess.MongoDB.Repositories;
 
 using System.Collections.Concurrent;
 using System.Threading;
@@ -9,6 +9,10 @@ using Microsoft.Extensions.Options;
 
 using global::MongoDB.Bson;
 using global::MongoDB.Driver;
+
+using NotesApp.Backend.Shared.DataAccess.MongoDB.Entities;
+using NotesApp.Backend.Shared.DataAccess.MongoDB;
+using NotesApp.Backend.Shared.DataAccess.Specifications;
 
 public abstract class MongoContextBase<T> : IMongoContext
     where T : MongoContextBase<T>
@@ -21,30 +25,30 @@ public abstract class MongoContextBase<T> : IMongoContext
     {
         ArgumentNullException.ThrowIfNull(entityMappingOptions);
 
-        this.Logger = logger;
+        Logger = logger;
         this.connectionProvider = connectionProvider;
 
-        this.entityCollectionNames = new();
-        this.persistenceRegistrations = new();
+        entityCollectionNames = new();
+        persistenceRegistrations = new();
 
         // Register entity mappings
-        this.RegisterEntityMappings(entityMappingOptions.Value);
+        RegisterEntityMappings(entityMappingOptions.Value);
     }
 
     protected ILogger<T> Logger;
 
-    protected IMongoClient Client => this.connectionProvider.Get();
+    protected IMongoClient Client => connectionProvider.Get();
 
     protected abstract string DatabaseName { get; }
 
     public IMongoCollection<TEntity> GetCollection<TEntity>()
         where TEntity : class, IMongoEntity
     {
-        var database = this.Client.GetDatabase(this.DatabaseName);
+        var database = Client.GetDatabase(DatabaseName);
 
-        if (!this.entityCollectionNames.TryGetValue(typeof(TEntity), out var collectionName))
+        if (!entityCollectionNames.TryGetValue(typeof(TEntity), out var collectionName))
         {
-            this.Logger.LogError("Could not resolve collection name for entity type {EntityType}", typeof(TEntity));
+            Logger.LogError("Could not resolve collection name for entity type {EntityType}", typeof(TEntity));
             throw new MongoDataAccessException($"Could not resolve collection name for entity type {typeof(TEntity)}");
         }
 
@@ -53,7 +57,7 @@ public abstract class MongoContextBase<T> : IMongoContext
 
     public async Task<int> CommitAsync(CancellationToken cancellationToken = default)
     {
-        var commitTasks = this.persistenceRegistrations.Select(transform => transform(cancellationToken));
+        var commitTasks = persistenceRegistrations.Select(transform => transform(cancellationToken));
         var commitCounts = await Task.WhenAll(commitTasks);
         return commitCounts.Sum();
     }
@@ -62,29 +66,38 @@ public abstract class MongoContextBase<T> : IMongoContext
     {
         try
         {
-            var database = this.Client.GetDatabase(this.DatabaseName);
+            var database = Client.GetDatabase(DatabaseName);
             await database.RunCommandAsync((Command<BsonDocument>)"{ping:1}", cancellationToken: cancellationToken);
         }
         catch (Exception e)
         {
-            this.Logger.LogError(e, "MongoDB ping command failed.");
+            Logger.LogError(e, "MongoDB ping command failed.");
             return false;
         }
 
         return true;
     }
 
-    public void RegisterPersistence<TEntity>(MongoWritableKeyedRepository<TEntity> repository)
+    public void RegisterPersistence<TEntity>(WritableKeyedRepository<TEntity> repository)
         where TEntity : class, IMongoEntity
     {
         ArgumentNullException.ThrowIfNull(repository);
 
-        this.persistenceRegistrations.Add(repository.CommitAsync);
+        persistenceRegistrations.Add(repository.CommitAsync);
+    }
+
+    public void RegisterPersistence<TEntity, TSpecification>(WritableKeyedRepository<TEntity, TSpecification> repository)
+        where TEntity : class, IMongoEntity
+        where TSpecification : IKeyedSpecification<TSpecification, TEntity, Guid>
+    {
+        ArgumentNullException.ThrowIfNull(repository);
+
+        persistenceRegistrations.Add(repository.CommitAsync);
     }
 
     public void Dispose()
     {
-        this.Dispose(true);
+        Dispose(true);
         GC.SuppressFinalize(this);
     }
 
@@ -92,7 +105,7 @@ public abstract class MongoContextBase<T> : IMongoContext
     {
         if (disposing)
         {
-            this.persistenceRegistrations.Dispose();
+            persistenceRegistrations.Dispose();
         }
     }
 
@@ -110,7 +123,7 @@ public abstract class MongoContextBase<T> : IMongoContext
             }
             catch (ArgumentException e)
             {
-                this.Logger.LogError(e, "An entity collection name mapping already exists for {EntityType}", entityMapping.GetEntityType());
+                Logger.LogError(e, "An entity collection name mapping already exists for {EntityType}", entityMapping.GetEntityType());
                 throw new MongoDataAccessException($"An entity collection name mapping already exists for {entityMapping.GetEntityType()}", e);
             }
         }

@@ -1,4 +1,4 @@
-﻿namespace NotesApp.Backend.Shared.DataAccess.MongoDB;
+﻿namespace NotesApp.Backend.Shared.DataAccess.MongoDB.Entities;
 
 using global::MongoDB.Bson.Serialization;
 using global::MongoDB.Bson.Serialization.IdGenerators;
@@ -31,18 +31,18 @@ public abstract class MongoEntityMapping<TEntity> : IMongoEntityMapping
                 .SetIdGenerator(CombGuidGenerator.Instance);
 
         // Configure any type-specific mapping
-        this.Configure(classMap);
+        Configure(classMap);
     }
 
     public Type GetEntityType() => typeof(TEntity);
 
-    public string GetCollectionName() => this.CollectionName;
+    public string GetCollectionName() => CollectionName;
 
     public void Register()
     {
         if (!BsonClassMap.IsClassMapRegistered(typeof(TEntity)))
         {
-            BsonClassMap.RegisterClassMap<TEntity>(this.ConfigureInternal);
+            BsonClassMap.RegisterClassMap<TEntity>(ConfigureInternal);
         }
     }
 }

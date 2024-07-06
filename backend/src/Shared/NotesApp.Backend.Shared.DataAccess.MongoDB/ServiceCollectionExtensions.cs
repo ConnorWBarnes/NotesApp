@@ -4,6 +4,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
+using NotesApp.Backend.Shared.DataAccess.MongoDB.Repositories;
+using NotesApp.Backend.Shared.DataAccess.MongoDB.Specifications;
+
 public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddMongoDBCore(this IServiceCollection services, IConfiguration configuration)
@@ -11,6 +14,8 @@ public static class ServiceCollectionExtensions
         services.AddDataAccessCore();
 
         services.TryAddSingleton<IConnectionProvider, ConnectionProvider>();
+
+        services.TryAddScoped<ISpecificationFactory, SpecificationFactory>();
 
         services.Configure<MongoContextOptions>(options =>
         {

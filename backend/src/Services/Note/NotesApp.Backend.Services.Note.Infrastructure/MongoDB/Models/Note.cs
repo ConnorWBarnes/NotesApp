@@ -1,6 +1,6 @@
 ﻿namespace NotesApp.Backend.Services.Note.Infrastructure.MongoDB.Models;
 
-using NotesApp.Backend.Shared.DataAccess.MongoDB;
+using NotesApp.Backend.Shared.DataAccess.MongoDB.Entities;
 
 public class Note : IMongoEntity
 {

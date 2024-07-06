@@ -2,7 +2,7 @@
 
 using global::MongoDB.Bson.Serialization;
 
-using NotesApp.Backend.Shared.DataAccess.MongoDB;
+using NotesApp.Backend.Shared.DataAccess.MongoDB.Entities;
 
 public class NoteMapping : MongoEntityMapping<Note>
 {

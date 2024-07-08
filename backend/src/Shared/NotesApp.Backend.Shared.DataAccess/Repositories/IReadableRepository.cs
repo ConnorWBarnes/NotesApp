@@ -26,4 +26,10 @@ public interface IReadableRepository<TEntity, out TSpecification> : IReadableRep
     /// </summary>
     /// <returns>The specification interface.</returns>
     TSpecification Specify();
+
+    /// <summary>
+    /// Gets the specification interface for querying domain entities.
+    /// </summary>
+    /// <returns>The specification interface.</returns>
+    TSpecification Specify(Action<QueryOptions>? options);
 }

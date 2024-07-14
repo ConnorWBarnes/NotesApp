@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\NotesApp.Backend.Shared.DataAccess.EntityFramework\NotesApp.Backend.Shared.DataAccess.EntityFramework.csproj" />
+  </ItemGroup>
+
 </Project>

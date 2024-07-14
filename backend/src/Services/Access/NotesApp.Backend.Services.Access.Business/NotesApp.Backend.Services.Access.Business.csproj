@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\NotesApp.Backend.Services.Access.Domain\NotesApp.Backend.Services.Access.Domain.csproj" />
+    <ProjectReference Include="..\NotesApp.Backend.Services.Access.Infrastructure\NotesApp.Backend.Services.Access.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

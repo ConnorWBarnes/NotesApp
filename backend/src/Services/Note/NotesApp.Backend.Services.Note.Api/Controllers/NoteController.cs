@@ -1,11 +1,11 @@
-namespace NotesApp.Backend.Services.Notes.Api.Controllers;
+namespace NotesApp.Backend.Services.Note.Api.Controllers;
 
 using System.ComponentModel.DataAnnotations;
 
 using Microsoft.AspNetCore.Mvc;
 
-using NotesApp.Backend.Services.Notes.Api.Models;
-using NotesApp.Backend.Services.Notes.Business;
+using NotesApp.Backend.Services.Note.Api.Models;
+using NotesApp.Backend.Services.Note.Business;
 
 /// <summary>
 /// Manages notes.

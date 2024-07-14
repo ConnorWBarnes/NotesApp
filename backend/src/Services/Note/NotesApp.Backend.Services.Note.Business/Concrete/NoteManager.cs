@@ -1,4 +1,4 @@
-﻿namespace NotesApp.Backend.Services.Notes.Business.Concrete;
+﻿namespace NotesApp.Backend.Services.Note.Business.Concrete;
 
 using Microsoft.Extensions.Logging;
 

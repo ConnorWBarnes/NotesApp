@@ -1,6 +1,6 @@
-﻿namespace NotesApp.Backend.Services.Notes.Business;
+﻿namespace NotesApp.Backend.Services.Note.Business;
 
-using NotesApp.Backend.Services.Notes.Domain;
+using NotesApp.Backend.Services.Note.Domain;
 
 /// <summary>
 /// Note management service.

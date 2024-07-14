@@ -1,4 +1,4 @@
-﻿namespace NotesApp.Backend.Services.Notes.Api.Models;
+﻿namespace NotesApp.Backend.Services.Note.Api.Models;
 
 /// <summary>
 /// Note information.

@@ -16,11 +16,41 @@ services:
       - note.service
 
   # Backend services
-  proxy:
-    build: proxy
-    container_name: proxy
+  access.proxy:
+    build:
+      context: .
+      dockerfile: proxies/access.proxy/Dockerfile
+    container_name: access.proxy
     ports:
       - 3000:3000
+    depends_on: 
+      - access.service
+    networks:
+      - frontend-backend
+
+  access.service:
+    image: ${DOCKER_REGISTRY-}notesappbackendservicesaccessapi
+    container_name: access.service
+    build:
+      context: .
+      dockerfile: backend/src/Services/Access/NotesApp.Backend.Services.Access.Api/Dockerfile
+    depends_on:
+      - sql
+    networks:
+      - backend-data
+      - frontend-backend
+    environment:
+      - ASPNETCORE_URLS=http://+:8000
+      - ConnectionStrings__EntityFrameworkStore="Server=host.docker.internal,1433;Database=Production;User ID=sa;Password=Administrator1+;MultipleActiveResultSets=True;TrustServerCertificate=True;App=EntityFramework"
+      #- ConnectionStrings__MongoStore=mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@${MONGODB_HOSTNAME}:${MONGODB_PORT}
+
+  note.proxy:
+    build:
+      context: .
+      dockerfile: proxies/note.proxy/Dockerfile
+    container_name: note.proxy
+    ports:
+      - 3001:3001
     depends_on: 
       - note.service
     networks:

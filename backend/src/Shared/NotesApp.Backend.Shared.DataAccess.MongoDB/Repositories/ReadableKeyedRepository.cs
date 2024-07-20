@@ -11,6 +11,7 @@ using NotesApp.Backend.Shared.DataAccess.MongoDB.Specifications;
 using NotesApp.Backend.Shared.DataAccess.Repositories;
 using NotesApp.Backend.Shared.DataAccess.Specifications;
 using NotesApp.Backend.Shared.DataAccess.MongoDB.Contexts;
+using NotesApp.Backend.Shared.DataAccess;
 
 public abstract class ReadableKeyedRepository<TEntity> : RepositoryBase, IReadableKeyedRepository<TEntity, Guid>
     where TEntity : class, IMongoEntity
@@ -48,5 +49,10 @@ public abstract class ReadableKeyedRepository<TEntity, TSpecification> : Readabl
     public TSpecification Specify()
     {
         return this.specificationFactory.Create<TSpecification, TEntity>(this.Collection.AsQueryable());
+    }
+
+    public TSpecification Specify(Action<QueryOptions>? options)
+    {
+        throw new NotSupportedException("MongoDB does not support query options. Use .Specify() instead.");
     }
 }

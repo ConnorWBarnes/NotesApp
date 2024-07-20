@@ -4,8 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using NotesApp.Backend.Services.Note.Infrastructure;
-using NotesApp.Backend.Services.Notes.Business;
-using NotesApp.Backend.Services.Notes.Business.Concrete;
+using NotesApp.Backend.Services.Note.Business.Concrete;
 using NotesApp.Backend.Shared.Core;
 
 public static class ServiceCollectionExtensions

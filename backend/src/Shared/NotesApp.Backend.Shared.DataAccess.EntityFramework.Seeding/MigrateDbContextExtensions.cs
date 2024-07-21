@@ -5,8 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-using NotesApp.Backend.Shared.DataAccess.EntityFramework.Contexts;
-
 public static class MigrateDbContextExtensions
 {
     /// <summary>
@@ -17,7 +15,7 @@ public static class MigrateDbContextExtensions
     /// <param name="services">The <see cref="IServiceCollection"/> with which to register the database migration.</param>
     /// <returns>The original <see cref="IServiceCollection"/>.</returns>
     public static IServiceCollection AddSeedMigration<TContext, TDbSeeder>(this IServiceCollection services)
-        where TContext : SqlContextBase
+        where TContext : DbContext
         where TDbSeeder : class, IDbSeeder<TContext>
     {
         services.AddScoped<IDbSeeder<TContext>, TDbSeeder>();
@@ -32,7 +30,7 @@ public static class MigrateDbContextExtensions
     /// <param name="seeder">The seeder to use to add data to the database.</typeparam>
     /// <returns>The original <see cref="IServiceCollection"/>.</returns>
     public static IServiceCollection AddSeedMigration<TContext>(this IServiceCollection services, Func<TContext, IServiceProvider, Task> seeder)
-        where TContext : SqlContextBase
+        where TContext : DbContext
     {
         // TODO: Enable migration tracing
         //services.AddOpenTelemetry().WithTracing(tracing => tracing.AddSource(ActivitySourceName));
@@ -41,7 +39,7 @@ public static class MigrateDbContextExtensions
     }
 
     private static async Task MigrateDbContextAsync<TContext>(this IServiceProvider services, Func<TContext, IServiceProvider, Task> seeder) 
-        where TContext : SqlContextBase
+        where TContext : DbContext
     {
         using var serviceScope = services.CreateScope();
         var serviceProvider = serviceScope.ServiceProvider;
@@ -69,7 +67,7 @@ public static class MigrateDbContextExtensions
     }
 
     private class MigrationHostedService<TContext>(IServiceProvider serviceProvider, Func<TContext, IServiceProvider, Task> seeder) : BackgroundService 
-        where TContext : SqlContextBase
+        where TContext : DbContext
     {
         public override Task StartAsync(CancellationToken cancellationToken)
         {

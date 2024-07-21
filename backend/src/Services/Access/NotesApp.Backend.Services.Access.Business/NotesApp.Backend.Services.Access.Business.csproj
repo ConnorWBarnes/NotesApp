@@ -7,8 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\NotesApp.Backend.Services.Access.Domain\NotesApp.Backend.Services.Access.Domain.csproj" />
-    <ProjectReference Include="..\NotesApp.Backend.Services.Access.Infrastructure\NotesApp.Backend.Services.Access.Infrastructure.csproj" />
+    <ProjectReference Include="..\NotesApp.Backend.Services.Access.Infrastructure.AspNet\NotesApp.Backend.Services.Access.Infrastructure.AspNet.csproj" />
   </ItemGroup>
 
 </Project>

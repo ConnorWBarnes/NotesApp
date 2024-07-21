@@ -13,13 +13,12 @@ services:
     networks:
       - frontend-backend
     depends_on:
+      - access.service
       - note.service
 
   # Backend services
   access.proxy:
-    build:
-      context: .
-      dockerfile: proxies/access.proxy/Dockerfile
+    build: proxies/access.proxy
     container_name: access.proxy
     ports:
       - 3000:3000
@@ -41,13 +40,11 @@ services:
       - frontend-backend
     environment:
       - ASPNETCORE_URLS=http://+:8000
-      - ConnectionStrings__EntityFrameworkStore="Server=host.docker.internal,1433;Database=Production;User ID=sa;Password=Administrator1+;MultipleActiveResultSets=True;TrustServerCertificate=True;App=EntityFramework"
+      - ConnectionStrings__EntityFrameworkStore=Server=host.docker.internal,5434;Database=NotesApp;User ID=sa;Password=Pass@word;MultipleActiveResultSets=True;TrustServerCertificate=True;App=EntityFramework
       #- ConnectionStrings__MongoStore=mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@${MONGODB_HOSTNAME}:${MONGODB_PORT}
 
   note.proxy:
-    build:
-      context: .
-      dockerfile: proxies/note.proxy/Dockerfile
+    build: proxies/note.proxy
     container_name: note.proxy
     ports:
       - 3001:3001
@@ -90,8 +87,10 @@ services:
       - ACCEPT_EULA=Y
     ports:
       - "5434:1433"
+    # networks:
+    #   - backend-data
     healthcheck:
-        test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P example_123 -Q 'SELECT 1' || exit 1"]
+        test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Pass@word -Q 'SELECT 1' || exit 1"]
         interval: 10s
         retries: 10
         start_period: 10s

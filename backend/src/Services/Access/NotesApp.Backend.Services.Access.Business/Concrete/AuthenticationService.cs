@@ -33,4 +33,9 @@ public class AuthenticationService : IAuthenticationService
         var result = await this.signInManager.PasswordSignInAsync(user, password, rememberMe, lockoutOnFailure: false);
         return result;
     }
+
+    public async Task SignOutAsync()
+    {
+        await this.signInManager.SignOutAsync();
+    }
 }

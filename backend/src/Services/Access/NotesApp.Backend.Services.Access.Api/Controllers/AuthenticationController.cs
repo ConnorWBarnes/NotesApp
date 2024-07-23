@@ -2,7 +2,7 @@ namespace NotesApp.Backend.Services.Access.Api.Controllers;
 
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
-
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using NotesApp.Backend.Services.Access.Api.Models;
@@ -28,7 +28,7 @@ public class AuthenticationController : ControllerBase
     /// Attempts to sign in a user.
     /// </summary>
     /// <param name="request">The credentials to use to sign in.</param>
-    /// <returns>A response object whose status code indicates the result of the sign in attempt.</returns>
+    /// <returns>A response whose status code indicates the result of the sign in attempt.</returns>
     /// <response code="200">Successfully signed in.</response>
     /// <response code="400">Request has incorrect, invalid, and/or missing values.</response>
     [HttpPost("auth")]
@@ -41,5 +41,19 @@ public class AuthenticationController : ControllerBase
 
         var result = await this.authenticationService.PasswordSignInAsync(request.Email, request.Password, request.RememberMe);
         return result.Succeeded ? this.Ok() : this.BadRequest();
+    }
+
+    /// <summary>
+    /// Signs out the currently authenticated user.
+    /// </summary>
+    /// <returns>A response whose status code indicates the result of the sign out attempt.</returns>
+    /// <response code="200">Successfully signed out.</response>
+    [Authorize]
+    [HttpDelete("auth")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> SignOutAsync()
+    {
+        await this.authenticationService.SignOutAsync();
+        return this.Ok();
     }
 }

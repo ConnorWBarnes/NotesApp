@@ -12,7 +12,7 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-        var connectionString = builder.Configuration.GetConnectionString("AccessIdentityDbContextConnection") ?? throw new InvalidOperationException("Connection string 'AccessIdentityDbContextConnection' not found.");
+        var connectionString = "Server=host.docker.internal,5434;Database=NotesApp;User ID=sa;Password=Pass@word;MultipleActiveResultSets=True;TrustServerCertificate=True;App=EntityFramework"; //builder.Configuration.GetConnectionString("AccessIdentityDbContextConnection") ?? throw new InvalidOperationException("Connection string 'AccessIdentityDbContextConnection' not found.");
 
         builder.Services.AddDbContext<AccessIdentityDbContext>(options => options.UseSqlServer(connectionString));
 

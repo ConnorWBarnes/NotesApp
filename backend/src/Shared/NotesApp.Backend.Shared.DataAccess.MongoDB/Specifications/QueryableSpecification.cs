@@ -16,7 +16,7 @@ public abstract class QueryableSpecification<TEntity> : ISpecification<TEntity>
 
     protected ISpecificationFactory SpecificationFactory { get; }
 
-    protected IMongoQueryable<TEntity> Queryable { get; set; }
+    protected IMongoQueryable<TEntity> Queryable { get; set; } = default!;
 
     internal void SetQueryable(IMongoQueryable<TEntity> queryable)
     {

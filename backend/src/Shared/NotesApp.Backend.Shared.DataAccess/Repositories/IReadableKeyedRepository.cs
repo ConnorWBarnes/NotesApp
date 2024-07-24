@@ -11,7 +11,7 @@ using NotesApp.Backend.Shared.DataAccess.Specifications;
 public interface IReadableKeyedRepository<TEntity, in TPrimaryKey> : IReadableRepository<TEntity>
     where TEntity : class, IKeyedEntity<TPrimaryKey>
 {
-    Task<TEntity> GetByKeyAsync(TPrimaryKey key);
+    Task<TEntity?> GetByKeyAsync(TPrimaryKey key);
 }
 
 /// <summary>

@@ -17,6 +17,6 @@ public abstract class KeyedQueryableSpecification<TSpecification, TEntity> : Que
     public TSpecification ById(params Guid[] ids)
     {
         this.Queryable = this.Queryable.Where(e => ids.Contains(e.Id));
-        return this as TSpecification;
+        return (this as TSpecification)!;
     }
 }

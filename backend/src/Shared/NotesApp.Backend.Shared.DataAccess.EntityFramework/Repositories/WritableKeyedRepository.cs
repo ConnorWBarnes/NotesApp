@@ -18,7 +18,7 @@ public abstract class WritableKeyedRepository<TEntity, TPrimaryKey> : WritableRe
     {
     }
 
-    public async Task<TEntity> GetByKeyAsync(TPrimaryKey key)
+    public async Task<TEntity?> GetByKeyAsync(TPrimaryKey key)
     {
         return await this.Context.Set<TEntity>().FindAsync(key);
     }
@@ -33,7 +33,7 @@ public abstract class WritableKeyedRepository<TEntity, TPrimaryKey, TSpecificati
     {
     }
 
-    public async Task<TEntity> GetByKeyAsync(TPrimaryKey key)
+    public async Task<TEntity?> GetByKeyAsync(TPrimaryKey key)
     {
         return await this.Context.Set<TEntity>().FindAsync(key);
     }

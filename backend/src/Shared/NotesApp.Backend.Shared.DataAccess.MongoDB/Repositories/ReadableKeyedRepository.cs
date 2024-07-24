@@ -23,14 +23,14 @@ public abstract class ReadableKeyedRepository<TEntity> : RepositoryBase, IReadab
 
     public IMongoCollection<TEntity> Collection => Context.GetCollection<TEntity>();
 
-    public IQueryable<TEntity> AsQueryable()
+    public IQueryable<TEntity?> AsQueryable()
     {
         return this.Collection.AsQueryable();
     }
 
-    public Task<TEntity> GetByKeyAsync(Guid key)
+    public async Task<TEntity?> GetByKeyAsync(Guid key)
     {
-        return this.Collection.Find(entity => entity.Id == key).SingleOrDefaultAsync();
+        return await this.Collection.Find(entity => entity!.Id == key).SingleOrDefaultAsync();
     }
 }
 

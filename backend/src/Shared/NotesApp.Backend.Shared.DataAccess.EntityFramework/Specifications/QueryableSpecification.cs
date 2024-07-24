@@ -20,7 +20,7 @@ public abstract class QueryableSpecification<TEntity> : ISpecification<TEntity>
     /// <summary>
     /// Gets or sets the queryable.
     /// </summary>
-    protected IQueryable<TEntity> Queryable { get; set; }
+    protected IQueryable<TEntity> Queryable { get; set; } = default!;
 
     /// <summary>
     /// Sets <see cref="Queryable"/> and applies include statements (if any).

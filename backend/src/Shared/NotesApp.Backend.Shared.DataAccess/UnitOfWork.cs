@@ -117,6 +117,6 @@ public abstract class UnitOfWork : IUnitOfWork
             this.contextContainer.TryAdd(repo.Context.GetType(), repo.Context);
         }
 
-        return repo;
+        return repo!;
     }
 }

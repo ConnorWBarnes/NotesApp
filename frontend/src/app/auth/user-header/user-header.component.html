@@ -1,0 +1,7 @@
+<div *ngIf="isLoggedIn else login">
+  <span *ngFor="let claim of userClaims$ | async">{{claim.type}}: {{claim.value}}</span>
+</div>
+<ng-template #login>
+  <button type="button" class="btn btn-dark" routerLink="/Login">Login</button>
+  <button type="button" class="btn btn-dark" routerLink="/SignUp">Sign up</button>
+</ng-template>

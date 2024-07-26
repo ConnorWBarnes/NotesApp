@@ -1,0 +1,29 @@
+<div class="container-fluid gx-0 results">
+  <div class="row align-items-center">
+    <div class="col-md-10 mx-auto col-lg-5">
+      <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary needs-validation" novalidate [formGroup]="loginForm" (ngSubmit)="login()">
+        <div class="input-group has-validation">
+          <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" formControlName="email" required/>
+            <label for="floatingInput">Email address</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="password" class="form-control" id="floatingPassword" placeholder="Password" formControlName="password" required/>
+            <label for="floatingPassword">Password</label>
+          </div>
+          <div class="invalid-feedback">
+            Invalid username or password.
+          </div>
+        </div>
+        <div class="checkbox mb-3">
+          <label>
+            <input type="checkbox" value="remember-me" formControlName="rememberMe"> Remember me
+          </label>
+        </div>
+        <button class="w-100 btn btn-lg btn-primary" type="submit" [disabled]="!loginForm.valid">Log In</button>
+        <hr class="my-4">
+        <small class="text-body-secondary">TODO: Add "Forgot password?" and "Register/Sign Up" links here.</small>
+      </form>
+    </div>
+  </div>
+</div>

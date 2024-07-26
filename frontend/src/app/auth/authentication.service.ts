@@ -10,9 +10,9 @@ import { UserClaim } from './user-claim';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class AuthenticationService {
   // TODO: Refactor url, headers, and HttpClient into base class?
-  private readonly authUrl = 'http://localhost:3000/auth';
+  private readonly authenticationUrl = 'http://localhost:3000/auth';
 
   private readonly httpHeaders = new HttpHeaders(
     {
@@ -37,34 +37,34 @@ export class AuthService {
   }
 
   public signIn$(email: string, password: string, rememberMe: boolean): Observable<Response> {
-    return this.http.post<Response>(this.authUrl, { email: email, password: password, rememberMe: rememberMe }, { headers: this.httpHeaders }).pipe(
+    return this.http.post<Response>(this.authenticationUrl, { email: email, password: password, rememberMe: rememberMe }, { headers: this.httpHeaders }).pipe(
       tap((response: Response) => this._isLoggedIn = response.isSuccess)
     );
   }
 
   public async signInAsync(email: string, password: string, rememberMe: boolean): Promise<Response> {
-    const response = await firstValueFrom(this.http.post<Response>(this.authUrl, { email: email, password: password, rememberMe: rememberMe }, { headers: this.httpHeaders }));
+    const response = await firstValueFrom(this.http.post<Response>(this.authenticationUrl, { email: email, password: password, rememberMe: rememberMe }, { headers: this.httpHeaders }));
     this._isLoggedIn = response.isSuccess;
     return response;
   }
 
   public signOut$(): Observable<Response> {
-    return this.http.delete<Response>(this.authUrl).pipe(
+    return this.http.delete<Response>(this.authenticationUrl).pipe(
       tap(_ => this._isLoggedIn = false)
     );
   }
 
   public async signOutAsync(): Promise<Response> {
-    const response = await firstValueFrom(this.http.delete<Response>(this.authUrl));
+    const response = await firstValueFrom(this.http.delete<Response>(this.authenticationUrl));
     this._isLoggedIn = false;
     return response;
   }
 
   public getUser$(): Observable<UserClaim[]> {
-    return this.http.get<UserClaim[]>(this.authUrl);
+    return this.http.get<UserClaim[]>(this.authenticationUrl);
   }
 
   public async getUserAsync(): Promise<UserClaim[]> {
-    return await firstValueFrom(this.http.get<UserClaim[]>(this.authUrl));
+    return await firstValueFrom(this.http.get<UserClaim[]>(this.authenticationUrl));
   }
 }

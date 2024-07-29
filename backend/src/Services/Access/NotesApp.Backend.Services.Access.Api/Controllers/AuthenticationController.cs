@@ -31,6 +31,7 @@ public class AuthenticationController : ControllerBase
     /// <returns>A response whose status code indicates the result of the sign in attempt.</returns>
     /// <response code="200">Successfully signed in.</response>
     /// <response code="400">Request has incorrect, invalid, and/or missing values.</response>
+    [AllowAnonymous]
     [HttpPost("auth")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

@@ -22,9 +22,10 @@ public class Program
             options.AddPolicy(CorsPolicyName,
                 builder =>
                 {
-                    builder.AllowAnyOrigin();
+                    builder.SetIsOriginAllowed(origin => true);
                     builder.AllowAnyHeader();
                     builder.AllowAnyMethod();
+                    builder.AllowCredentials();
                 });
         });
 
@@ -67,6 +68,8 @@ public class Program
             app.UseSwaggerUI();
         }
 
+        app.UseCors(CorsPolicyName);
+        
         app.UseHttpsRedirection();
 
         app.UseAuthentication();

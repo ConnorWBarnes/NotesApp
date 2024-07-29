@@ -1,4 +1,4 @@
 export interface Response {
   isSuccess: boolean;
-  message: string;
+  message: string | undefined;
 }

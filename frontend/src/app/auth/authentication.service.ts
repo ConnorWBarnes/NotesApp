@@ -1,8 +1,8 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { firstValueFrom, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { firstValueFrom, Observable, of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 
 import { Response } from './response';
 import { UserClaim } from './user-claim';
@@ -32,32 +32,32 @@ export class AuthenticationService {
   }
 
   private _isLoggedIn = false;
-  get isLoggedIn(): boolean {
+  public get isLoggedIn(): boolean {
     return this._isLoggedIn;
   }
 
-  public signIn$(email: string, password: string, rememberMe: boolean): Observable<Response> {
-    return this.http.post<Response>(this.authenticationUrl, { email: email, password: password, rememberMe: rememberMe }, { headers: this.httpHeaders }).pipe(
-      tap((response: Response) => this._isLoggedIn = response.isSuccess)
+  public logIn$(email: string, password: string, rememberMe: boolean): Observable<HttpResponse<string>> {
+    return this.http.post<HttpResponse<string>>(this.authenticationUrl, { email: email, password: password, rememberMe: rememberMe }, { headers: this.httpHeaders }).pipe(
+      tap((response: HttpResponse<string>) => this._isLoggedIn = response.ok),
+      catchError(this.handleError<HttpResponse<string>>('logIn$'))
     );
   }
 
-  public async signInAsync(email: string, password: string, rememberMe: boolean): Promise<Response> {
-    const response = await firstValueFrom(this.http.post<Response>(this.authenticationUrl, { email: email, password: password, rememberMe: rememberMe }, { headers: this.httpHeaders }));
-    this._isLoggedIn = response.isSuccess;
-    return response;
+  public async logInAsync(email: string, password: string, rememberMe: boolean): Promise<Response> {
+    const response = await firstValueFrom(this.http.post(this.authenticationUrl, { email: email, password: password, rememberMe: rememberMe }, { headers: this.httpHeaders, observe: 'response' }));
+    this._isLoggedIn = response.ok;
+    return { isSuccess: response.ok, message: response.body?.toString() };
   }
 
-  public signOut$(): Observable<Response> {
-    return this.http.delete<Response>(this.authenticationUrl).pipe(
-      tap(_ => this._isLoggedIn = false)
+  public logOut$(): Observable<HttpResponse<string>> {
+    return this.http.delete<HttpResponse<string>>(this.authenticationUrl).pipe(
+      tap(_ => this._isLoggedIn = false),
+      catchError(this.handleError<HttpResponse<string>>('logOut$'))
     );
   }
 
-  public async signOutAsync(): Promise<Response> {
-    const response = await firstValueFrom(this.http.delete<Response>(this.authenticationUrl));
-    this._isLoggedIn = false;
-    return response;
+  public async logOutAsync(): Promise<HttpResponse<string>> {
+    return await firstValueFrom(this.logOut$());
   }
 
   public getUser$(): Observable<UserClaim[]> {
@@ -66,5 +66,32 @@ export class AuthenticationService {
 
   public async getUserAsync(): Promise<UserClaim[]> {
     return await firstValueFrom(this.http.get<UserClaim[]>(this.authenticationUrl));
+  }
+
+  /**
+   * Handles a failed HTTP operation and allows the app to continue.
+   * @param operation The name of the operation that failed.
+   * @param result Optional value to return as the observable result.
+   */
+  private handleError<T>(operation = "operation", result?: T) {
+    return (error: any): Observable<T> => {
+      // TODO: Send the error to remote logging infrastructure
+      console.error(error);
+
+      // TODO: Improve error transformation for user consumption
+      this.log(`${operation} failed: ${error.message}`);
+
+      // Return an empty result to allow the app to continue running
+      return of(result as T);
+    }
+  }
+  
+  /**
+   * Labels and logs a message.
+   * @param message The message to log.
+   */
+  private log(message: string): void {
+    const labeledMessage = `NoteService: ${message}`;
+    console.log(labeledMessage)
   }
 }

@@ -5,6 +5,7 @@ import { NavSidebarComponent } from './nav-sidebar/nav-sidebar.component';
 import { NoteCreateComponent } from './note/note-create/note-create.component';
 import { NoteEditComponent } from './note/note-edit/note-edit.component';
 import { NoteGridComponent } from './note/note-grid/note-grid.component';
+import { UserHeaderComponent } from './auth/user-header/user-header.component';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +15,8 @@ import { NoteGridComponent } from './note/note-grid/note-grid.component';
     NoteCreateComponent,
     NoteEditComponent,
     NoteGridComponent,
-    RouterOutlet
+    RouterOutlet,
+    UserHeaderComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'

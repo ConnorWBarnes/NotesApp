@@ -1,18 +1,32 @@
-<div class="container-fluid gx-0 results">
-  <div class="row align-items-center">
+<div class=" align-middle container-fluid gx-0 min-vh-100">
+  <div class="row align-items-center min-vh-100">
     <div class="col-md-10 mx-auto col-lg-5">
-      <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary needs-validation" novalidate [formGroup]="loginForm" (ngSubmit)="login()">
+      <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary needs-validation" novalidate [formGroup]="loginForm" #formDir="ngForm" (ngSubmit)="login()">
+        <!-- Email input -->
         <div class="input-group has-validation">
-          <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" formControlName="email" required/>
-            <label for="floatingInput">Email address</label>
+          <div class="form-floating mb-3" style="width: 100%;">
+            <input id="email" type="email" class="form-control" formControlName="email" required>
+            <label for="email">Email address</label>
+            <div *ngIf="formSubmitted && email!.invalid" class="alert alert-danger">
+              <div *ngIf="email!.hasError('required')">
+                Email is required.
+              </div>
+              <div *ngIf="email!.hasError('email')">
+                Email is invalid.
+              </div>
+            </div>
           </div>
-          <div class="form-floating mb-3">
-            <input type="password" class="form-control" id="floatingPassword" placeholder="Password" formControlName="password" required/>
+        </div>
+        <!-- Password input -->
+        <div class="input-group has-validation">
+          <div class="form-floating mb-3" style="width: 100%;">
+            <input type="password" class="form-control" id="floatingPassword" placeholder="Password" formControlName="password" required>
             <label for="floatingPassword">Password</label>
-          </div>
-          <div class="invalid-feedback">
-            Invalid username or password.
+            <div *ngIf="formSubmitted && password!.invalid" class="alert alert-danger">
+              <div *ngIf="email!.hasError('required')">
+                Password is required.
+              </div>
+            </div>
           </div>
         </div>
         <div class="checkbox mb-3">
@@ -20,7 +34,10 @@
             <input type="checkbox" value="remember-me" formControlName="rememberMe"> Remember me
           </label>
         </div>
-        <button class="w-100 btn btn-lg btn-primary" type="submit" [disabled]="!loginForm.valid">Log In</button>
+        <div *ngIf="loginFailed" class="alert alert-danger">
+          Invalid username or password.
+        </div>
+        <button class="w-100 btn btn-lg btn-primary" type="submit" [disabled]="formSubmitted && !loginForm.valid">Log In</button>
         <hr class="my-4">
         <small class="text-body-secondary">TODO: Add "Forgot password?" and "Register/Sign Up" links here.</small>
       </form>

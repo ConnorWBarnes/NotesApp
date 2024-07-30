@@ -15,9 +15,10 @@ public class Program
             options.AddPolicy(CorsPolicyName,
                 builder =>
                 {
-                    builder.AllowAnyOrigin();
+                    builder.SetIsOriginAllowed(origin => true);
                     builder.AllowAnyHeader();
                     builder.AllowAnyMethod();
+                    builder.AllowCredentials();
                 });
         });
 

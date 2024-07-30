@@ -6,6 +6,7 @@ import { catchError, tap } from 'rxjs/operators';
 
 import { Response } from './response';
 import { UserClaim } from './user-claim';
+import { UserProfile } from './user-profile';
 
 @Injectable({
   providedIn: 'root'
@@ -61,11 +62,21 @@ export class AuthenticationService {
   }
 
   public getUser$(): Observable<UserClaim[]> {
-    return this.http.get<UserClaim[]>(this.authenticationUrl);
+    return this.http.get<UserClaim[]>(this.authenticationUrl, { withCredentials: true });
   }
 
   public async getUserAsync(): Promise<UserClaim[]> {
-    return await firstValueFrom(this.http.get<UserClaim[]>(this.authenticationUrl));
+    return await firstValueFrom(this.http.get<UserClaim[]>(this.authenticationUrl, { withCredentials: true }));
+  }
+  
+  public getUserProfile$(): Observable<UserProfile> {
+    return this.http.get<UserProfile>(this.authenticationUrl, { withCredentials: true });
+  }
+
+  public async getUserProfileAsync(): Promise<UserProfile> {
+    const profile = await firstValueFrom(this.http.get<UserProfile>(this.authenticationUrl, { withCredentials: true }));
+    console.log('User profile: ', profile);
+    return profile;
   }
 
   /**

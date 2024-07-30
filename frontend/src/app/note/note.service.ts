@@ -13,7 +13,7 @@ import { Note } from './note';
   providedIn: 'root'
 })
 export class NoteService {
-  notesUrl = 'http://localhost:3000/notes';
+  notesUrl = 'http://localhost:3001/notes';
 
   httpHeaders = new HttpHeaders(
     {

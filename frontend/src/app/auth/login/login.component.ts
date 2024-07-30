@@ -55,6 +55,7 @@ export class LoginModalContentComponent {
     if (this.authService.isLoggedIn) {
       // Redirect the user
       this.router.navigateByUrl(this.authService.redirectUrl);
+      this.activeModal.close();
     } else {
       // Display error message
       this._loginFailed = true;

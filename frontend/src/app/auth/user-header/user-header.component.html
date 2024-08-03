@@ -9,12 +9,14 @@
   <button type="button" class="btn btn-dark" routerLink="/SignUp">Sign up</button>
 </ng-template> -->
 
-<div *ngIf="!isLoggedIn else profile">
+<!-- <div *ngIf="!isLoggedIn else profile">
   <button type="button" class="btn btn-dark" routerLink="/Login">Login</button>
   <button type="button" class="btn btn-dark" routerLink="/SignUp">Sign up</button>
 </div>
 <ng-template #profile>
-  <!-- <span *ngFor="let claim of userClaims$ | async">{{claim.type}}: {{claim.value}}</span> -->
+  <span *ngFor="let claim of userClaims$ | async">{{claim.type}}: {{claim.value}}</span>
   <div>Hello {{userProfile.firstName}}</div>
   <button type="button" class="btn btn-dark" (click)="logOutAsync()">Log Out</button>
-</ng-template>
+</ng-template> -->
+
+<ng-container *ngComponentOutlet="getUserHeaderComponent()"></ng-container>

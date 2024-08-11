@@ -2,7 +2,7 @@ server {
     listen       3001;
     server_name  localhost;
     location / {
-        proxy_pass   http://note.service:8000;
+        proxy_pass                  http://note.service:8000;
+        proxy_pass_request_headers  on;
     }
-
 }

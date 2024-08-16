@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
@@ -11,20 +11,19 @@ import { UserProfile } from '../user-profile';
   selector: 'app-logged-in',
   standalone: true,
   imports: [
-    AsyncPipe
+    AsyncPipe,
+    NgIf
   ],
   templateUrl: './logged-in.component.html',
   styleUrl: './logged-in.component.scss'
 })
 export class LoggedInComponent implements OnInit {
   userProfile$!: Observable<UserProfile>;
-  userProfile!: UserProfile;
 
   constructor(private authService: AuthenticationService, private router: Router) { }
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit(): void {
     this.userProfile$ = this.authService.getUserProfile$();
-    this.userProfile = await this.authService.getUserProfileAsync();
   }
 
   async logOutAsync() {

@@ -7,13 +7,19 @@ import { catchError, tap } from 'rxjs/operators';
 import { Response } from './response';
 import { UserClaim } from './user-claim';
 import { UserProfile } from './user-profile';
+import { TokenResponse } from './token-response';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
   // TODO: Refactor url, headers, and HttpClient into base class?
-  private readonly authenticationUrl = 'http://localhost:3000/auth';
+  private readonly backendUrl = 'http://localhost:3000';
+  private readonly authenticationUrl = `${this.backendUrl}/auth`;
+  private readonly loginUrl = `${this.backendUrl}/login`;
+  private readonly refreshUrl = `${this.backendUrl}/refresh`;
+  private readonly usersUrl = `${this.backendUrl}/users`;
+  private readonly userProfilesUrl = `${this.usersUrl}/profiles`;
 
   private readonly httpHeaders = new HttpHeaders(
     {
@@ -22,6 +28,15 @@ export class AuthenticationService {
   );
 
   constructor(private http: HttpClient) { }
+
+  private tokenResponse: TokenResponse | null = null;
+  private getTokenHeaders() {
+    return new HttpHeaders(
+      {
+        'Authorization': `Bearer ${this.tokenResponse?.accessToken}`
+      }
+    );
+  }
 
   // Stores the URL that requires authentication so that we can redirect to it after successful authentication.
   private _redirectUrl?: string;
@@ -37,17 +52,31 @@ export class AuthenticationService {
     return this._isLoggedIn;
   }
 
-  public logIn$(email: string, password: string, rememberMe: boolean): Observable<HttpResponse<string>> {
-    return this.http.post<HttpResponse<string>>(this.authenticationUrl, { email: email, password: password, rememberMe: rememberMe }, { headers: this.httpHeaders }).pipe(
-      tap((response: HttpResponse<string>) => this._isLoggedIn = response.ok),
-      catchError(this.handleError<HttpResponse<string>>('logIn$'))
+  public logIn$(email: string, password: string, rememberMe: boolean): Observable<TokenResponse> {
+    return this.http.post<TokenResponse>(this.loginUrl, { email: email, password: password }, { headers: this.httpHeaders }).pipe(
+      tap((response: TokenResponse) => {
+        this._isLoggedIn = true;
+        this.tokenResponse = response;
+      }),
+      catchError(this.handleError<TokenResponse>('logIn$'))
     );
   }
 
-  public async logInAsync(email: string, password: string, rememberMe: boolean): Promise<Response> {
-    const response = await firstValueFrom(this.http.post(this.authenticationUrl, { email: email, password: password, rememberMe: rememberMe }, { headers: this.httpHeaders, observe: 'response' }));
-    this._isLoggedIn = response.ok;
-    return { isSuccess: response.ok, message: response.body?.toString() };
+  public async logInAsync(email: string, password: string, rememberMe: boolean): Promise<TokenResponse> {
+    return firstValueFrom(this.logIn$(email, password, rememberMe));
+  }
+
+  public refreshToken$(): Observable<TokenResponse> {
+    return this.http.post<TokenResponse>(this.refreshUrl, { refreshToken: this.tokenResponse?.refreshToken }).pipe(
+      tap((response: TokenResponse) => {
+        this.tokenResponse = response;
+      }),
+      catchError(this.handleError<TokenResponse>('refreshToken$'))
+    );
+  }
+
+  public async refreshTokenAsync(): Promise<TokenResponse> {
+    return firstValueFrom(this.refreshToken$());
   }
 
   public logOut$(): Observable<HttpResponse<string>> {
@@ -62,19 +91,24 @@ export class AuthenticationService {
   }
 
   public getUser$(): Observable<UserClaim[]> {
-    return this.http.get<UserClaim[]>(this.authenticationUrl, { withCredentials: true });
+    return this.http.get<UserClaim[]>(this.usersUrl, { headers: this.getTokenHeaders(), withCredentials: true }).pipe(
+      catchError(this.handleError<UserClaim[]>('getUser$'))
+    );
   }
 
   public async getUserAsync(): Promise<UserClaim[]> {
-    return await firstValueFrom(this.http.get<UserClaim[]>(this.authenticationUrl, { withCredentials: true }));
+    return await firstValueFrom(this.http.get<UserClaim[]>(this.usersUrl, { headers: this.getTokenHeaders(), withCredentials: true }));
   }
   
   public getUserProfile$(): Observable<UserProfile> {
-    return this.http.get<UserProfile>(this.authenticationUrl, { withCredentials: true });
+    console.log('User profiles URL: ', this.userProfilesUrl);
+    return this.http.get<UserProfile>(this.userProfilesUrl, { headers: this.getTokenHeaders(), withCredentials: true }).pipe(
+      catchError(this.handleError<UserProfile>('getUserProfile$'))
+    );
   }
 
   public async getUserProfileAsync(): Promise<UserProfile> {
-    const profile = await firstValueFrom(this.http.get<UserProfile>(this.authenticationUrl, { withCredentials: true }));
+    const profile = await firstValueFrom(this.http.get<UserProfile>(this.userProfilesUrl, { headers: this.getTokenHeaders(), withCredentials: true }));
     console.log('User profile: ', profile);
     return profile;
   }
@@ -102,7 +136,7 @@ export class AuthenticationService {
    * @param message The message to log.
    */
   private log(message: string): void {
-    const labeledMessage = `NoteService: ${message}`;
+    const labeledMessage = `AuthService: ${message}`;
     console.log(labeledMessage)
   }
 }

@@ -1,3 +1,3 @@
 <!-- <span *ngFor="let claim of userClaims$ | async">{{claim.type}}: {{claim.value}}</span> -->
-<div>Hello {{userProfile.firstName}}</div>
+<div *ngIf="userProfile$ | async as userProfile">Hello {{userProfile.firstName}}</div>
 <button type="button" class="btn btn-dark" (click)="logOutAsync()">Log Out</button>

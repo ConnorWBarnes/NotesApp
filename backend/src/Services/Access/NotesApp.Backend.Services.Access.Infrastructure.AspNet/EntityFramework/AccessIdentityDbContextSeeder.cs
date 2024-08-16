@@ -22,14 +22,15 @@ public class AccessIdentityDbContextSeeder : IDbSeeder<AccessIdentityDbContext>
 
     public async Task SeedAsync(AccessIdentityDbContext context)
     {
-        var alice = await this.userManager.FindByNameAsync("alice");
+        const string ALICE_EMAIL = "AliceSmith@email.com";
+        var alice = await this.userManager.FindByEmailAsync(ALICE_EMAIL);
 
         if (alice == null)
         {
             alice = new User
             {
-                UserName = "alice",
-                Email = "AliceSmith@email.com",
+                UserName = ALICE_EMAIL,
+                Email = ALICE_EMAIL,
                 EmailConfirmed = true,
                 Id = Guid.NewGuid(),
                 FirstName = "Alice",
@@ -48,17 +49,18 @@ public class AccessIdentityDbContextSeeder : IDbSeeder<AccessIdentityDbContext>
         }
         else
         {
-            logger.LogInformation("User 'alice' already exists");
+            logger.LogInformation("User '{UserName}' already exists", alice.UserName);
         }
 
-        var bob = await this.userManager.FindByNameAsync("bob");
+        const string BOB_EMAIL = "BobSmith@email.com";
+        var bob = await this.userManager.FindByEmailAsync(BOB_EMAIL);
 
         if (bob == null)
         {
             bob = new User
             {
-                UserName = "bob",
-                Email = "BobSmith@email.com",
+                UserName = BOB_EMAIL,
+                Email = BOB_EMAIL,
                 EmailConfirmed = true,
                 Id = Guid.NewGuid(),
                 FirstName = "Bob",
@@ -77,7 +79,7 @@ public class AccessIdentityDbContextSeeder : IDbSeeder<AccessIdentityDbContext>
         }
         else
         {
-            logger.LogInformation("User 'bob' already exists");
+            logger.LogInformation("User '{UserName}' already exists", bob.UserName);
         }
     }
 }

@@ -37,19 +37,31 @@ public class Program
         //    options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
         //})
         //    .AddIdentityCookies(options => { });
-        builder.Services.AddIdentity<User, IdentityRole<Guid>>(options =>
-        {
-            options.Stores.MaxLengthForKeys = 128;
-            options.SignIn.RequireConfirmedAccount = true;
-            options.User.RequireUniqueEmail = true;
-        })
-            .AddDefaultTokenProviders()
-            .AddEntityFrameworkStores<AccessIdentityDbContext>();
+        //builder.Services.AddIdentity<User, IdentityRole<Guid>>(options =>
+        //{
+        //    options.Stores.MaxLengthForKeys = 128;
+        //    options.SignIn.RequireConfirmedAccount = true;
+        //    options.User.RequireUniqueEmail = true;
+        //})
+        //    .AddDefaultTokenProviders()
+        //    .AddEntityFrameworkStores<AccessIdentityDbContext>();
 
         // Without ASP.NET Core Identity:
         //builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
         //    .AddCookie();
         //builder.Services.AddHttpContextAccessor();
+
+        // Add Identity services to the container
+        builder.Services.AddAuthorization();
+
+        // Activate Identity APIs
+        builder.Services.AddIdentityApiEndpoints<User>(options =>
+        {
+            options.Stores.MaxLengthForKeys = 128;
+            options.SignIn.RequireConfirmedAccount = true;
+            options.User.RequireUniqueEmail = true;
+        })
+            .AddEntityFrameworkStores<AccessIdentityDbContext>();
 
         // Add business services to the container.
         builder.Services.AddAccessServices(builder.Configuration);
@@ -74,6 +86,9 @@ public class Program
 
         app.UseAuthentication();
         app.UseAuthorization();
+
+        // Map Identity Routes
+        app.MapIdentityApi<User>();
 
         app.MapControllers();
 

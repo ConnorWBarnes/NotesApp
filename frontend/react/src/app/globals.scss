@@ -1,0 +1,62 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'bootstrap-icons/font/bootstrap-icons';
+
+* {
+  font-family: inherit;
+  font-size: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --primary-color: #605DC8;
+  --secondary-color: #8B89E6;
+  --accent-color: #e8e7fa;
+  --shadow-color: #E8E8E8;
+
+  --background-color: #202124;
+  --border-color: #5f6368;
+  --button-color: #DADCE0;
+  --text-color: #E8EAED;
+}
+
+body {
+  //background-color: var(--background-color);
+  //color: var(--text-color);
+  font-family: 'Roboto', arial, sans-serif;
+}
+
+button.primary {
+  padding: 10px;
+  border: solid 1px var(--primary-color);
+  background: var(--primary-color);
+  color: white;
+  border-radius: 8px;
+}
+
+button.save {
+  background: transparent;
+  border: solid 0px var(--border-color);
+  border-radius: 4px;
+  color: var(--button-color);
+  font-size: 14px;
+  height: 36px;
+  line-height: 1.25rem;
+  padding: 8px 24px;
+}
+
+// button:hover {
+//   background: #9AA0A60A;
+// }
+
+// TODO: Convert to mixin?
+.show-border {
+  border: 1px solid transparent;
+  border-color: var(--border-color);
+}
+
+// TODO: Convert to mixin?
+.right {
+  display: flex;
+  flex-direction: row-reverse;
+}

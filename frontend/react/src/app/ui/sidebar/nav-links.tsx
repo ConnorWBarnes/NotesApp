@@ -1,12 +1,12 @@
 // NavLinks must be a Client Component to use the 'usePathname()' hook
 'use client';
 
-// Map of links to display in the side navigation.
-// Depending on the size of the application, this would be stored in a database.
+import '@/app/ui/sidebar/sidebar.scss';
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import clsx from "clsx";
 
+// Map of links to display in the side navigation.
+// Depending on the size of the application, this would be stored in a database.
 const links = [
   {
     name: "Notes",
@@ -34,6 +34,10 @@ const links = [
   }
 ];
 
+function linkIsActive(pathname: string, href: string) {
+  return pathname.localeCompare(href, undefined, { sensitivity: 'base' }) === 0;
+}
+
 export default function NavLinks({ isCollapsed }: { isCollapsed: boolean }) {
   const pathname = usePathname();
   return (
@@ -41,7 +45,7 @@ export default function NavLinks({ isCollapsed }: { isCollapsed: boolean }) {
       {links.map((link) => {
         return (
           <li key={link.name} className="nav-item">
-            <Link href={link.href} className={clsx('nav-link text-white', {'active': pathname === link.href})}>
+            <Link href={link.href} className={`nav-link text-white ${linkIsActive(pathname, link.href) ? 'active' : ''}`}>
               <i className={`bi ${link.iconClass} ${isCollapsed ? '' : 'me-2'}`} style={{fontSize: "1rem"}}></i>
               {!isCollapsed ? (link.name) : null}
             </Link>

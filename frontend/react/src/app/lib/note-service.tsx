@@ -32,7 +32,23 @@ export async function getNoteAsync(id: string): Promise<Note> {
         return handleErrorAsync(new Error(await response.json()), 'getNoteAsync');
       }
       return await response.json() as Note;
-    })
+    });
+}
+
+
+/**
+ * GET: Gets all archived notes from the server.
+ * @returns A Promise of all the notes retrieved.
+ */
+export async function getArchivedNotesAsync(): Promise<Note[]> {
+  const url = appendToUrl('archive');
+  return await fetch(url, { method: 'GET' })
+    .then(async response => {
+      if (!response.ok) {
+        return handleErrorAsync(new Error(await response.json()), 'getArchivedNotesAsync');
+      }
+      return await response.json() as Note[];
+    });
 }
 
 /**

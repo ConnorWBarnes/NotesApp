@@ -1,9 +1,9 @@
 // NavLinks must be a Client Component to use the 'usePathname()' hook
 'use client';
 
-import '@/app/ui/sidebar/sidebar.scss';
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import styles from "@/app/ui/sidebar/sidebar.module.scss";
 
 // Map of links to display in the side navigation.
 // Depending on the size of the application, this would be stored in a database.
@@ -45,7 +45,7 @@ export default function NavLinks({ isCollapsed }: { isCollapsed: boolean }) {
       {links.map((link) => {
         return (
           <li key={link.name} className="nav-item">
-            <Link href={link.href} className={`nav-link text-white ${linkIsActive(pathname, link.href) ? 'active' : ''}`}>
+            <Link href={link.href} className={`nav-link text-white ${styles.sidebar_nav_link} ${linkIsActive(pathname, link.href) ? 'active' : ''}`}>
               <i className={`bi ${link.iconClass} ${isCollapsed ? '' : 'me-2'}`} style={{fontSize: "1rem"}}></i>
               {!isCollapsed ? (link.name) : null}
             </Link>

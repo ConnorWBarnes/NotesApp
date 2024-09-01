@@ -1,4 +1,8 @@
-.nav-link {
+@import "bootstrap/scss/functions";
+
+$bs-nav-link-padding-y: .75rem;
+
+.sidebar_nav_link {
   //padding: .75rem 1rem;
   padding: .75rem 1rem .75rem 1.25rem;
 }
@@ -9,7 +13,7 @@
   text-overflow: ellipsis;
 }
 
-.expand-horizontal {
+.expand_horizontal {
   transition: width .35s ease;
 }
 

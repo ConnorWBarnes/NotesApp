@@ -82,6 +82,7 @@ button.save {
   padding: var(--content-padding);
 }
 
-nav-item {
-  color: var(--text-color)
+.row {
+  margin-right: calc(-.5* var(--bs-gutter-x));
+  margin-left: calc(-.5* var(--bs-gutter-x));
 }

@@ -5,25 +5,25 @@
   //display: block;
 }
 
-.note-padding {
+.note_padding {
   padding: 12px 16px 12px 16px;
 }
 
-.note-title {
+.note_title {
   font-size: 16px;
   padding-bottom: 0px;
 }
 
-.note-body {
+.note_body {
   font-size: 14px;
 }
 
-.note-compose {
+.note_compose {
   margin: 16px auto 16px auto;
   width: 600px;
 }
 
-.note-compose-text {
+.note_compose_text {
   background: transparent;
   border: solid 1px var(--border-color);
   border-radius: 8px;
@@ -36,31 +36,31 @@
   width: 100%;
 }
 
-.results {
+.note_grid {
   display: block;
   direction: ltr;
   position: relative;
   margin: 8px;
 }
 
-.a {
+.note_grid_item {
   display: block;
   margin: 8px;
   //position: absolute;
   width: 240px;
 }
 
-.note-create {
+.note_create {
   position: relative;
 }
 
-.note-edit {
+.note_edit {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.note-photo {
+.note_photo {
   height: 250px;
   width: 100%;
   object-fit: cover;

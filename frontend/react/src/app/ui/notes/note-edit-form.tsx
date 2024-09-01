@@ -1,6 +1,7 @@
 import { useActionState } from "react";
 import { archiveNoteActionAsync, updateNoteActionAsync } from "@/app/lib/actions";
 import { Note } from "@/app/lib/note";
+import styles from "@/app/ui/notes/notes.module.scss";
 
 export default function NoteEditForm({ note }: { note: Note }) {
   const [, saveAction] = useActionState(updateNoteActionAsync.bind(note), note);
@@ -11,17 +12,17 @@ export default function NoteEditForm({ note }: { note: Note }) {
   }
 
   return (
-    <div className="note-compose align-items-center">
-      <form className="note note-padding show-border">
-        <input id="title" className="note-compose-text" placeholder="Title"/>
-        <textarea id="body" className="note-compose-text" placeholder="Take a note..."></textarea>
+    <div className={`${styles.note_compose} align-items-center`}>
+      <form className={`${styles.note} ${styles.note_padding} show-border`}>
+        <input id="title" className={styles.note_compose_text} placeholder="Title"/>
+        <textarea id="body" className={styles.note_compose_text} placeholder="Take a note..."></textarea>
         {/* TODO: Add last modified date (and show created date as tooltip) above bottom bar */}
         <div className="container-fluid">
           <div className="row flex-grow-1">
             <div className="col p-0">
               {/* TODO: Add tooltip to archive button */}
               <button className="btn btn-dark" formAction={archiveAction}>
-                <i className={getArchiveIconClass()} style={{fontSize: "1rem"}}></i>
+                <i className={getArchiveIconClass()} style={{ fontSize: "1rem" }}></i>
               </button>
             </div>
             <div className="col-md-auto p-0 right">

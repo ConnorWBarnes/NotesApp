@@ -25,10 +25,10 @@ export default function CustomLayout({ children }: { children: React.ReactNode }
             </div>
           </div>
           <div className="row flex-grow-1">
-            <div className="col-md-auto p-0">
+            <div className="border-end col-md-auto p-2">
               <SideNav isCollapsed={isCollapsed} />
             </div>
-            <div className="col p-0">
+            <div className="col p-2">
               {children}
             </div>
           </div>

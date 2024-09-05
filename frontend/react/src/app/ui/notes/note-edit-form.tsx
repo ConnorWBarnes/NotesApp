@@ -1,3 +1,5 @@
+'use client';
+
 import { useActionState } from "react";
 import { archiveNoteActionAsync, updateNoteActionAsync } from "@/app/lib/actions";
 import { Note } from "@/app/lib/note";
@@ -14,8 +16,8 @@ export default function NoteEditForm({ note }: { note: Note }) {
   return (
     <div className={`${styles.note_compose} align-items-center`}>
       <form className={`${styles.note} ${styles.note_padding} show-border`}>
-        <input id="title" className={styles.note_compose_text} placeholder="Title"/>
-        <textarea id="body" className={styles.note_compose_text} placeholder="Take a note..."></textarea>
+        <input id="title" name="title" className={styles.note_compose_text} placeholder="Title"/>
+        <textarea id="body" name="body" className={styles.note_compose_text} placeholder="Take a note..."></textarea>
         {/* TODO: Add last modified date (and show created date as tooltip) above bottom bar */}
         <div className="container-fluid">
           <div className="row flex-grow-1">

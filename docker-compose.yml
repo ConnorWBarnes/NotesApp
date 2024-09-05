@@ -1,14 +1,30 @@
 services:
   # Frontend services
-  frontend:
+  frontend.angular:
     build:
-      context: frontend
+      context: frontend/angular
       target: development
-    profiles: ["frontend"]
+    profiles: ["angular"]
     ports:
       - 4200:4200
     volumes:
-      - ./frontend:/usr/src/app
+      - ./frontend/angular:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - frontend-backend
+    depends_on:
+      - access.service
+      - note.service
+
+  frontend.react:
+    build:
+      context: frontend/react
+      target: development
+    profiles: ["react"]
+    ports:
+      - 4000:4000
+    volumes:
+      - ./frontend/react:/usr/src/app
       - /usr/src/app/node_modules
     networks:
       - frontend-backend

@@ -52,7 +52,7 @@ export default function NavLinks({ isCollapsed }: { isCollapsed: boolean }) {
       {links.map((link) => {
         return (
           <li key={link.name} className='nav-item'>
-            <Link href={link.href} className={`nav-link m-2 text-white ${styles.sidebar_nav_link} ${linkIsActive(pathname, link.href) ? 'active' : ''}`}>
+            <Link href={link.href} className={`nav-link text-white ${styles.sidebar_nav_link} ${linkIsActive(pathname, link.href) ? 'active' : ''}`}>
               <i className={`bi ${link.iconClass} ${isCollapsed ? '' : 'me-2'}`} style={{fontSize: '1rem'}}></i>
               {!isCollapsed ? (link.name) : null}
             </Link>

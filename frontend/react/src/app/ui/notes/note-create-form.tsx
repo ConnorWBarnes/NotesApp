@@ -2,7 +2,7 @@
 
 import { useActionState } from "react";
 import { Note } from "@/app/lib/note";
-import { createNoteActionAsync, navigateToNotesAsync } from "@/app/lib/actions";
+import { createNoteActionAsync, navigateToNotesAsync } from "@/app/actions/note-actions";
 import styles from "./notes.module.scss";
 
 export default function NoteCreateForm() {

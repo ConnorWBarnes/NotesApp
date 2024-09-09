@@ -1,7 +1,7 @@
 'use client';
 
 import { useActionState } from "react";
-import { archiveNoteActionAsync, updateNoteActionAsync } from "@/app/lib/actions";
+import { archiveNoteActionAsync, updateNoteActionAsync } from "@/app/actions/note-actions";
 import { Note } from "@/app/lib/note";
 import styles from "@/app/ui/notes/notes.module.scss";
 

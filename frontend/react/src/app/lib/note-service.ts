@@ -1,5 +1,5 @@
 import { Note } from "@/app/lib/note";
-import { appendToUrl, handleErrorAsync, log } from "@/app/lib/utils";
+import { appendPathToUrl, handleErrorAsync, log } from "@/app/lib/utils";
 
 const notesUrl = 'http://localhost:3001/notes';
 
@@ -27,7 +27,7 @@ export async function getNotesAsync(): Promise<Note[]> {
  * @returns A Promise of the specified note.
  */
 export async function getNoteAsync(id: string): Promise<Note> {
-  const url = appendToUrl(notesUrl, id);
+  const url = appendPathToUrl(notesUrl, id);
   return await fetch(url, { cache: 'no-store', method: 'GET' })
     .then(async response => {
       if (!response.ok) {
@@ -43,7 +43,7 @@ export async function getNoteAsync(id: string): Promise<Note> {
  * @returns A Promise of all the notes retrieved.
  */
 export async function getArchivedNotesAsync(): Promise<Note[]> {
-  const url = appendToUrl(notesUrl, 'archive');
+  const url = appendPathToUrl(notesUrl, 'archive');
   return await fetch(url, { cache: 'no-store', method: 'GET' })
     .then(async response => {
       if (!response.ok) {
@@ -77,7 +77,7 @@ export async function createNoteAsync(note: Note): Promise<string> {
  * @returns A flag indicating the success of the operation.
  */
 export async function updateNoteAsync(note: Note): Promise<boolean> {
-  const url = appendToUrl(notesUrl, note.id);
+  const url = appendPathToUrl(notesUrl, note.id);
   return await fetch(url, { cache: 'no-store', method: 'PUT', headers: httpHeaders, body: JSON.stringify(note) })
     .then(async response => {
       if (!response.ok) {
@@ -96,7 +96,7 @@ export async function updateNoteAsync(note: Note): Promise<boolean> {
  */
 export async function deleteNoteAsync(note: Note | string): Promise<boolean> {
   const id = typeof note === "string" ? note : note.id;
-  const url = appendToUrl(notesUrl, id);
+  const url = appendPathToUrl(notesUrl, id);
   return await fetch(url, { cache: 'no-store', method: 'DELETE' })
     .then(async response => {
       if (!response.ok) {

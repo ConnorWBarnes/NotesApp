@@ -1,3 +1,5 @@
+import SignOutComponent from "@/app/ui/auth/sign-out-component";
+
 export default function Header({ toggleCollapsed }: { toggleCollapsed: () => void }) {
   return (
     <header className="fixed-top bg-dark d-flex flex-wrap justify-content-center py-1">
@@ -23,7 +25,7 @@ export default function Header({ toggleCollapsed }: { toggleCollapsed: () => voi
         {/* Authentication */}
         <div className="text-end">
           {/* TODO: Implement authentication component */}
-
+          <SignOutComponent/>
         </div>
       </div>
     </header>

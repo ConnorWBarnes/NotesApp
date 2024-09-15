@@ -1,5 +1,5 @@
-import { getArchivedNotesAsync } from "@/app/lib/note-service";
-import NoteGrid from "@/app/ui/notes/note-grid";
+import { getArchivedNotesAsync } from "@/lib/note-service";
+import NoteGrid from "@/components/notes/note-grid";
 
 export default async function Page() {
   let notes = await getArchivedNotesAsync();

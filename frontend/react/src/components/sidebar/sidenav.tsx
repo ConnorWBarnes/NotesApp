@@ -1,5 +1,5 @@
-import NavLinks from '@/app/ui/sidebar/nav-links';
-import styles from "@/app/ui/sidebar/sidebar.module.scss";
+import NavLinks from '@/components/sidebar/nav-links';
+import styles from "@/components/sidebar/sidebar.module.scss";
 
 // TODO: Parameterize links and pass to NavLinks
 export default function SideNav({ isCollapsed }: { isCollapsed: boolean }) {

@@ -2,8 +2,8 @@
 'use client';
 
 import React from "react";
-import Header from "@/app/ui/header/header";
-import SideNav from "@/app/ui/sidebar/sidenav";
+import Header from "@/components/header/header";
+import SideNav from "@/components/sidebar/sidenav";
 
 export default function CustomLayout({ children }: { children: React.ReactNode }) {
   const [isCollapsed, setCollapsed] = React.useState(false);

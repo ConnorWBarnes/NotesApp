@@ -3,7 +3,7 @@
 import { loginAsync, registerUserAsync } from "@/app/lib/auth/auth-service";
 import { LoginFormState, LoginFormSchema, RegisterUserFormState, RegisterUserFormSchema } from "@/app/lib/definitions";
 import { AuthError } from "next-auth";
-import { signIn, signOut } from "../../../auth";
+import { signIn, signOut } from "../../auth";
 
 export async function authenticateActionAsync(prevState: string | undefined, formData: FormData) {
   try {

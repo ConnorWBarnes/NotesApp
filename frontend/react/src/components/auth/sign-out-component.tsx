@@ -1,6 +1,6 @@
 import { useActionState } from "react";
-import { signOutActionAsync } from "@/app/actions/auth-actions";
-import { auth, signOut } from "../../../../auth";
+import { signOutActionAsync } from "@/actions/auth-actions";
+import { auth, signOut } from "../../../auth";
 
 export default async function SignOutComponent() {
   const session = await auth();

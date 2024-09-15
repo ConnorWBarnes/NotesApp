@@ -1,6 +1,6 @@
 import "bootstrap/dist/css/bootstrap.css";
 import "./globals.scss";
-import BootstrapClient from "@/app/ui/bootstrap-client";
+import BootstrapClient from "@/components/bootstrap-client";
 
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";

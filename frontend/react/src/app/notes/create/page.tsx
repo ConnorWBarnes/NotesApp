@@ -1,4 +1,4 @@
-import NoteCreateForm from "@/app/ui/notes/note-create-form";
+import NoteCreateForm from "@/components/notes/note-create-form";
 
 export default function Page() {
   return <NoteCreateForm/>;

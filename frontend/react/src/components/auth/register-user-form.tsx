@@ -2,7 +2,7 @@
 
 import { useActionState } from "react";
 import { useFormStatus } from 'react-dom';
-import { registerUserActionAsync } from '@/app/actions/auth-actions';
+import { registerUserActionAsync } from '@/actions/auth-actions';
 
 // TODO: Add validation and error handling
 export function RegisterUserForm() {
@@ -30,9 +30,9 @@ export function RegisterUserForm() {
         <div>
           <p>Password must:</p>
           <ul>
-            {state.errors.password.map((error) => (
-              <li key={error}>- {error}</li>
-            ))}
+            {/*{state.errors.password.map((error) => (*/}
+            {/*  <li key={error}>- {error}</li>*/}
+            {/*))}*/}
           </ul>
         </div>
       )}

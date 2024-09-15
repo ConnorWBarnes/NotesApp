@@ -1,9 +1,9 @@
 'use client';
 
 import { useActionState } from "react";
-import { archiveNoteActionAsync, updateNoteActionAsync } from "@/app/actions/note-actions";
-import { Note } from "@/app/lib/note";
-import styles from "@/app/ui/notes/notes.module.scss";
+import { archiveNoteActionAsync, updateNoteActionAsync } from "@/actions/note-actions";
+import { Note } from "@/lib/note";
+import styles from "@/components/notes/notes.module.scss";
 
 export default function NoteEditForm({ note }: { note: Note }) {
   const [, saveAction] = useActionState(updateNoteActionAsync.bind(note), note);

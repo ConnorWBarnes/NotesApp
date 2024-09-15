@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import styles from '@/app/ui/sidebar/sidebar.module.scss';
+import styles from '@/components/sidebar/sidebar.module.scss';
 
 // Map of links to display in the side navigation.
 // Depending on the size of the application, this would be stored in a database.

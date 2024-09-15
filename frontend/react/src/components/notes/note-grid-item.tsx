@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Note } from "@/app/lib/note";
-import styles from "@/app/ui/notes/notes.module.scss";
+import styles from "@/components/notes/notes.module.scss";
 
 export default function NoteGridItem({ note }: { note: Note }) {
   return (

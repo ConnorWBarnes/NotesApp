@@ -1,4 +1,4 @@
-import SignOutComponent from "@/app/ui/auth/sign-out-component";
+import SignOutComponent from "@/components/auth/sign-out-component";
 
 export default function Header({ toggleCollapsed }: { toggleCollapsed: () => void }) {
   return (
@@ -9,7 +9,7 @@ export default function Header({ toggleCollapsed }: { toggleCollapsed: () => voi
           <button type="button" onClick={toggleCollapsed} className="btn btn-dark" aria-label="Main menu">
             <i className="bi bi-list" style={{fontSize: '2rem'}}></i>
           </button>
-          <a href="/"
+          <a href="/frontend/react/public"
              className="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
             {/*<svg className="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>*/}
             <i className="bi bi-journals me-2" style={{fontSize: '2rem'}}></i>

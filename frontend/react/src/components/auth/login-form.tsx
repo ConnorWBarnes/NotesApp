@@ -2,7 +2,7 @@
 
 import { useActionState } from "react";
 import { useFormStatus } from 'react-dom';
-import { authenticateActionAsync, loginActionAsync } from '@/app/actions/auth-actions';
+import { authenticateActionAsync, loginActionAsync } from '@/actions/auth-actions';
 
 // TODO: Add validation and error handling
 export function LoginForm() {

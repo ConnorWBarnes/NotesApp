@@ -1,4 +1,4 @@
-import { Note } from "@/lib/note";
+import { Note } from "@/types/note";
 import NoteGridItem from "@/components/notes/note-grid-item";
 import styles from "@/components/notes/notes.module.scss";
 

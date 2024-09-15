@@ -2,7 +2,7 @@
 
 import { useActionState } from "react";
 import { archiveNoteActionAsync, updateNoteActionAsync } from "@/actions/note-actions";
-import { Note } from "@/lib/note";
+import { Note } from "@/types/note";
 import styles from "@/components/notes/notes.module.scss";
 
 export default function NoteEditForm({ note }: { note: Note }) {

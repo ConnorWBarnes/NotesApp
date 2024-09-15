@@ -1,4 +1,4 @@
-import { getArchivedNotesAsync } from "@/lib/note-service";
+import { getArchivedNotesAsync } from "@/services/note-service";
 import NoteGrid from "@/components/notes/note-grid";
 
 export default async function Page() {

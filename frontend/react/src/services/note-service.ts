@@ -1,5 +1,6 @@
 import { Note } from "@/types/note";
-import { appendPathToUrl, handleErrorAsync, log } from "@/utils/utils";
+import { handleErrorAsync, log } from "@/utils/logging-utils";
+import { appendPathToUrl } from "@/utils/url-utils";
 
 const notesUrl = 'http://localhost:3001/notes';
 

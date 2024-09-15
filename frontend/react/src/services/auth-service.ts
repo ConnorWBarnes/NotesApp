@@ -1,7 +1,8 @@
 import { AuthToken } from "@/types/auth-token";
 import { User } from "@/types/user";
 import { UserClaim } from "@/types/user-claim";
-import { addQueryToUrl, appendPathToUrl, handleErrorAsync, log } from "@/utils/utils";
+import { handleErrorAsync, log } from "@/utils/logging-utils";
+import { addQueryToUrl, appendPathToUrl } from "@/utils/url-utils";
 
 const authUrl = 'http://localhost:3000';
 

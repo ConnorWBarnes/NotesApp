@@ -3,7 +3,7 @@ import { AuthToken } from "@/types/auth-token";
 import { IAuthToken } from "@/types/i-auth-token";
 import { User } from "@/types/user";
 import { UserClaim } from "@/types/user-claim";
-import { getAuthToken } from "@/utils/auth-utils";
+import { addAuthTokenInjectionInterceptor, addAuthTokenRefreshInterceptor, getAuthToken } from "@/utils/auth-utils";
 
 const logSource = 'AuthService';
 
@@ -16,6 +16,8 @@ export class AuthService {
       timeout: 50000,
       timeoutErrorMessage: "Auth request timed out",
     });
+    addAuthTokenInjectionInterceptor(this.instance);
+    addAuthTokenRefreshInterceptor(this.instance);
   }
 
   /**
@@ -55,7 +57,7 @@ export class AuthService {
    * @returns The current user's info.
    */
   public async getCurrentUserAsync(): Promise<User> {
-    let response = await this.instance.get<UserClaim[]>('/user', { headers: this.getAuthorizationHeader() });
+    let response = await this.instance.get<UserClaim[]>('/user');
     // Parse the response
     const userClaims = response.data;
     return {
@@ -63,12 +65,5 @@ export class AuthService {
       name: userClaims.find((claim) => claim.type.endsWith('name'))?.value ?? '',
       email: userClaims.find((claim) => claim.type.endsWith('emailaddress'))?.value ?? '',
     };
-  }
-
-  private getAuthorizationHeader() {
-    const authToken = getAuthToken();
-    return {
-      Authorization: `Bearer ${authToken ? authToken.accessToken : ''}`,
-    }
   }
 }

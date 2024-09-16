@@ -1,8 +1,8 @@
 'use client';
 
 import { useActionState } from "react";
-import { Note } from "@/types/note";
 import { createNoteActionAsync, navigateToNotesAsync } from "@/actions/note-actions";
+import { Note } from "@/types/note";
 import styles from "./notes.module.scss";
 
 export default function NoteCreateForm() {

@@ -1,6 +1,6 @@
-import { Note } from "@/types/note";
 import NoteGridItem from "@/components/notes/note-grid-item";
 import styles from "@/components/notes/notes.module.scss";
+import { Note } from "@/types/note";
 
 export default function NoteGrid({ notes }: { notes: Note[] }) {
   return (

@@ -2,8 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { Note } from "@/app/lib/note";
-import { createNoteAsync, updateNoteAsync } from "@/app/lib/note-service";
+import { noteService } from "@/services";
+import { Note } from "@/types/note";
 
 export async function createNoteActionAsync(emptyNote: Note, formData: FormData) {
   let note: Note = {
@@ -13,7 +13,7 @@ export async function createNoteActionAsync(emptyNote: Note, formData: FormData)
     isArchived: false,
   };
 
-  note.id = await createNoteAsync(note);
+  note.id = await noteService.createNoteAsync(note);
 
   await navigateToNotesAsync();
   return note;
@@ -28,7 +28,7 @@ export async function updateNoteActionAsync(note: Note, formData: FormData) {
   };
 
   if (note.title !== updatedNote.title || note.body !== updatedNote.body) {
-    await updateNoteAsync(updatedNote);
+    await noteService.updateNoteAsync(updatedNote);
   }
 
   await navigateToNotesAsync();
@@ -43,7 +43,7 @@ export async function archiveNoteActionAsync(note: Note, formData: FormData) {
     isArchived: !note.isArchived,
   };
 
-  await updateNoteAsync(updatedNote);
+  await noteService.updateNoteAsync(updatedNote);
 
   await navigateToNotesAsync();
   return updatedNote;

@@ -1,25 +1,8 @@
 'use server';
 
-import { loginAsync, registerUserAsync } from "@/app/lib/auth/auth-service";
-import { LoginFormState, LoginFormSchema, RegisterUserFormState, RegisterUserFormSchema } from "@/app/lib/definitions";
-import { AuthError } from "next-auth";
-import { signIn, signOut } from "../../auth";
-
-export async function authenticateActionAsync(prevState: string | undefined, formData: FormData) {
-  try {
-    await signIn('credentials', formData);
-  } catch (error) {
-    if (error instanceof AuthError) {
-      switch (error.type) {
-        case 'CredentialsSignin':
-          return 'Invalid credentials.';
-        default:
-          return 'Something went wrong.';
-      }
-    }
-    throw error;
-  }
-}
+import { authService } from "@/services";
+import { LoginFormState, LoginFormSchema, RegisterUserFormState, RegisterUserFormSchema } from "@/types/definitions";
+import { deleteAuthToken, setAuthTokenAsync } from "@/utils/auth-utils";
 
 export async function loginActionAsync(state: LoginFormState, formData: FormData): Promise<LoginFormState> {
   // Validate form fields
@@ -37,7 +20,10 @@ export async function loginActionAsync(state: LoginFormState, formData: FormData
 
   // Call the provider or db to create a user...
   try {
-    await loginAsync(validatedFields.data.email, validatedFields.data.password);
+    const authToken = await authService.loginAsync(validatedFields.data.email, validatedFields.data.password);
+    if (authToken) {
+      await setAuthTokenAsync(authToken);
+    }
   } catch (error) {
     if (error instanceof Error) {
       return {
@@ -49,7 +35,7 @@ export async function loginActionAsync(state: LoginFormState, formData: FormData
 }
 
 export async function signOutActionAsync(formData: FormData): Promise<void> {
-  await signOut();
+  deleteAuthToken();
 }
 
 export async function registerUserActionAsync(state: RegisterUserFormState, formData: FormData): Promise<RegisterUserFormState> {
@@ -68,5 +54,5 @@ export async function registerUserActionAsync(state: RegisterUserFormState, form
   }
 
   // Call the provider or db to create a user...
-  await registerUserAsync(validatedFields.data.email, validatedFields.data.password);
+  await authService.registerUserAsync(validatedFields.data.email, validatedFields.data.password);
 }

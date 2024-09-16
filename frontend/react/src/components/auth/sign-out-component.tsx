@@ -1,13 +1,12 @@
-import { useActionState } from "react";
 import { signOutActionAsync } from "@/actions/auth-actions";
-import { auth, signOut } from "../../../auth";
+import { useCurrentUser } from "@/hooks/auth/useCurrentUser";
 
 export default async function SignOutComponent() {
-  const session = await auth();
+  const currentUser = useCurrentUser();
 
   return (
     <>
-      <div>{`Hello ${session?.user?.name}`}</div>
+      <div>{`Hello ${currentUser?.name}`}</div>
       <form action={signOutActionAsync}>
         <button type="submit">Sign out</button>
       </form>

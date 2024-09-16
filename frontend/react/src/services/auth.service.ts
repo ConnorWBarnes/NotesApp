@@ -4,12 +4,13 @@ import { IAuthToken } from "@/types/i-auth-token";
 import { User } from "@/types/user";
 import { UserClaim } from "@/types/user-claim";
 import { addAuthTokenInjectionInterceptor, addAuthTokenRefreshInterceptor, getAuthToken } from "@/utils/auth-utils";
+import { handleErrorAsync } from "@/utils/logging-utils";
 
 const logSource = 'AuthService';
 
-// TODO: Add logging and error handling
 export class AuthService {
   protected readonly instance: AxiosInstance;
+
   public constructor(url: string) {
     this.instance = axios.create({
       baseURL: url,
@@ -27,8 +28,12 @@ export class AuthService {
    * @returns The authentication token received from logging in.
    */
   public async loginAsync(email: string, password: string): Promise<AuthToken> {
-    let response = await this.instance.post<IAuthToken>('/login', { email, password });
-    return new AuthToken(response.data);
+    try {
+      let response = await this.instance.post<IAuthToken>('/login', { email, password });
+      return new AuthToken(response.data);
+    } catch (error) {
+      return handleErrorAsync(logSource, error, 'loginAsync');
+    }
   }
 
   /**
@@ -36,9 +41,13 @@ export class AuthService {
    * @returns The refreshed authentication token.
    */
   public async refreshTokenAsync(): Promise<AuthToken> {
-    const refreshToken = getAuthToken()?.refreshToken ?? '';
-    let response = await this.instance.post<IAuthToken>('/refresh', { refreshToken });
-    return new AuthToken(response.data);
+    try {
+      const refreshToken = getAuthToken()?.refreshToken ?? '';
+      let response = await this.instance.post<IAuthToken>('/refresh', { refreshToken });
+      return new AuthToken(response.data);
+    } catch (error) {
+      return handleErrorAsync(logSource, error, 'refreshTokenAsync');
+    }
   }
 
   /**
@@ -48,8 +57,12 @@ export class AuthService {
    * @returns A flag indicating the success of the operation.
    */
   public async registerUserAsync(email: string, password: string): Promise<boolean> {
-    let response = await this.instance.post('/register', { email, password });
-    return response.status.toString().startsWith('2');
+    try {
+      let response = await this.instance.post('/register', { email, password });
+      return response.status.toString().startsWith('2');
+    } catch (error) {
+      return handleErrorAsync(logSource, error, 'registerUserAsync');
+    }
   }
 
   /**
@@ -57,13 +70,17 @@ export class AuthService {
    * @returns The current user's info.
    */
   public async getCurrentUserAsync(): Promise<User> {
-    let response = await this.instance.get<UserClaim[]>('/user');
-    // Parse the response
-    const userClaims = response.data;
-    return {
-      id: userClaims.find((claim) => claim.type.endsWith('nameidentifier'))?.value ?? '',
-      name: userClaims.find((claim) => claim.type.endsWith('name'))?.value ?? '',
-      email: userClaims.find((claim) => claim.type.endsWith('emailaddress'))?.value ?? '',
-    };
+    try {
+      let response = await this.instance.get<UserClaim[]>('/user');
+      // Parse the response
+      const userClaims = response.data;
+      return {
+        id: userClaims.find((claim) => claim.type.endsWith('nameidentifier'))?.value ?? '',
+        name: userClaims.find((claim) => claim.type.endsWith('name'))?.value ?? '',
+        email: userClaims.find((claim) => claim.type.endsWith('emailaddress'))?.value ?? '',
+      };
+    } catch (error) {
+      return handleErrorAsync(logSource, error, 'getCurrentUserAsync');
+    }
   }
 }
